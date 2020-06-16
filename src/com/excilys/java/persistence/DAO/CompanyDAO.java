@@ -5,39 +5,49 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.excilys.java.mapper.CompanyMapper;
 import com.excilys.java.model.Company;
 
 public class CompanyDAO extends DAO<Company>{
 
 	private static final String SELECT_ALL = "SELECT id, name FROM company ORDER BY id";
 	private static final String SELECT_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
-	private CompanyDAO companyDAO;
-//	private Connexion connexion = MysqlConnect.getConnection();
+	private static CompanyDAO companyDAO;
 	
-	public CompanyDAO(Connection connect) {
-		super(connect);
-	}	
+	
+	public CompanyDAO() {
+	}
+
+	/**
+     * Create the instance of companyDAO if it not exists
+     * @return companyDAO
+     */
+	
+	public static CompanyDAO getInstance() {
+		if (companyDAO == null) {
+			companyDAO = new CompanyDAO();
+        }
+        return companyDAO;
+    }
 
 	@Override
 	public ArrayList<Company> getAll() {
 		ArrayList<Company> companies= new ArrayList();
 		
 		try {
-            PreparedStatement preparedStatement = connexion.prepareStatement(SELECT_ALL);
+            PreparedStatement preparedStatement = this.connection.prepareStatement(SELECT_ALL);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
-            	Company company = new Company();
-            	Long id = result.getLong("id");
-            	String name = result.getString("name");
-            	company.setIdCompany(id);
-            	company.setName(name);
+            	Company company = CompanyMapper.map(result);
+            	companies.add(company);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-		
-
+		System.out.println(companies);
 		return companies;
+		
 	}
 	
 	@Override
@@ -46,18 +56,17 @@ public class CompanyDAO extends DAO<Company>{
 		if(id!=null) {
 			
 			try {
-	            PreparedStatement preparedStatement = this.connect.prepareStatement(SELECT_WITH_ID);
+	            PreparedStatement preparedStatement = this.connection.prepareStatement(SELECT_WITH_ID);
 	            preparedStatement.setLong(1, id);
 	            ResultSet result = preparedStatement.executeQuery();
 	            while (result.next()){
-	            	String name = result.getString("name");
-	            	company.setIdCompany(id);
-	            	company.setName(name);
+	            	company = CompanyMapper.map(result);
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
 		}
+		System.out.println(company);
 		return company;
 	}
 	

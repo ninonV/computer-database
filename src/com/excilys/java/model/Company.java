@@ -1,8 +1,7 @@
 package com.excilys.java.model;
 
 /**
- * Classe représentant une entreprise
- * 
+ * Class representing a company 
  * @author ninonV
  *
  */
@@ -41,7 +40,10 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Company [idCompany=" + idCompany + ", name=" + name + "]";
+		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
+		sb.append("\n\t\tid :").append(idCompany);
+		sb.append("\n\t\tname :").append(name).append("\n");
+		return sb.toString();
 	}
 
 	

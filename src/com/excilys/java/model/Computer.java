@@ -3,8 +3,7 @@ package com.excilys.java.model;
 import java.sql.Date;
 
 /**
- * Classe représentant un ordinateur
- * 
+ * Class representing a computer
  * @author ninonV
  *
  */
@@ -77,8 +76,13 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return "Computer [idComputer=" + idComputer + ", name=" + name + ", introduced=" + introduced
-				+ ", discontinued=" + discontinued + ", manufacturer=" + manufacturer + "]";
+		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
+		sb.append("\n\tid :").append(idComputer);
+		sb.append("\n\tname :").append(name);
+		sb.append("\n\tintroduced :").append(introduced);
+		sb.append("\n\tdiscontinued :").append(discontinued).append("\n\t");
+		sb.append(manufacturer).append("\n");
+		return sb.toString();
 	}
 	
 	

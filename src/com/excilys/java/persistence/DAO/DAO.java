@@ -2,16 +2,11 @@ package com.excilys.java.persistence.DAO;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import com.excilys.java.model.Company;
+import com.excilys.java.persistence.MysqlConnect;
 
 public abstract class DAO<T> {
 	
-	protected Connection connect = null;
-
-	public DAO(Connection connect) {
-		super();
-		this.connect = connect;
-	} 
+	public Connection connection = MysqlConnect.getInstance();
 	
 	/**
 	 *Return the complete list 
