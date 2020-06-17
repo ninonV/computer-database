@@ -9,14 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.sql.Date;
 
 public class ComputerDAO extends DAO<Computer>{
 	
-	private static final String SELECT_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY id ";
+	private static final String SELECT_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.id ";
 	private static final String SELECT_WITH_ID = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.id = ? ";
-	private static final String CREATE = "INSERT INTO computer (id, name, introduced, discontinued, company_id) VALUES (?,?,?,?,?)";
+	private static final String CREATE = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id= ?";
 	private static final String DELETE = "DELETE FROM computer WHERE id = ? ";
 	
@@ -84,11 +85,14 @@ public class ComputerDAO extends DAO<Computer>{
 	public void create(Computer computer) {
 		try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(CREATE);
-            preparedStatement.setLong(1, computer.getIdComputer());
-            preparedStatement.setString(2, computer.getName());
-            preparedStatement.setDate(3, computer.getIntroduced());
-            preparedStatement.setDate(4, computer.getDiscontinued());
-            preparedStatement.setLong(5, computer.getManufacturer().getIdCompany());
+            preparedStatement.setString(1, computer.getName());
+            preparedStatement.setDate(2, computer.getIntroduced());
+            preparedStatement.setDate(3, computer.getDiscontinued());
+            if (computer.getManufacturer().getIdCompany()==null) {
+            	preparedStatement.setNull(4, Types.BIGINT);
+            }else {
+            	 preparedStatement.setLong(4, computer.getManufacturer().getIdCompany());
+            }
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,7 +110,11 @@ public class ComputerDAO extends DAO<Computer>{
             preparedStatement.setString(1, computer.getName());
             preparedStatement.setDate(2, computer.getIntroduced());
             preparedStatement.setDate(3, computer.getDiscontinued());
-            preparedStatement.setLong(4, computer.getManufacturer().getIdCompany());
+            if (computer.getManufacturer().getIdCompany()==null) {
+            	preparedStatement.setNull(4, Types.BIGINT);
+            }else {
+            	 preparedStatement.setLong(4, computer.getManufacturer().getIdCompany());
+            }
             preparedStatement.setLong(5, computer.getIdComputer());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -127,5 +135,14 @@ public class ComputerDAO extends DAO<Computer>{
         } catch (SQLException e) {
             e.printStackTrace();
         }		
+	}
+	
+	@Override
+	public boolean exist(Long id){
+		boolean isInBDD = false; 
+		if (this.findById(id)!=null) {
+			isInBDD=true; 
+		}
+		return isInBDD; 
 	}
 }

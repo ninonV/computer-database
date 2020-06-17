@@ -7,7 +7,7 @@ import com.excilys.java.persistence.DAO.CompanyDAO;
 public class CompanyService {
 	
 	private static CompanyService companyService;
-	private CompanyDAO companyDAO;
+	private static CompanyDAO companyDAO = CompanyDAO.getInstance();
 	
 	public CompanyService() {
 	}
@@ -32,4 +32,8 @@ public class CompanyService {
 		return companyDAO.findById(id);
 	}
 
+	public boolean existCompany(Long id) {
+		return companyDAO.exist(id);
+	}
+	
 }

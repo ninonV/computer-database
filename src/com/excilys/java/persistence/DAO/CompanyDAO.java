@@ -66,10 +66,16 @@ public class CompanyDAO extends DAO<Company>{
 	            e.printStackTrace();
 	        }
 		}
-		System.out.println(company);
 		return company;
 	}
 	
-	 
+	@Override
+	public boolean exist(Long id){
+		boolean isInBDD = false; 
+		if (this.findById(id)!=null) {
+			isInBDD=true; 
+		}
+		return isInBDD; 
+	}
 
 }

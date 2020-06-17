@@ -2,12 +2,14 @@ package com.excilys.java.service;
 
 import java.util.ArrayList;
 import com.excilys.java.model.Computer;
+import com.excilys.java.persistence.DAO.CompanyDAO;
 import com.excilys.java.persistence.DAO.ComputerDAO;
 
 public class ComputerService {
 	
 	private static ComputerService computerService;
-	private ComputerDAO computerDAO;
+	private static ComputerDAO computerDAO = ComputerDAO.getInstance();
+	private static CompanyService companyService = CompanyService.getInstance();
 	
 	public ComputerService() {
 	}
@@ -43,5 +45,25 @@ public class ComputerService {
 	public void deleteComputer(Long id) {
 		computerDAO.delete(id);
 	}
-
+	
+	public boolean existComputer(Long id) {
+		return computerDAO.exist(id);
+	}
+	
+	public boolean allowCreation (Computer computer) {
+		boolean creationAuthorized = true; 
+		if (computer.getName().length()==0) {
+			System.out.println("The name is mandatory");
+			creationAuthorized = false; 
+		}else if (computer.getIntroduced()!=null && computer.getDiscontinued()!=null && computer.getDiscontinued().before(computer.getIntroduced())) {
+				System.out.println("The date of introduction should be before the date of discontinuation");
+				creationAuthorized = false; 
+			} if (computer.getManufacturer()!=null) {
+				if (!companyService.existCompany(computer.getManufacturer().getIdCompany())) {
+					System.out.println("The company should exist");
+					creationAuthorized = false; 
+				}
+			} 
+		return creationAuthorized;
+	}
 }

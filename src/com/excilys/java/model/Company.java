@@ -9,24 +9,24 @@ package com.excilys.java.model;
 
 public class Company {
 
-	private long idCompany; 
+	private Long idCompany; 
 	private String name;
 
 	public Company() {
 		super();
 	}
 
-	public Company(long idCompany, String name) {
+	public Company(Long idCompany, String name) {
 		super();
 		this.idCompany = idCompany;
 		this.name = name;
 	}
 
-	public long getIdCompany() {
+	public Long getIdCompany() {
 		return idCompany;
 	}
 
-	public void setIdCompany(long idCompany) {
+	public void setIdCompany(Long idCompany) {
 		this.idCompany = idCompany;
 	}
 	

@@ -20,14 +20,8 @@ public class Computer {
 		super();
 	}
 
-	public Computer(String name) {
+	public Computer(String name, Date introduced, Date discontinued, Company manufacturer) {
 		super();
-		this.name = name;
-	}
-
-	public Computer(Long idComputer, String name, Date introduced, Date discontinued, Company manufacturer) {
-		super();
-		this.idComputer = idComputer;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;

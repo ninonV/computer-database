@@ -22,4 +22,12 @@ public abstract class DAO<T> {
 	 */
 	public abstract T findById(Long id);
 	
+	
+	/**
+	 * Inform if the object is already in the BDD
+	 * @param id
+	 * @return boolean
+	 */
+	public abstract boolean exist(Long id);
+	
 }
