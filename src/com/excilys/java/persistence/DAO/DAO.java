@@ -2,6 +2,8 @@ package com.excilys.java.persistence.DAO;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+
+import com.excilys.java.model.Page;
 import com.excilys.java.persistence.MysqlConnect;
 
 public abstract class DAO<T> {
@@ -29,5 +31,17 @@ public abstract class DAO<T> {
 	 * @return boolean
 	 */
 	public abstract boolean exist(Long id);
+	
+	/**
+	 * Count all the objects in the BDD
+	 * @return boolean
+	 */
+	public abstract int count();
+	
+	/**
+	 * Return the list of object per page
+	 * @return ArrayList
+	 */
+	public abstract ArrayList<T> getPage(Page page);
 	
 }

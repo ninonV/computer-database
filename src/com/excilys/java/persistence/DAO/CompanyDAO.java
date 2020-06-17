@@ -1,18 +1,19 @@
 package com.excilys.java.persistence.DAO;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import com.excilys.java.mapper.CompanyMapper;
 import com.excilys.java.model.Company;
+import com.excilys.java.model.Page;
 
 public class CompanyDAO extends DAO<Company>{
 
-	private static final String SELECT_ALL = "SELECT id, name FROM company ORDER BY id";
-	private static final String SELECT_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM company ORDER BY id";
+	private static final String GET_WITH_ID = "SELECT * FROM company WHERE id = ?";
+	private static final String COUNT = "SELECT COUNT(*) FROM company";
+	private static final String GET_PAGE = "SELECT * FROM company LIMIT ? OFFSET ?";
 	private static CompanyDAO companyDAO;
 	
 	
@@ -36,7 +37,7 @@ public class CompanyDAO extends DAO<Company>{
 		ArrayList<Company> companies= new ArrayList();
 		
 		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(SELECT_ALL);
+            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_ALL);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
             	Company company = CompanyMapper.map(result);
@@ -56,7 +57,7 @@ public class CompanyDAO extends DAO<Company>{
 		if(id!=null) {
 			
 			try {
-	            PreparedStatement preparedStatement = this.connection.prepareStatement(SELECT_WITH_ID);
+	            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_WITH_ID);
 	            preparedStatement.setLong(1, id);
 	            ResultSet result = preparedStatement.executeQuery();
 	            while (result.next()){
@@ -78,4 +79,36 @@ public class CompanyDAO extends DAO<Company>{
 		return isInBDD; 
 	}
 
+	@Override
+	public int count() {
+		int total = 0;
+		try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement(COUNT);
+            ResultSet result = preparedStatement.executeQuery();
+            result.next();
+            total = result.getInt(1);
+		 } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+            return total; 
+	}
+
+	@Override
+	public ArrayList<Company> getPage(Page page) {
+		ArrayList<Company> companies= new ArrayList();
+		try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_PAGE);
+            preparedStatement.setInt(1, page.getLinesPage());
+            preparedStatement.setInt(2, page.getFirstLine()-1);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()){
+            	Company company = CompanyMapper.map(result);
+            	companies.add(company);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		System.out.println(companies);
+		return companies;
+	}
 }

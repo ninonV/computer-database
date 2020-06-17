@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
+import com.excilys.java.model.Page;
 import com.excilys.java.service.CompanyService;
 import com.excilys.java.service.ComputerService;
 
@@ -32,15 +33,15 @@ public class UserInterface {
 				System.out.println("What do you want to do ? ");
 				Scanner sc = new Scanner(System.in);
 				String choice = sc.nextLine();
-				int choix = Integer.parseInt(choice);
+				int choiceInt = Integer.parseInt(choice);
 				
-				switch(choix) {
+				switch(choiceInt) {
 					case 1:
-						computerService.listComputers();
+						pagesComputers();
 						break;
 						
 					case 2: 
-						companyService.listCompanies();
+						pagesCompanies();
 						break; 
 						
 					case 3: 
@@ -161,17 +162,85 @@ public class UserInterface {
 		return computer;
 	}
 	
-	/*public void backToMenu() {
-		boolean quit=false; 
-		System.out.println("Enter 'q' to quit");
-		Scanner sc = new Scanner(System.in);
-		sc.nextLine();
-		String choice = sc.nextLine();
-		if (choice.equals("q")) {
-			quit = true; 
-		}else {
-			this.start();
+	public void pagesComputers() {
+		Page page = new Page();
+		int total = computerService.countComputer();
+		int nbPages = page.getTotalPages(total);
+		boolean quitPage = false; 
+		
+		while (!quitPage) {
+			computerService.getListPage(page);
+			quitPage = menuPage(page, nbPages);
 		}
-	} */
+	}
+	
+	public void pagesCompanies() {
+		Page page = new Page();
+		
+		int total = companyService.countCompany();
+		int nbPages = page.getTotalPages(total);
+		boolean quitPage = false; 
+		
+		while (!quitPage) {
+			companyService.getListPage(page);
+			quitPage = menuPage(page, nbPages);
+		}
+	}
 
+	public boolean menuPage(Page page, int nbPages) {
+		boolean quitPage = false; 
+		
+		System.out.println("Page " + page.getCurrentPage() + "/"+ nbPages );
+		System.out.println("n : Next page   -   p : Previous page  -  s : Select page   -   q : Quit");
+			
+		try {
+			Scanner sc = new Scanner(System.in);
+			String choice = sc.nextLine();
+				
+			switch(choice) {
+				case "n":
+					if(page.getCurrentPage()==nbPages) {
+						System.out.println("\n No more page ! \n");
+					}else {
+						page.nextPage();
+					}
+					break;
+						
+				case "p": 
+					if(page.getCurrentPage()==1) {
+						System.out.println("\n No previous page ! \n");
+					}else {
+						page.previousPage();
+					}
+					break; 
+						
+				case "s": 
+					System.out.println("Number of the page : ");
+					String nb= sc.nextLine();
+					int newPage=page.getCurrentPage();
+					try{
+						newPage = Integer.parseInt(nb);
+						if (newPage>0 && newPage<nbPages+1) {
+							page.setCurrentPage(newPage);
+							page.setFirstLine(page.getLinesPage() * (page.getCurrentPage()- 1) +1);
+						}else {
+							System.out.println("Number incorrect");
+						}
+					}catch (java.lang.NumberFormatException e) {
+						System.err.println("Enter a number");
+					}
+					break;
+						
+				case "q":
+					quitPage = true; 
+					break; 
+				default: 
+					System.out.println("Enter one of the previous instructions");
+			}
+		}catch (java.lang.NumberFormatException e) {
+			System.err.println("Enter a letter or a page followed by a number");
+		}
+		return quitPage;
+	}
+	
 }

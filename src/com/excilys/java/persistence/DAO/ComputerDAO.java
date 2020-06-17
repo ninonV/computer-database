@@ -1,25 +1,23 @@
 package com.excilys.java.persistence.DAO;
 import com.excilys.java.mapper.ComputerMapper;
-import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
-import com.excilys.java.persistence.MysqlConnect;
+import com.excilys.java.model.Page;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class ComputerDAO extends DAO<Computer>{
 	
-	private static final String SELECT_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.id ";
-	private static final String SELECT_WITH_ID = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.id = ? ";
+	private static final String GET_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.id ";
+	private static final String GET_WITH_ID = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.id = ? ";
 	private static final String CREATE = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id= ?";
 	private static final String DELETE = "DELETE FROM computer WHERE id = ? ";
+	private static final String COUNT = "SELECT COUNT(*) FROM computer";
+	private static final String GET_PAGE = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id LIMIT ? OFFSET ?";
 	
 	private static ComputerDAO computerDAO;
 	
@@ -44,7 +42,7 @@ public class ComputerDAO extends DAO<Computer>{
 	public ArrayList<Computer> getAll() {
 		ArrayList<Computer> computers = new ArrayList();
 		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(SELECT_ALL);
+            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_ALL);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
             	Computer computer = ComputerMapper.map(result);
@@ -63,7 +61,7 @@ public class ComputerDAO extends DAO<Computer>{
 		Computer computer = new Computer();
 		if(id!=null) {
 			try {
-	            preparedStatement = this.connection.prepareStatement(SELECT_WITH_ID);
+	            preparedStatement = this.connection.prepareStatement(GET_WITH_ID);
 	            preparedStatement.setLong(1, id);
 	            ResultSet result = preparedStatement.executeQuery();
 	            while (result.next()){
@@ -100,7 +98,7 @@ public class ComputerDAO extends DAO<Computer>{
 	}
 	
 	/**
-	 * Update an existing ciomputer
+	 * Update an existing computer
 	 * @param computer
 	 */
 	
@@ -144,5 +142,38 @@ public class ComputerDAO extends DAO<Computer>{
 			isInBDD=true; 
 		}
 		return isInBDD; 
+	}
+
+	@Override
+	public int count() {
+		int total = 0;
+		try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement(COUNT);
+            ResultSet result = preparedStatement.executeQuery();
+            result.next();
+            total = result.getInt(1);
+		 } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+            return total; 
+	}
+
+	@Override
+	public ArrayList<Computer> getPage(Page page) {
+		ArrayList<Computer> computers= new ArrayList();
+		try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_PAGE);
+            preparedStatement.setInt(1, page.getLinesPage());
+            preparedStatement.setInt(2, page.getFirstLine()-1);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()){
+            	Computer computer = ComputerMapper.map(result);
+            	computers.add(computer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		System.out.println(computers);
+		return computers;
 	}
 }

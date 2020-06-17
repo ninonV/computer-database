@@ -71,10 +71,10 @@ public class Computer {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
-		sb.append("\n\tid :").append(idComputer);
-		sb.append("\n\tname :").append(name);
-		sb.append("\n\tintroduced :").append(introduced);
-		sb.append("\n\tdiscontinued :").append(discontinued).append("\n\t");
+		sb.append(" id :").append(idComputer);
+		sb.append(", name :").append(name);
+		sb.append(", introduced :").append(introduced);
+		sb.append(", discontinued :").append(discontinued);
 		sb.append(manufacturer).append("\n");
 		return sb.toString();
 	}

@@ -1,8 +1,9 @@
 package com.excilys.java.service;
 
 import java.util.ArrayList;
+
 import com.excilys.java.model.Computer;
-import com.excilys.java.persistence.DAO.CompanyDAO;
+import com.excilys.java.model.Page;
 import com.excilys.java.persistence.DAO.ComputerDAO;
 
 public class ComputerService {
@@ -48,6 +49,14 @@ public class ComputerService {
 	
 	public boolean existComputer(Long id) {
 		return computerDAO.exist(id);
+	}
+	
+	public int countComputer() {
+		return computerDAO.count();
+	}
+	
+	public ArrayList<Computer> getListPage(Page page){
+		return computerDAO.getPage(page);
 	}
 	
 	public boolean allowCreation (Computer computer) {

@@ -8,24 +8,44 @@ public class Page {
 	 *
 	 */
 	
-	 private int currentPage; 
-	 private int linesPage; 
-	 private static final int DEFAULT_PAGE = 1;
-	 private static final int MAX_LINES = 15;
+	private int firstLine;
+	private int currentPage; 
+	private int linesPage;
+	private static final int DEFAULT_PAGE = 1;
+	private static final int MAX_LINES = 20;
 	
 	public Page() {
+		this.firstLine = DEFAULT_PAGE;
 		this.currentPage = DEFAULT_PAGE;
 		this.linesPage = MAX_LINES;
 	}
 
+	/**
+	 * Go to the next page
+	 */
 	public void nextPage() {
 		currentPage ++; 
+		firstLine+=MAX_LINES;
 	}
 	
+	/**
+	 * Go to the previous page;
+	 */
 	public void previousPage() {
-		if(currentPage>DEFAULT_PAGE) {
-			currentPage --; 
-		}
+			currentPage --;
+			firstLine-=MAX_LINES;
+	}
+	
+	public int getTotalPages(int total) {
+	        return (int) Math.ceil((double) total/ MAX_LINES);
+	}
+	
+	public int getFirstLine() {
+		return firstLine;
+	}
+
+	public void setFirstLine(int firstLine) {
+		this.firstLine = firstLine;
 	}
 
 	public int getCurrentPage() {
