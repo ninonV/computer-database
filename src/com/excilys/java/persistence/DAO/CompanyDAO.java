@@ -1,12 +1,16 @@
 package com.excilys.java.persistence.DAO;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ArrayList;
+
 import com.excilys.java.mapper.CompanyMapper;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
+import com.excilys.java.persistence.MysqlConnect;
 
 /**
  *  Class doing the relation with the table company  
@@ -15,12 +19,12 @@ import com.excilys.java.model.Page;
 
 public class CompanyDAO extends DAO<Company>{
 
-	private static final String GET_ALL = "SELECT * FROM company ORDER BY id";
-	private static final String GET_WITH_ID = "SELECT * FROM company WHERE id = ?";
-	private static final String COUNT = "SELECT COUNT(*) FROM company";
-	private static final String GET_PAGE = "SELECT * FROM company LIMIT ? OFFSET ?";
+	private static final String GET_ALL = "SELECT id, name FROM company ORDER BY id";
+	private static final String GET_WITH_ID = "SELECT id, name  FROM company WHERE id = ?";
+	private static final String COUNT = "SELECT COUNT(id) FROM company";
+	private static final String GET_PAGE = "SELECT id, name  FROM company LIMIT ? OFFSET ?";
 	private static CompanyDAO companyDAO;
-	
+	private Connection connection = MysqlConnect.getInstance();
 	
 	public CompanyDAO() {
 	}
@@ -38,8 +42,8 @@ public class CompanyDAO extends DAO<Company>{
     }
 
 	@Override
-	public ArrayList<Company> getAll() {
-		ArrayList<Company> companies= new ArrayList();
+	public List<Company> getAll() {
+		List<Company> companies= new ArrayList();
 		
 		try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(GET_ALL);
@@ -99,8 +103,8 @@ public class CompanyDAO extends DAO<Company>{
 	}
 
 	@Override
-	public ArrayList<Company> getPage(Page page) {
-		ArrayList<Company> companies= new ArrayList();
+	public List<Company> getPage(Page page) {
+		List<Company> companies= new ArrayList();
 		try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(GET_PAGE);
             preparedStatement.setInt(1, page.getLinesPage());

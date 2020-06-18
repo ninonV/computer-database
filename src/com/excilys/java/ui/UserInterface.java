@@ -1,6 +1,7 @@
 package com.excilys.java.ui;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import com.excilys.java.model.Company;
@@ -128,13 +129,14 @@ public class UserInterface {
 		Boolean conditionsOK= false;
 		String name=null;
 		String intro="";
-		Date introduced = null;
+		LocalDate introduced = null;
 		String discon="";
-		Date discontinued = null;
+		LocalDate discontinued = null;
 		String id="";
 		Long idCompany= null;
 		Company company = new Company();
 		Computer computer = new Computer();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
 		
 		while(!conditionsOK) {
 			System.out.println("Name : ");
@@ -144,8 +146,8 @@ public class UserInterface {
 			intro = sc.nextLine();
 			if (intro.length()>0) {
 				try {
-					introduced = Date.valueOf(intro);
-				}catch (java.lang.IllegalArgumentException e)  {
+					introduced = LocalDate.parse(intro, formatter);
+				}catch (java.time.format.DateTimeParseException e)  {
 					System.err.println("Enter the following format YYYY-MM-DD");
 				}
 			}
@@ -154,8 +156,8 @@ public class UserInterface {
 			discon = sc.nextLine();
 			if (discon.length()>0) {
 				try {
-					discontinued = Date.valueOf(discon);
-				}catch (java.lang.IllegalArgumentException e)  {
+					discontinued = LocalDate.parse(discon, formatter);
+				}catch (java.time.format.DateTimeParseException e)  {
 					System.err.println("Enter the following format YYYY-MM-DD");
 				}
 			}
@@ -169,7 +171,7 @@ public class UserInterface {
 				}
 			}catch (java.lang.NumberFormatException e) {
 				System.err.println("Enter a number");
-				company = null;
+				company= null;
 			}
 			
 			computer = new Computer(name,introduced,discontinued, company);

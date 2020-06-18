@@ -41,8 +41,8 @@ public class Company {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
-		sb.append(" id :").append(idCompany);
-		sb.append(", name :").append(name).append("\n");
+		sb.append(" id :").append(this.idCompany);
+		sb.append(", name :").append(this.name).append("\n");
 		return sb.toString();
 	}
 

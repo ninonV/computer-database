@@ -1,6 +1,6 @@
 package com.excilys.java.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Class representing a computer
@@ -12,15 +12,15 @@ public class Computer {
 	
 	private Long idComputer;
 	private String name;
-	private Date introduced; 
-	private Date discontinued;
+	private LocalDate introduced; 
+	private LocalDate discontinued;
 	private Company manufacturer;
 	
 	public Computer() {
 		super();
 	}
 
-	public Computer(String name, Date introduced, Date discontinued, Company manufacturer) {
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, Company manufacturer) {
 		super();
 		this.name = name;
 		this.introduced = introduced;
@@ -44,20 +44,24 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(Date introduced) {
-		this.introduced = introduced;
+	public void setIntroduced(LocalDate introduced) {
+		if (introduced != null && this.discontinued != null && introduced.isBefore(this.discontinued)) {
+			this.introduced = introduced;
+		}
 	}
 
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(Date discontinued) {
-		this.discontinued = discontinued;
+	public void setDiscontinued(LocalDate discontinued) {
+		if (discontinued != null && this.introduced != null && discontinued.isAfter(this.introduced)) {
+			this.discontinued = discontinued;
+		}
 	}
 
 	public Company getManufacturer() {
@@ -71,11 +75,11 @@ public class Computer {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
-		sb.append(" id :").append(idComputer);
-		sb.append(", name :").append(name);
-		sb.append(", introduced :").append(introduced);
-		sb.append(", discontinued :").append(discontinued);
-		sb.append(manufacturer).append("\n");
+		sb.append(" id :").append(this.idComputer);
+		sb.append(", name :").append(this.name);
+		sb.append(", introduced :").append(this.introduced);
+		sb.append(", discontinued :").append(this.discontinued).append(" ");
+		sb.append(this.manufacturer);
 		return sb.toString();
 	}
 	

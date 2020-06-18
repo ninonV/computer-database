@@ -1,20 +1,18 @@
 package com.excilys.java.persistence.DAO;
 
 import java.sql.Connection;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.java.model.Page;
 import com.excilys.java.persistence.MysqlConnect;
 
 public abstract class DAO<T> {
 	
-	public Connection connection = MysqlConnect.getInstance();
-	
 	/**
 	 *Return the complete list 
 	 * @return Arraylist
 	 */
-	public abstract ArrayList<T> getAll();
+	public abstract List<T> getAll();
 	
 	
 	/**
@@ -42,6 +40,6 @@ public abstract class DAO<T> {
 	 * Return the list of object per page
 	 * @return ArrayList
 	 */
-	public abstract ArrayList<T> getPage(Page page);
+	public abstract List<T> getPage(Page page);
 	
 }

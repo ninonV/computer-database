@@ -1,6 +1,7 @@
 package com.excilys.java.service;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
 import com.excilys.java.persistence.DAO.CompanyDAO;
@@ -30,7 +31,7 @@ public class CompanyService {
         return companyService;
     }
 	
-	public ArrayList<Company> listCompanies(){
+	public List<Company> listCompanies(){
 		return companyDAO.getAll();
 	}
 	
@@ -46,7 +47,7 @@ public class CompanyService {
 		return companyDAO.count();
 	}
 	
-	public ArrayList<Company> getListPage(Page page){
+	public List<Company> getListPage(Page page){
 		return companyDAO.getPage(page);
 	}
 	

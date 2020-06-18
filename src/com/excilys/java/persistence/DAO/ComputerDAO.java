@@ -2,12 +2,17 @@ package com.excilys.java.persistence.DAO;
 import com.excilys.java.mapper.ComputerMapper;
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
+import com.excilys.java.persistence.MysqlConnect;
 
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.List;
 import java.util.ArrayList;
+
 
 /**
  *  Class doing the relation with the table computer  
@@ -21,10 +26,12 @@ public class ComputerDAO extends DAO<Computer>{
 	private static final String CREATE = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id= ?";
 	private static final String DELETE = "DELETE FROM computer WHERE id = ? ";
-	private static final String COUNT = "SELECT COUNT(*) FROM computer";
+	private static final String COUNT = "SELECT COUNT(id) FROM computer";
 	private static final String GET_PAGE = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id LIMIT ? OFFSET ?";
 	
+	
 	private static ComputerDAO computerDAO;
+	private Connection connection = MysqlConnect.getInstance();
 	
 	public ComputerDAO() {
 	}
@@ -44,11 +51,11 @@ public class ComputerDAO extends DAO<Computer>{
 	
 	
 	@Override
-	public ArrayList<Computer> getAll() {
-		ArrayList<Computer> computers = new ArrayList();
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_ALL);
-            ResultSet result = preparedStatement.executeQuery();
+	public List<Computer> getAll() {
+		List<Computer> computers = new ArrayList();
+		try ( Connection connect = this.connection;
+			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
+			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
             	Computer computer = ComputerMapper.map(result);
             	computers.add(computer);
@@ -61,17 +68,18 @@ public class ComputerDAO extends DAO<Computer>{
 	
 	}
 	@Override
-	public Computer findById(Long id) {
-		PreparedStatement preparedStatement = null; 
+	public Computer findById(Long id){
 		Computer computer = new Computer();
+		ResultSet result = null;
 		if(id!=null) {
-			try {
-	            preparedStatement = this.connection.prepareStatement(GET_WITH_ID);
+			try ( Connection connect = this.connection;
+				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID)) {
 	            preparedStatement.setLong(1, id);
-	            ResultSet result = preparedStatement.executeQuery();
+	            result = preparedStatement.executeQuery();
 	            while (result.next()){
 	            	computer = ComputerMapper.map(result);
 	            }
+	            result.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -89,8 +97,16 @@ public class ComputerDAO extends DAO<Computer>{
 		try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(CREATE);
             preparedStatement.setString(1, computer.getName());
-            preparedStatement.setDate(2, computer.getIntroduced());
-            preparedStatement.setDate(3, computer.getDiscontinued());
+            Date  dateSQLIntroduced = null;
+            Date  dateSQLDiscontinued = null;
+            if (computer.getIntroduced()!=null) {
+            	dateSQLIntroduced=Date.valueOf(computer.getIntroduced());
+            }
+            if (computer.getDiscontinued()!=null) {
+            	dateSQLDiscontinued=Date.valueOf(computer.getDiscontinued());
+            }
+            preparedStatement.setDate(2, dateSQLIntroduced);
+            preparedStatement.setDate(3, dateSQLDiscontinued);
             if (computer.getManufacturer().getIdCompany()==null) {
             	preparedStatement.setNull(4, Types.BIGINT);
             }else {
@@ -111,8 +127,10 @@ public class ComputerDAO extends DAO<Computer>{
 		try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(UPDATE);
             preparedStatement.setString(1, computer.getName());
-            preparedStatement.setDate(2, computer.getIntroduced());
-            preparedStatement.setDate(3, computer.getDiscontinued());
+            Date  dateSQLIntroduced=Date.valueOf(computer.getIntroduced());
+            Date  dateSQLDiscontinued=Date.valueOf(computer.getDiscontinued());
+            preparedStatement.setDate(2, dateSQLIntroduced);
+            preparedStatement.setDate(3, dateSQLDiscontinued);
             if (computer.getManufacturer().getIdCompany()==null) {
             	preparedStatement.setNull(4, Types.BIGINT);
             }else {
@@ -164,8 +182,8 @@ public class ComputerDAO extends DAO<Computer>{
 	}
 
 	@Override
-	public ArrayList<Computer> getPage(Page page) {
-		ArrayList<Computer> computers= new ArrayList();
+	public List<Computer> getPage(Page page) {
+		List<Computer> computers= new ArrayList();
 		try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(GET_PAGE);
             preparedStatement.setInt(1, page.getLinesPage());

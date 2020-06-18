@@ -1,6 +1,6 @@
 package com.excilys.java.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
@@ -32,7 +32,7 @@ public class ComputerService {
         return computerService;
     }
 	
-	public ArrayList<Computer> listComputers(){
+	public List<Computer> listComputers(){
 		return computerDAO.getAll();
 	}
 	
@@ -60,7 +60,7 @@ public class ComputerService {
 		return computerDAO.count();
 	}
 	
-	public ArrayList<Computer> getListPage(Page page){
+	public List<Computer> getListPage(Page page){
 		return computerDAO.getPage(page);
 	}
 	
@@ -76,7 +76,7 @@ public class ComputerService {
 		if (computer.getName().length()==0) {
 			System.out.println("The name is mandatory");
 			creationAuthorized = false; 
-		}else if (computer.getIntroduced()!=null && computer.getDiscontinued()!=null && computer.getDiscontinued().before(computer.getIntroduced())) {
+		}else if (computer.getIntroduced()!=null && computer.getDiscontinued()!=null && computer.getDiscontinued().isBefore(computer.getIntroduced())) {
 				System.out.println("The date of introduction should be before the date of discontinuation");
 				creationAuthorized = false; 
 			} if (computer.getManufacturer()!=null) {

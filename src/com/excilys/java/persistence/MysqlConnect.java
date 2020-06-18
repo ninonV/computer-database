@@ -1,8 +1,13 @@
 package com.excilys.java.persistence;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  *  Class doing the connexion to mySQL 
@@ -10,12 +15,9 @@ import java.sql.SQLException;
  *  **/
 
 public class MysqlConnect {
-
-	private static final String driver = "com.mysql.cj.jdbc.Driver";
-	private static final String url = "jdbc:mysql://localhost:3306/computer-database-db?serverTimezone=UTC"; 
-	private static final String user = "admincdb";
-	private static final String password = "qwerty1234";
+	
 	private static Connection connection;
+	private static final String resourcesFile="src/resources/db.properties";
 	
 	/**
      * Create the instance of connexion if it not exists
@@ -25,16 +27,27 @@ public class MysqlConnect {
 	public static Connection getInstance() {
 		if (connection == null) {
 			try {
-				Class.forName(driver);
-			    System.out.println("Driver O.K.");
-			    
+				Properties properties = new Properties();
+				InputStream input = new FileInputStream(resourcesFile);
+				
+				properties.load(input);
+	
+	            String url = properties.getProperty("jdbc.url");
+	            String driver = properties.getProperty("jdbc.driver");
+	            String user = properties.getProperty("jdbc.user");
+	            String password = properties.getProperty("jdbc.password");
+	            
+	            input.close();
+	            
+	            Class.forName(driver);
 			    connection = DriverManager.getConnection( url, user, password );
 				System.out.println("Connexion BDD YES!"); 		
 
-			} catch ( SQLException | ClassNotFoundException e) {
+			} catch ( SQLException | ClassNotFoundException | IOException e) {
 				e.printStackTrace();
-				}	
+			}	
 		}
 		return connection;
 	}
+	
 }
