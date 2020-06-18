@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ *  Class doing the connexion to mySQL 
+ *  @author ninonV
+ *  **/
+
 public class MysqlConnect {
-	/**
-	 *  Connexion to mySQL 
-	 *  @author ninonV
-	 *  **/
+
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/computer-database-db?serverTimezone=UTC"; 
 	private static final String user = "admincdb";

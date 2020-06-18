@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
 
+/**
+ * Mapping a ResultSet to a Company
+ * @author ninonV
+ *
+ */
 
 public class ComputerMapper {
 	

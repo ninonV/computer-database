@@ -7,6 +7,11 @@ import com.excilys.java.persistence.DAO.CompanyDAO;
 
 public class CompanyService {
 	
+	/**
+	 *  Class doing the relation with the CompanyDAO  
+	 *  @author ninonV
+	 *  **/
+	
 	private static CompanyService companyService;
 	private static CompanyDAO companyDAO = CompanyDAO.getInstance();
 	

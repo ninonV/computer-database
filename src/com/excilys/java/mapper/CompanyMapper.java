@@ -4,8 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.excilys.java.model.Company;
 
-public class CompanyMapper {
+/**
+ * Mapping a ResultSet to a Company
+ * @author ninonV
+ */
 
+public class CompanyMapper {
 	
 	public static Company map(ResultSet result){
 		Company company = new Company(); 

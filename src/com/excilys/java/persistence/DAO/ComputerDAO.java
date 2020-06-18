@@ -9,6 +9,11 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 
+/**
+ *  Class doing the relation with the table computer  
+ *  @author ninonV
+ *  **/
+
 public class ComputerDAO extends DAO<Computer>{
 	
 	private static final String GET_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.id ";

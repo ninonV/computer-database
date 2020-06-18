@@ -8,6 +8,11 @@ import com.excilys.java.mapper.CompanyMapper;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
 
+/**
+ *  Class doing the relation with the table company  
+ *  @author ninonV
+ *  **/
+
 public class CompanyDAO extends DAO<Company>{
 
 	private static final String GET_ALL = "SELECT * FROM company ORDER BY id";

@@ -9,11 +9,19 @@ import com.excilys.java.model.Page;
 import com.excilys.java.service.CompanyService;
 import com.excilys.java.service.ComputerService;
 
+/**
+ *  Class doing the relation with the user  
+ *  @author ninonV
+ *  **/
+
 public class UserInterface {
 	
 	private static ComputerService computerService = ComputerService.getInstance();  
 	private static CompanyService companyService = CompanyService.getInstance();
 	
+	/**
+	 * Main menu that calls the different functions 
+	 */
 	
 	public void start() {
 		
@@ -92,6 +100,10 @@ public class UserInterface {
 		}
 	}
 	
+	/**
+	 * Get the id of the computer
+	 * @return Long id
+	 */
 	public Long getID() {
 		
 		System.out.println("ID : ");
@@ -107,6 +119,10 @@ public class UserInterface {
 		return id;
 	}
 	
+	/**
+	 * Create a new computer or enter the new informations IF the conditions are checked
+	 * @return Computer
+	 */
 	public Computer infoComputer() {
 		Scanner sc = new Scanner(System.in);
 		Boolean conditionsOK= false;
@@ -162,6 +178,10 @@ public class UserInterface {
 		return computer;
 	}
 	
+	/**
+	 * Method that show the pages related to the computers
+	 */
+	
 	public void pagesComputers() {
 		Page page = new Page();
 		int total = computerService.countComputer();
@@ -173,6 +193,11 @@ public class UserInterface {
 			quitPage = menuPage(page, nbPages);
 		}
 	}
+	
+	/**
+	 * Method that show the pages related to the companies
+	 */
+	
 	
 	public void pagesCompanies() {
 		Page page = new Page();
@@ -187,6 +212,11 @@ public class UserInterface {
 		}
 	}
 
+	/**
+	 * Show the menu of a page and calls the function of the pages
+	 * @param Page page, int nbPages
+	 * @return boolean
+	 */
 	public boolean menuPage(Page page, int nbPages) {
 		boolean quitPage = false; 
 		
@@ -220,7 +250,7 @@ public class UserInterface {
 					int newPage=page.getCurrentPage();
 					try{
 						newPage = Integer.parseInt(nb);
-						if (newPage>0 && newPage<nbPages+1) {
+						if (newPage>0 && newPage<=nbPages) {
 							page.setCurrentPage(newPage);
 							page.setFirstLine(page.getLinesPage() * (page.getCurrentPage()- 1) +1);
 						}else {

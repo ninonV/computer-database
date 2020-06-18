@@ -6,6 +6,11 @@ import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
 import com.excilys.java.persistence.DAO.ComputerDAO;
 
+/**
+ *  Class doing the relation with the ComputerDAO  
+ *  @author ninonV
+ *  **/
+
 public class ComputerService {
 	
 	private static ComputerService computerService;
@@ -58,6 +63,13 @@ public class ComputerService {
 	public ArrayList<Computer> getListPage(Page page){
 		return computerDAO.getPage(page);
 	}
+	
+	
+	/**
+	 * Check the conditions to create or update a computer
+	 * @param computer
+	 * @return boolean
+	 */
 	
 	public boolean allowCreation (Computer computer) {
 		boolean creationAuthorized = true; 
