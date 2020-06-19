@@ -31,8 +31,6 @@ public class ComputerMapper {
 	    	Long company_id = result.getLong("company_id");
 	    	String company_name = result.getString("company_name");
 	    	
-	    	System.out.println(id);
-	    	
 	    	computer.setIdComputer(id);
 	    	computer.setName(name);
 	    	computer.setIntroduced(introduced);

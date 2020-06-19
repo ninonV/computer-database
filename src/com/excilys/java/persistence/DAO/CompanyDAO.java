@@ -24,7 +24,6 @@ public class CompanyDAO extends DAO<Company>{
 	private static final String COUNT = "SELECT COUNT(id) FROM company";
 	private static final String GET_PAGE = "SELECT id, name  FROM company LIMIT ? OFFSET ?";
 	private static CompanyDAO companyDAO;
-	private Connection connection = MysqlConnect.getInstance();
 	
 	public CompanyDAO() {
 	}
@@ -45,13 +44,14 @@ public class CompanyDAO extends DAO<Company>{
 	public List<Company> getAll() {
 		List<Company> companies= new ArrayList();
 		
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_ALL);
-            ResultSet result = preparedStatement.executeQuery();
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
+			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
             	Company company = CompanyMapper.map(result);
             	companies.add(company);
             }
+            result.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,13 +65,14 @@ public class CompanyDAO extends DAO<Company>{
 		Company company = new Company();
 		if(id!=null) {
 			
-			try {
-	            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_WITH_ID);
+			try (Connection connect = MysqlConnect.getInstance();
+				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID))	 {
 	            preparedStatement.setLong(1, id);
 	            ResultSet result = preparedStatement.executeQuery();
 	            while (result.next()){
 	            	company = CompanyMapper.map(result);
 	            }
+	            result.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -91,9 +92,9 @@ public class CompanyDAO extends DAO<Company>{
 	@Override
 	public int count() {
 		int total = 0;
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(COUNT);
-            ResultSet result = preparedStatement.executeQuery();
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(COUNT);
+			ResultSet result = preparedStatement.executeQuery()){
             result.next();
             total = result.getInt(1);
 		 } catch (SQLException e) {
@@ -105,8 +106,8 @@ public class CompanyDAO extends DAO<Company>{
 	@Override
 	public List<Company> getPage(Page page) {
 		List<Company> companies= new ArrayList();
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_PAGE);
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
             preparedStatement.setInt(1, page.getLinesPage());
             preparedStatement.setInt(2, page.getFirstLine()-1);
             ResultSet result = preparedStatement.executeQuery();
@@ -114,6 +115,7 @@ public class CompanyDAO extends DAO<Company>{
             	Company company = CompanyMapper.map(result);
             	companies.add(company);
             }
+            result.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

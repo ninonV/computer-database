@@ -27,7 +27,6 @@ public class UserInterface {
 	public void start() {
 		
 		boolean quit = false; 
-		
 		while (!quit) {
 			try {
 				System.out.println("Features : ");

@@ -13,7 +13,6 @@ import java.sql.Types;
 import java.util.List;
 import java.util.ArrayList;
 
-
 /**
  *  Class doing the relation with the table computer  
  *  @author ninonV
@@ -29,9 +28,7 @@ public class ComputerDAO extends DAO<Computer>{
 	private static final String COUNT = "SELECT COUNT(id) FROM computer";
 	private static final String GET_PAGE = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id LIMIT ? OFFSET ?";
 	
-	
 	private static ComputerDAO computerDAO;
-	private Connection connection = MysqlConnect.getInstance();
 	
 	public ComputerDAO() {
 	}
@@ -53,7 +50,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public List<Computer> getAll() {
 		List<Computer> computers = new ArrayList();
-		try ( Connection connect = this.connection;
+		try ( Connection connect = MysqlConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
@@ -72,7 +69,7 @@ public class ComputerDAO extends DAO<Computer>{
 		Computer computer = new Computer();
 		ResultSet result = null;
 		if(id!=null) {
-			try ( Connection connect = this.connection;
+			try ( Connection connect = MysqlConnect.getInstance();
 				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID)) {
 	            preparedStatement.setLong(1, id);
 	            result = preparedStatement.executeQuery();
@@ -94,8 +91,8 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	
 	public void create(Computer computer) {
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(CREATE);
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(CREATE)) {
             preparedStatement.setString(1, computer.getName());
             Date  dateSQLIntroduced = null;
             Date  dateSQLDiscontinued = null;
@@ -124,11 +121,17 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	
 	public void update(Computer computer) {
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(UPDATE);
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(UPDATE)) {
             preparedStatement.setString(1, computer.getName());
-            Date  dateSQLIntroduced=Date.valueOf(computer.getIntroduced());
-            Date  dateSQLDiscontinued=Date.valueOf(computer.getDiscontinued());
+            Date  dateSQLIntroduced = null;
+            Date  dateSQLDiscontinued = null;
+            if (computer.getIntroduced()!=null) {
+            	dateSQLIntroduced=Date.valueOf(computer.getIntroduced());
+            }
+            if (computer.getDiscontinued()!=null) {
+            	dateSQLDiscontinued=Date.valueOf(computer.getDiscontinued());
+            }
             preparedStatement.setDate(2, dateSQLIntroduced);
             preparedStatement.setDate(3, dateSQLDiscontinued);
             if (computer.getManufacturer().getIdCompany()==null) {
@@ -149,8 +152,8 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	
 	public void delete(Long id) {
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(DELETE);
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(DELETE)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -170,9 +173,9 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public int count() {
 		int total = 0;
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(COUNT);
-            ResultSet result = preparedStatement.executeQuery();
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(COUNT);
+			ResultSet result = preparedStatement.executeQuery()){
             result.next();
             total = result.getInt(1);
 		 } catch (SQLException e) {
@@ -184,8 +187,8 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public List<Computer> getPage(Page page) {
 		List<Computer> computers= new ArrayList();
-		try {
-            PreparedStatement preparedStatement = this.connection.prepareStatement(GET_PAGE);
+		try (Connection connect = MysqlConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
             preparedStatement.setInt(1, page.getLinesPage());
             preparedStatement.setInt(2, page.getFirstLine()-1);
             ResultSet result = preparedStatement.executeQuery();
@@ -193,6 +196,7 @@ public class ComputerDAO extends DAO<Computer>{
             	Computer computer = ComputerMapper.map(result);
             	computers.add(computer);
             }
+            result.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

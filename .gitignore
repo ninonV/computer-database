@@ -1,6 +1,2 @@
 /build/
-.classpath
-.project
-.settings
-/webContent/
 /src/resources/db.properties

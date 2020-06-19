@@ -22,10 +22,11 @@ public class MysqlConnect {
 	/**
      * Create the instance of connexion if it not exists
      * @return instance of connexion
+	 * @throws SQLException 
      */
 	
-	public static Connection getInstance() {
-		if (connection == null) {
+	public static Connection getInstance() throws SQLException {
+		if (connection == null || connection.isClosed() ) {
 			try {
 				Properties properties = new Properties();
 				InputStream input = new FileInputStream(resourcesFile);
@@ -38,10 +39,8 @@ public class MysqlConnect {
 	            String password = properties.getProperty("jdbc.password");
 	            
 	            input.close();
-	            
 	            Class.forName(driver);
-			    connection = DriverManager.getConnection( url, user, password );
-				System.out.println("Connexion BDD YES!"); 		
+			    connection = DriverManager.getConnection( url, user, password );	
 
 			} catch ( SQLException | ClassNotFoundException | IOException e) {
 				e.printStackTrace();
