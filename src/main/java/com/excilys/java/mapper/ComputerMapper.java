@@ -3,6 +3,8 @@ package com.excilys.java.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
@@ -14,6 +16,8 @@ import com.excilys.java.model.Computer;
  */
 
 public class ComputerMapper {
+	
+	private static Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 	
 	public static Computer map(ResultSet result){
 		Computer computer = new Computer();
@@ -39,6 +43,7 @@ public class ComputerMapper {
 	    	
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.error("Error when mapping a ResultSet to a Computer",e);
 		}
 		return computer;
 	}

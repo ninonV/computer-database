@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.java.mapper.CompanyMapper;
 import com.excilys.java.model.Company;
@@ -23,7 +25,9 @@ public class CompanyDAO extends DAO<Company>{
 	private static final String GET_WITH_ID = "SELECT id, name  FROM company WHERE id = ?";
 	private static final String COUNT = "SELECT COUNT(id) FROM company";
 	private static final String GET_PAGE = "SELECT id, name  FROM company LIMIT ? OFFSET ?";
+	
 	private static CompanyDAO companyDAO;
+	private static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	
 	public CompanyDAO() {
 	}
@@ -54,6 +58,7 @@ public class CompanyDAO extends DAO<Company>{
             result.next();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error when listing all companies",e);
         }
 		System.out.println(companies);
 		return companies;
@@ -75,6 +80,7 @@ public class CompanyDAO extends DAO<Company>{
 	            result.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
+	            logger.error("Error when finding a company with its ID",e);
 	        }
 		}
 		return company;
@@ -99,6 +105,7 @@ public class CompanyDAO extends DAO<Company>{
             total = result.getInt(1);
 		 } catch (SQLException e) {
 	            e.printStackTrace();
+	            logger.error("Error when counting the number of companies",e);
 	        }
             return total; 
 	}
@@ -118,6 +125,7 @@ public class CompanyDAO extends DAO<Company>{
             result.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error when listing the companies on a page",e);
         }
 		System.out.println(companies);
 		return companies;

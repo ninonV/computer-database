@@ -1,8 +1,4 @@
 package com.excilys.java.persistence.DAO;
-import com.excilys.java.mapper.ComputerMapper;
-import com.excilys.java.model.Computer;
-import com.excilys.java.model.Page;
-import com.excilys.java.persistence.MysqlConnect;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -12,6 +8,13 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.java.mapper.ComputerMapper;
+import com.excilys.java.model.Computer;
+import com.excilys.java.model.Page;
+import com.excilys.java.persistence.MysqlConnect;
 
 /**
  *  Class doing the relation with the table computer  
@@ -29,6 +32,7 @@ public class ComputerDAO extends DAO<Computer>{
 	private static final String GET_PAGE = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id LIMIT ? OFFSET ?";
 	
 	private static ComputerDAO computerDAO;
+	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	
 	public ComputerDAO() {
 	}
@@ -59,6 +63,7 @@ public class ComputerDAO extends DAO<Computer>{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error when listing all computers",e);
         }
 		System.out.println(computers);
 		return computers;	
@@ -79,6 +84,7 @@ public class ComputerDAO extends DAO<Computer>{
 	            result.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
+	           logger.error("Error when finding a computer with its ID",e);
 	        }
 		}
 		System.out.println(computer);
@@ -112,6 +118,7 @@ public class ComputerDAO extends DAO<Computer>{
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error when creating a computer",e);
         }
 	}
 	
@@ -143,6 +150,7 @@ public class ComputerDAO extends DAO<Computer>{
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error when updating a computer",e);
         }
 	}
 	
@@ -158,6 +166,7 @@ public class ComputerDAO extends DAO<Computer>{
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error when deleting a computer",e);
         }		
 	}
 	
@@ -180,6 +189,7 @@ public class ComputerDAO extends DAO<Computer>{
             total = result.getInt(1);
 		 } catch (SQLException e) {
 	            e.printStackTrace();
+	            logger.error("Error when counting the number of computers",e);
 	        }
             return total; 
 	}
@@ -199,6 +209,7 @@ public class ComputerDAO extends DAO<Computer>{
             result.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error when listing the computers on a page",e);
         }
 		System.out.println(computers);
 		return computers;

@@ -1,13 +1,14 @@
 package com.excilys.java.persistence;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *  Class doing the connexion to mySQL 
@@ -17,7 +18,9 @@ import java.util.Properties;
 public class MysqlConnect {
 	
 	private static Connection connection;
-	private static final String resourcesFile="src/resources/db.properties";
+	private static final String resourcesFile="src/main/resources/db.properties";
+	
+	private static Logger logger = LoggerFactory.getLogger(MysqlConnect.class);
 	
 	/**
      * Create the instance of connexion if it not exists
@@ -44,6 +47,7 @@ public class MysqlConnect {
 
 			} catch ( SQLException | ClassNotFoundException | IOException e) {
 				e.printStackTrace();
+				logger.error("Error during the connexion with MySQL",e);
 			}	
 		}
 		return connection;

@@ -1,10 +1,8 @@
 package com.excilys.java.persistence.DAO;
 
-import java.sql.Connection;
 import java.util.List;
 
 import com.excilys.java.model.Page;
-import com.excilys.java.persistence.MysqlConnect;
 
 public abstract class DAO<T> {
 	
