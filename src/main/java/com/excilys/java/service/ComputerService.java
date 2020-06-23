@@ -32,7 +32,7 @@ public class ComputerService {
         return computerService;
     }
 	
-	public List<Computer> listComputers(){
+	public List<Computer> listComputers() {
 		return computerDAO.getAll();
 	}
 	
@@ -60,7 +60,7 @@ public class ComputerService {
 		return computerDAO.count();
 	}
 	
-	public List<Computer> getListPage(Page page){
+	public List<Computer> getListPage(Page page) {
 		return computerDAO.getPage(page);
 	}
 	

@@ -9,7 +9,11 @@ import org.mockito.MockitoAnnotations;
 
 public class PageTest {
 	
-	Page page = Mockito.mock(Page.class);
+	Page pageMock = Mockito.mock(Page.class);
+	
+	private int firstLine = 1;
+	private int currentPage = 5; 
+	private int linesPage = 20;
 	
 	@Before
 	public void setUp() {
@@ -17,8 +21,13 @@ public class PageTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testNextPage() {
+		pageMock.nextPage();
+		//assertEquals(pageMock.get);
 	}
 
+	@Test
+	public void testPreviousPage() {
+		fail("Not yet implemented");
+	}
 }

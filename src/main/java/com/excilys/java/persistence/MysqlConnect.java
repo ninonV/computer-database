@@ -1,6 +1,5 @@
 package com.excilys.java.persistence;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -18,8 +17,6 @@ import org.slf4j.LoggerFactory;
 public class MysqlConnect {
 	
 	private static Connection connection;
-	private static final String resourcesFile="src/main/resources/db.properties";
-	
 	private static Logger logger = LoggerFactory.getLogger(MysqlConnect.class);
 	
 	/**
@@ -32,12 +29,12 @@ public class MysqlConnect {
 		if (connection == null || connection.isClosed() ) {
 			try {
 				Properties properties = new Properties();
-				InputStream input = new FileInputStream(resourcesFile);
+				InputStream input = MysqlConnect.class.getClassLoader().getResourceAsStream("db.properties");
 				
 				properties.load(input);
 	
+				String driver = properties.getProperty("jdbc.driver");
 	            String url = properties.getProperty("jdbc.url");
-	            String driver = properties.getProperty("jdbc.driver");
 	            String user = properties.getProperty("jdbc.user");
 	            String password = properties.getProperty("jdbc.password");
 	            

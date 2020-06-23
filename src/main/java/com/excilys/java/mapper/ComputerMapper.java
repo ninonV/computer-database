@@ -32,16 +32,17 @@ public class ComputerMapper {
 	    	if (result.getDate("discontinued")!=null) {
 	    		discontinued = result.getDate("discontinued").toLocalDate();
 	    	}
+	    	
 	    	Long company_id = result.getLong("company_id");
 	    	String company_name = result.getString("company_name");
 	    	
 	    	computer.setIdComputer(id);
 	    	computer.setName(name);
-	    	computer.setIntroduced(introduced);
-	    	computer.setDiscontinued(discontinued);
+			computer.setIntroduced(introduced);
+			computer.setDiscontinued(discontinued);
 	    	computer.setManufacturer(new Company(company_id, company_name));
 	    	
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error when mapping a ResultSet to a Computer",e);
 		}

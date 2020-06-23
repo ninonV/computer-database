@@ -183,7 +183,7 @@ public class UserInterface {
 	 * Method that show the pages related to the computers
 	 */
 	
-	public void pagesComputers() {
+	public void pagesComputers(){
 		Page page = new Page();
 		int total = computerService.countComputer();
 		int nbPages = page.getTotalPages(total);

@@ -70,7 +70,7 @@ public class ComputerDAO extends DAO<Computer>{
 	
 	}
 	@Override
-	public Computer findById(Long id){
+	public Computer findById(Long id) {
 		Computer computer = new Computer();
 		ResultSet result = null;
 		if(id!=null) {

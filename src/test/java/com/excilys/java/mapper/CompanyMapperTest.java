@@ -20,7 +20,7 @@ public class CompanyMapperTest {
     private static final String NAME_COMPANY = "name";
 	
 	private final Long id = 10L;
-	private final String name = "Company test name";
+	private final String name = "Company name";
 	
 	private ResultSet resultSet = Mockito.mock(ResultSet.class);
 	
@@ -37,14 +37,9 @@ public class CompanyMapperTest {
 		} catch (SQLException e) {
 			fail("Fail to construct ResultSet");
 		}
-		
-		Company companyMapper = CompanyMapper.map(resultSet);
 		Company company = new Company(id,name);
-		
-		assertEquals(company.getIdCompany(), companyMapper.getIdCompany());
-		assertEquals(company.getName(), companyMapper.getName());
-		
+		Company companyMapper = CompanyMapper.map(resultSet);
+		assertEquals(company, companyMapper);
 	}
-
 
 }

@@ -9,6 +9,7 @@ public abstract class DAO<T> {
 	/**
 	 *Return the complete list 
 	 * @return Arraylist
+	 * @throws Exception 
 	 */
 	public abstract List<T> getAll();
 	
@@ -17,6 +18,7 @@ public abstract class DAO<T> {
 	 * Return the object corresponding to the id 
 	 * @param id
 	 * @return T
+	 * @throws Exception 
 	 */
 	public abstract T findById(Long id);
 	
@@ -25,6 +27,7 @@ public abstract class DAO<T> {
 	 * Inform if the object is already in the BDD
 	 * @param id
 	 * @return boolean
+	 * @throws Exception 
 	 */
 	public abstract boolean exist(Long id);
 	
@@ -37,6 +40,7 @@ public abstract class DAO<T> {
 	/**
 	 * Return the list of object per page
 	 * @return ArrayList
+	 * @throws Exception 
 	 */
 	public abstract List<T> getPage(Page page);
 	
