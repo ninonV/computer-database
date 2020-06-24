@@ -10,7 +10,39 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 </properties>
 
-<dependencies>
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+
+        </plugins>
+    </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <configLocation>/checkstyle/checkstyle.xml</configLocation>
+          <suppressionsLocation>/checkstyle/suppressions.xml</suppressionsLocation>
+          <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  
+  <dependencies>
 
 	<dependency>
 		<groupId>junit</groupId>
@@ -48,6 +80,13 @@
     	<version>2.5.1</version>
 	</dependency>
 	
+	<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.0</version>
+	</dependency>
+	
 </dependencies>
+  
  
 </project>

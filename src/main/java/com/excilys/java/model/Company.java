@@ -14,7 +14,6 @@ public class Company {
 
 	public Company() {
 		super();
-		this.idCompany=0L;
 	}
 
 	public Company(Long idCompany, String name) {

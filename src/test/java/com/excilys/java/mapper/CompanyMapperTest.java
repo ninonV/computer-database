@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 

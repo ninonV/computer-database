@@ -65,7 +65,6 @@ public class ComputerDAO extends DAO<Computer>{
             e.printStackTrace();
             logger.error("Error when listing all computers",e);
         }
-		System.out.println(computers);
 		return computers;	
 	
 	}
@@ -87,7 +86,6 @@ public class ComputerDAO extends DAO<Computer>{
 	           logger.error("Error when finding a computer with its ID",e);
 	        }
 		}
-		System.out.println(computer);
 		return computer;
 	}
 	
@@ -173,7 +171,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public boolean exist(Long id){
 		boolean isInBDD = false; 
-		if (this.findById(id)!=null) {
+		if ((this.findById(id)).getIdComputer()!=null) {
 			isInBDD=true; 
 		}
 		return isInBDD; 
@@ -211,7 +209,6 @@ public class ComputerDAO extends DAO<Computer>{
             e.printStackTrace();
             logger.error("Error when listing the computers on a page",e);
         }
-		System.out.println(computers);
 		return computers;
 	}
 }

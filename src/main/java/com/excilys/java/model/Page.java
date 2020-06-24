@@ -32,12 +32,12 @@ public class Page {
 	 * Go to the previous page;
 	 */
 	public void previousPage() {
-			currentPage --;
-			firstLine-=MAX_LINES;
+		currentPage --;
+		firstLine-=MAX_LINES;
 	}
 	
 	public int getTotalPages(int total) {
-	        return (int) Math.ceil((double) total/ MAX_LINES);
+	    return (int) Math.ceil((double) total/ MAX_LINES);
 	}
 	
 	public int getFirstLine() {

@@ -60,7 +60,6 @@ public class CompanyDAO extends DAO<Company>{
             e.printStackTrace();
             logger.error("Error when listing all companies",e);
         }
-		System.out.println(companies);
 		return companies;
 		
 	}
@@ -89,7 +88,7 @@ public class CompanyDAO extends DAO<Company>{
 	@Override
 	public boolean exist(Long id){
 		boolean isInBDD = false; 
-		if (this.findById(id)!=null) {
+		if ((this.findById(id)).getIdCompany()!=null) {
 			isInBDD=true; 
 		}
 		return isInBDD; 
@@ -127,7 +126,6 @@ public class CompanyDAO extends DAO<Company>{
             e.printStackTrace();
             logger.error("Error when listing the companies on a page",e);
         }
-		System.out.println(companies);
 		return companies;
 	}
 }

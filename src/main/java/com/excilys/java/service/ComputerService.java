@@ -74,14 +74,14 @@ public class ComputerService {
 	public boolean allowCreation (Computer computer) {
 		boolean creationAuthorized = true; 
 		if (computer.getName().length()==0) {
-			System.out.println("The name is mandatory");
+			System.err.println("The name is mandatory");
 			creationAuthorized = false; 
 		}else if (computer.getIntroduced()!=null && computer.getDiscontinued()!=null && computer.getDiscontinued().isBefore(computer.getIntroduced())) {
-				System.out.println("The date of introduction should be before the date of discontinuation");
+				System.err.println("The date of introduction should be before the date of discontinuation");
 				creationAuthorized = false; 
-			} if (computer.getManufacturer()!=null) {
+			} if (computer.getManufacturer().getIdCompany()!=null) {
 				if (!companyService.existCompany(computer.getManufacturer().getIdCompany())) {
-					System.out.println("The company should exist");
+					System.err.println("The company should exist");
 					creationAuthorized = false; 
 				}
 			} 

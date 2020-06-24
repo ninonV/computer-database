@@ -9,12 +9,6 @@ import org.mockito.MockitoAnnotations;
 
 public class PageTest {
 	
-	Page pageMock = Mockito.mock(Page.class);
-	
-	private int firstLine = 1;
-	private int currentPage = 5; 
-	private int linesPage = 20;
-	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -22,12 +16,26 @@ public class PageTest {
 
 	@Test
 	public void testNextPage() {
-		pageMock.nextPage();
-		//assertEquals(pageMock.get);
+		Page page = Mockito.spy(new Page());
+		page.nextPage();
+		assertEquals(2,page.getCurrentPage());
+		assertEquals(21,page.getFirstLine());
 	}
 
 	@Test
 	public void testPreviousPage() {
-		fail("Not yet implemented");
+		Page page = Mockito.spy(new Page());
+		page.setCurrentPage(3);
+		page.setFirstLine(41);
+		page.previousPage();
+		assertEquals(2,page.getCurrentPage());
+		assertEquals(21,page.getFirstLine());
+	}
+	
+	@Test
+	public void testTotaLPages() {
+		Page page = Mockito.spy(new Page());
+		int totalPage = page.getTotalPages(45);
+		assertEquals(3, totalPage);
 	}
 }

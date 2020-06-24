@@ -2,6 +2,7 @@ package com.excilys.java.ui;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 import com.excilys.java.model.Company;
@@ -55,6 +56,7 @@ public class UserInterface {
 					case 3: 
 						Long idC = getID();
 						Computer computerID = computerService.findbyID(idC);
+						System.out.println(computerID);
 						break; 
 						
 					case 4:
@@ -68,6 +70,8 @@ public class UserInterface {
 						System.out.println("Which computer do you want to update: ");
 						Long idComputer = getID();
 						if (computerService.existComputer(idComputer)) {
+							Computer computerIdUpdate = computerService.findbyID(idComputer);
+							System.out.println(computerIdUpdate);
 							System.out.println("Complete the new informations : ");
 							Computer computerUpdate = infoComputer();
 							computerUpdate.setIdComputer(idComputer);
@@ -82,7 +86,10 @@ public class UserInterface {
 						System.out.println("Which computer do you want to delete: ");
 						Long idComputerDelete = getID();
 						if (computerService.existComputer(idComputerDelete)) {
-								computerService.deleteComputer(idComputerDelete);
+							Computer computerIdDelete = computerService.findbyID(idComputerDelete);
+							System.out.println(computerIdDelete);
+							computerService.deleteComputer(idComputerDelete);
+							System.out.println("Computer deleted with success");
 						}else {
 							System.out.println("This computer does not exist");
 						}
@@ -174,6 +181,7 @@ public class UserInterface {
 			}
 			
 			computer = new Computer(name,introduced,discontinued, company);
+			System.out.println(computer.getManufacturer());
 			conditionsOK=computerService.allowCreation(computer);
 		}	
 		return computer;
@@ -190,7 +198,8 @@ public class UserInterface {
 		boolean quitPage = false; 
 		
 		while (!quitPage) {
-			computerService.getListPage(page);
+			List<Computer> computers = computerService.getListPage(page);
+			System.out.println(computers);
 			quitPage = menuPage(page, nbPages);
 		}
 	}
@@ -208,7 +217,8 @@ public class UserInterface {
 		boolean quitPage = false; 
 		
 		while (!quitPage) {
-			companyService.getListPage(page);
+			List<Company> companies = companyService.getListPage(page);
+			System.out.println(companies);
 			quitPage = menuPage(page, nbPages);
 		}
 	}
