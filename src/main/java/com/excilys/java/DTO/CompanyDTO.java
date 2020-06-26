@@ -1,34 +1,28 @@
-package com.excilys.java.model;
+package com.excilys.java.DTO;
 
-/**
- * Class representing a company 
- * @author ninonV
- *
- */
-
-public class Company {
-
-	private Long idCompany; 
+public class CompanyDTO {
+	
+	private String idCompany; 
 	private String name;
-
-	public Company() {
+		
+	public CompanyDTO() {
 		super();
 	}
 
-	public Company(Long idCompany, String name) {
+	public CompanyDTO(String idCompany, String name) {
 		super();
 		this.idCompany = idCompany;
 		this.name = name;
 	}
 
-	public Long getIdCompany() {
+	public String getIdCompany() {
 		return idCompany;
 	}
 
-	public void setIdCompany(Long idCompany) {
+	public void setIdCompany(String idCompany) {
 		this.idCompany = idCompany;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -44,7 +38,6 @@ public class Company {
 		sb.append(", name :").append(this.name).append("\n");
 		return sb.toString();
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -63,7 +56,7 @@ public class Company {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Company other = (Company) obj;
+		CompanyDTO other = (CompanyDTO) obj;
 		if (idCompany == null) {
 			if (other.idCompany != null)
 				return false;
@@ -77,4 +70,5 @@ public class Company {
 		return true;
 	}
 	
+
 }

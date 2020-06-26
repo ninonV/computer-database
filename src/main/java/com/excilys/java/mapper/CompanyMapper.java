@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.java.DTO.CompanyDTO;
 import com.excilys.java.model.Company;
 
 /**
@@ -15,6 +16,12 @@ import com.excilys.java.model.Company;
 public class CompanyMapper {
 	
 	private static Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
+	
+	/**
+	 * Convert a ResultSet to a Company
+	 * @param result
+	 * @return company
+	 */
 	
 	public static Company map(ResultSet result){
 		Company company = new Company(); 
@@ -29,4 +36,18 @@ public class CompanyMapper {
 		}
 		return company;
 	}
+	
+	/**
+	 * Convert a CompanyDTO to a Company
+	 * @param companyDTO
+	 * @return company
+	 */
+	public static Company mapDTO(CompanyDTO companyDTO){
+		Company company = new Company(); 
+		Long id = Long.parseLong(companyDTO.getIdCompany());
+		company.setIdCompany(id);
+		company.setName(companyDTO.getName());
+		return company;
+	}
+	
 }

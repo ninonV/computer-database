@@ -37,7 +37,7 @@ public class Page {
 	}
 	
 	public int getTotalPages(int total) {
-	    return (int) Math.ceil((double) total/ MAX_LINES);
+	    return (int) Math.ceil((double) total/ linesPage);
 	}
 	
 	public int getFirstLine() {

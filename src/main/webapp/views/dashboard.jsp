@@ -34,7 +34,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="AddComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -106,25 +106,25 @@
                <li><c:if test="${currentPage != 1}">
                 	<a href="ListComputer?pageNb=${currentPage - 1}" aria-label="Previous">
                 	<span aria-hidden="true">&laquo;</span></a>
-				</c:if></li>
+				</c:if>
  
-            	<li><c:forEach begin="0" end="10" var="i">
+            	<c:forEach begin="0" end="10" var="i">
             		<c:if test="${currentPage+i<=totalPages}">
 						<a href="ListComputer?pageNb=${currentPage+i}"><c:out value="${currentPage+i}"></c:out></a>
 					</c:if>  
-				</c:forEach></li>
+				</c:forEach>
               
              <%--For displaying Next link except for the last page --%>
-              <li><c:if test="${currentPage != totalPages}">
+              <c:if test="${currentPage != totalPages}">
                 	<a href="ListComputer?pageNb=${currentPage + 1}" aria-label="Next">
                 	<span aria-hidden="true">&raquo;</span></a>
 				</c:if></li>		
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=10'">10</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=50'">50</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=100'">100</button>
         </div>
 
     </footer>
