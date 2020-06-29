@@ -2,6 +2,8 @@ package com.excilys.java.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +21,7 @@ import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
 import com.excilys.java.service.CompanyService;
 import com.excilys.java.service.ComputerService;
+import com.excilys.java.validator.ValidatorComputer;
 
 
 @WebServlet("/AddComputer")
@@ -39,40 +42,49 @@ public class AddComputerServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String resultCreation;
+        Map<String, String> errors = new HashMap<String, String>();
+		
 		ComputerDTO computerDTO = new ComputerDTO(); 
 		CompanyDTO companyDTO = new CompanyDTO(); 
 		Computer computer = new Computer();
-		boolean conditionsOK = false;
-		
-		//while(!conditionsOK) {
-		computerDTO.setName(request.getParameter("computerName"));
-		computerDTO.setIntroduced(request.getParameter("introduced"));
-		computerDTO.setDiscontinued(request.getParameter("discontinued"));
-		
-		
-		System.out.println(computerDTO);
-		System.out.println(request.getParameter("companyId"));
-		
-		String idCompany = request.getParameter("companyId");
-/*		if (idCompany!=0) {
-			companyDTO.setIdCompany(request.getParameter("companyId"));
-			company = companyService.findbyID(idCompany);
-		}
-		*/
-		
-		//companyDTO.setName(request.getParameter("nameCompany"));
-		
-		//computerDTO.setManufacturer(companyDTO);
 	
-		//computer = ComputerMapper.mapDTO(computerDTO);
-		//conditionsOK = computerService.allowCreation(computer);
-		//}
+		String name = request.getParameter("computerName");
+		String introduced = request.getParameter("introduced");
+		String discontinued = request.getParameter("discontinued");
+		String idCompany = request.getParameter("companyId");
+	
+		try {
+			ValidatorComputer.validatorName(name);
+			computerDTO.setName(name);
+		}catch ( Exception e ) {
+            errors.put( "computerName", e.getMessage() );
+        }
 		
-		//computerService.createComputer(computer);
-		//logger.info("Computer created with success !");
+		try {
+			ValidatorComputer.validatorDate(introduced, discontinued);
+			computerDTO.setIntroduced(introduced);
+			computerDTO.setDiscontinued(discontinued);
+		}catch ( Exception e ) {
+            errors.put( "discontinued", e.getMessage());
+        }
 		
+		if (errors.isEmpty()) {
+			companyDTO.setIdCompany(idCompany);
+			computerDTO.setManufacturer(companyDTO);
+			computer = ComputerMapper.mapDtoToComputer(computerDTO);
+			computerService.createComputer(computer);
+			resultCreation = "Computer added with success.";
+			logger.info("Computer added with success.");
+		}else {
+			resultCreation = "Impossible to add this computer.";
+			logger.info("Impossible to add this computer.");
+		}
+		
+		request.setAttribute( "errors", errors );
+        request.setAttribute( "resultCreation", resultCreation );
+
 		doGet(request, response);
 	}
-	
 
 }

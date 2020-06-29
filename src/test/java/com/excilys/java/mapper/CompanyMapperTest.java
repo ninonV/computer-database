@@ -37,7 +37,7 @@ public class CompanyMapperTest {
 			fail("Fail to construct ResultSet");
 		}
 		Company company = new Company(id,name);
-		Company companyMapper = CompanyMapper.map(resultSet);
+		Company companyMapper = CompanyMapper.mapResultSet(resultSet);
 		assertEquals(company, companyMapper);
 	}
 

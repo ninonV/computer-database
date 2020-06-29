@@ -77,9 +77,9 @@ public class ComputerService {
 			System.err.println("The name is mandatory");
 			creationAuthorized = false; 
 		}else if (computer.getIntroduced()!=null && computer.getDiscontinued()!=null && computer.getDiscontinued().isBefore(computer.getIntroduced())) {
-				System.err.println("The date of introduction should be before the date of discontinuation");
+				System.err.println("Introduced date must be before discontinued date");
 				creationAuthorized = false; 
-			} if (computer.getManufacturer().getIdCompany()!=null) {
+			} if (computer.getManufacturer().getIdCompany()!=0) {
 				if (!companyService.existCompany(computer.getManufacturer().getIdCompany())) {
 					System.err.println("The company should exist");
 					creationAuthorized = false; 

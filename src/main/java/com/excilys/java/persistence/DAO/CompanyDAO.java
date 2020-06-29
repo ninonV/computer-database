@@ -52,7 +52,7 @@ public class CompanyDAO extends DAO<Company>{
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
-            	Company company = CompanyMapper.map(result);
+            	Company company = CompanyMapper.mapResultSet(result);
             	companies.add(company);
             }
             result.next();
@@ -74,7 +74,7 @@ public class CompanyDAO extends DAO<Company>{
 	            preparedStatement.setLong(1, id);
 	            ResultSet result = preparedStatement.executeQuery();
 	            while (result.next()){
-	            	company = CompanyMapper.map(result);
+	            	company = CompanyMapper.mapResultSet(result);
 	            }
 	            result.close();
 	        } catch (SQLException e) {
@@ -118,7 +118,7 @@ public class CompanyDAO extends DAO<Company>{
             preparedStatement.setInt(2, page.getFirstLine()-1);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
-            	Company company = CompanyMapper.map(result);
+            	Company company = CompanyMapper.mapResultSet(result);
             	companies.add(company);
             }
             result.close();

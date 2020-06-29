@@ -58,7 +58,7 @@ public class ComputerDAO extends DAO<Computer>{
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
-            	Computer computer = ComputerMapper.map(result);
+            	Computer computer = ComputerMapper.mapResultSet(result);
             	computers.add(computer);
             }
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class ComputerDAO extends DAO<Computer>{
 	            preparedStatement.setLong(1, id);
 	            result = preparedStatement.executeQuery();
 	            while (result.next()){
-	            	computer = ComputerMapper.map(result);
+	            	computer = ComputerMapper.mapResultSet(result);
 	            }
 	            result.close();
 	        } catch (SQLException e) {
@@ -108,7 +108,7 @@ public class ComputerDAO extends DAO<Computer>{
             }
             preparedStatement.setDate(2, dateSQLIntroduced);
             preparedStatement.setDate(3, dateSQLDiscontinued);
-            if (computer.getManufacturer().getIdCompany()==null) {
+            if (computer.getManufacturer().getIdCompany()==0) {
             	preparedStatement.setNull(4, Types.BIGINT);
             }else {
             	 preparedStatement.setLong(4, computer.getManufacturer().getIdCompany());
@@ -201,7 +201,7 @@ public class ComputerDAO extends DAO<Computer>{
             preparedStatement.setInt(2, page.getFirstLine()-1);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
-            	Computer computer = ComputerMapper.map(result);
+            	Computer computer = ComputerMapper.mapResultSet(result);
             	computers.add(computer);
             }
             result.close();

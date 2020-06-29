@@ -1670,3 +1670,12 @@
 .fa-meanpath:before {
   content: "\f20c";
 }
+
+.error {
+  color: #900;
+}
+
+.success {
+  color: #090;
+}
+

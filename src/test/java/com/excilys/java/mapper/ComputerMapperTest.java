@@ -53,7 +53,7 @@ public class ComputerMapperTest {
 		
 		Computer computer = new Computer(name,introduced.toLocalDate(),discontinued.toLocalDate(), new Company(idCompany,nameCompany));
 		computer.setIdComputer(id);
-		Computer computerMapper = ComputerMapper.map(resultSet);
+		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}
 	
@@ -71,7 +71,7 @@ public class ComputerMapperTest {
 		
 		Computer computer = new Computer(name,null,discontinued.toLocalDate(), new Company(idCompany,nameCompany));
 		computer.setIdComputer(id);
-		Computer computerMapper = ComputerMapper.map(resultSet);
+		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}
 	
@@ -89,7 +89,7 @@ public class ComputerMapperTest {
 		
 		Computer computer = new Computer(name,introduced.toLocalDate(),null, new Company(idCompany,nameCompany));
 		computer.setIdComputer(id);
-		Computer computerMapper = ComputerMapper.map(resultSet);
+		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}
 	
@@ -108,7 +108,7 @@ public class ComputerMapperTest {
 		Computer computer = new Computer(name,introduced.toLocalDate(),discontinued.toLocalDate(), new Company());
 		System.out.println(computer.getManufacturer());
 		computer.setIdComputer(id);
-		Computer computerMapper = ComputerMapper.map(resultSet);
+		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}
 }

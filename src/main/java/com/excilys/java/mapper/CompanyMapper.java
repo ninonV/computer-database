@@ -23,7 +23,7 @@ public class CompanyMapper {
 	 * @return company
 	 */
 	
-	public static Company map(ResultSet result){
+	public static Company mapResultSet(ResultSet result){
 		Company company = new Company(); 
 		try {
 			Long id = result.getLong("id");
@@ -42,12 +42,24 @@ public class CompanyMapper {
 	 * @param companyDTO
 	 * @return company
 	 */
-	public static Company mapDTO(CompanyDTO companyDTO){
+	public static Company mapDtoToCompany(CompanyDTO companyDTO){
 		Company company = new Company(); 
 		Long id = Long.parseLong(companyDTO.getIdCompany());
 		company.setIdCompany(id);
 		company.setName(companyDTO.getName());
 		return company;
+	}
+	
+	/**
+	 * Convert a Company to a CompanyDTO
+	 * @param company
+	 * @return companyDTO
+	 */
+	public static CompanyDTO mapCompanyToDTO(Company company){
+		CompanyDTO companyDTO = new CompanyDTO(); 
+		companyDTO.setIdCompany(company.getIdCompany().toString());
+		companyDTO.setName(company.getName());
+		return companyDTO;
 	}
 	
 }

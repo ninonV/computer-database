@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.java.DTO.CompanyDTO;
 import com.excilys.java.DTO.ComputerDTO;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
@@ -28,7 +29,7 @@ public class ComputerMapper {
 	 * @return computer
 	 */
 	
-	public static Computer map(ResultSet result){
+	public static Computer mapResultSet(ResultSet result){
 		Computer computer = new Computer();
 		try {
 			Long id = result.getLong("id");
@@ -63,25 +64,23 @@ public class ComputerMapper {
 	 * @param computerDTO
 	 * @return computer
 	 */
-	public static Computer mapDTO(ComputerDTO computerDTO){
+	public static Computer mapDtoToComputer(ComputerDTO computerDTO){
 		Computer computer = new Computer();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		try {
-			Long id = Long.parseLong(computerDTO.getIdComputer());
 			String name = computerDTO.getName();
 	    	LocalDate introduced = null;
-	    	if (computerDTO.getIntroduced()!=null || !computerDTO.getIntroduced().isEmpty()) {
+	    	if (!computerDTO.getIntroduced().equals(null) && !computerDTO.getIntroduced().isEmpty()) {
 	    		introduced = LocalDate.parse(computerDTO.getIntroduced(), formatter);
 	    	}
 	    	LocalDate discontinued = null; 
-	    	if (computerDTO.getDiscontinued()!=null || !computerDTO.getDiscontinued().isEmpty()) {
+	    	if (!computerDTO.getDiscontinued().equals(null) && !computerDTO.getDiscontinued().isEmpty()) {
 	    		discontinued = LocalDate.parse(computerDTO.getDiscontinued(), formatter);
 	    	}
 	    	
 	    	Long company_id = Long.parseLong(computerDTO.getManufacturer().getIdCompany());
 	    	String company_name = computerDTO.getManufacturer().getName();
 	    	
-	    	computer.setIdComputer(id);
 	    	computer.setName(name);
 			computer.setIntroduced(introduced);
 			computer.setDiscontinued(discontinued);
@@ -92,6 +91,25 @@ public class ComputerMapper {
 			logger.error("Error when mapping a ComputerDTO to a Computer",e);
 		}
 		return computer;
+	}
+	
+
+	/**
+	 * Convert a Computer to a ComputerDTO
+	 * @param computer
+	 * @return computerDTO
+	 */
+	public static ComputerDTO mapComputertoDTO(Computer computer){
+		ComputerDTO computerDTO = new ComputerDTO();
+		CompanyDTO companyDTO = new CompanyDTO();
+		computerDTO.setIdComputer(computer.getIdComputer().toString());
+		computerDTO.setName(computer.getName());
+		computerDTO.setIntroduced(computer.getIntroduced().toString());
+		computerDTO.setDiscontinued(computer.getDiscontinued().toString());
+		companyDTO.setIdCompany(computer.getManufacturer().getIdCompany().toString());
+		companyDTO.setName(computer.getManufacturer().getName());
+		computerDTO.setManufacturer(companyDTO);
+		return computerDTO;
 	}
 
 }
