@@ -74,7 +74,7 @@ public class UserInterface {
 							System.out.println(computerIdUpdate);
 							System.out.println("Complete the new informations : ");
 							Computer computerUpdate = infoComputer();
-							computerUpdate.setIdComputer(idComputer);
+							computerUpdate.setId(idComputer);
 							computerService.updateComputer(computerUpdate);
 							System.out.println("Computer updated with success");
 						}else {
@@ -180,8 +180,13 @@ public class UserInterface {
 				company= null;
 			}
 			
-			computer = new Computer(name,introduced,discontinued, company);
-			System.out.println(computer.getManufacturer());
+			computer = new Computer.Builder()
+									.setName(name)
+									.setIntroduced(introduced)
+									.setDiscontinued(discontinued)
+									.setCompany(company)
+									.build();
+			System.out.println(computer.getCompany());
 			conditionsOK=computerService.allowCreation(computer);
 		}	
 		return computer;

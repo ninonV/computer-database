@@ -54,7 +54,7 @@ public class CompanyDAOTest extends DBTestCase {
 		Long id = 1L;
 		Company company = companyDAO.findById(id);
 		assertTrue(companyDAO.exist(id));
-		assertEquals(id,company.getIdCompany());
+		assertEquals(id,company.getId());
 		assertEquals("Apple Inc.",company.getName());
 	}
 	

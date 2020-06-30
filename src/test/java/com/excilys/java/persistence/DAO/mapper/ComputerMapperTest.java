@@ -1,4 +1,4 @@
-package com.excilys.java.mapper;
+package com.excilys.java.persistence.DAO.mapper;
 
 import static org.junit.Assert.*;
 
@@ -50,9 +50,15 @@ public class ComputerMapperTest {
 		} catch (SQLException e) {
 			fail("Fail to construct ResultSet");
 		}
+
+		Computer computer = new Computer.Builder()
+										.setId(id)
+										.setName(name)
+										.setIntroduced(introduced.toLocalDate())
+										.setDiscontinued(discontinued.toLocalDate())
+										.setCompany(new Company.Builder().setId(idCompany).setName(nameCompany).build())
+										.build();
 		
-		Computer computer = new Computer(name,introduced.toLocalDate(),discontinued.toLocalDate(), new Company(idCompany,nameCompany));
-		computer.setIdComputer(id);
 		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}
@@ -69,8 +75,13 @@ public class ComputerMapperTest {
 			fail("Fail to construct ResultSet");
 		}
 		
-		Computer computer = new Computer(name,null,discontinued.toLocalDate(), new Company(idCompany,nameCompany));
-		computer.setIdComputer(id);
+		Computer computer = new Computer.Builder()
+				.setId(id)
+				.setName(name)
+				.setDiscontinued(discontinued.toLocalDate())
+				.setCompany(new Company.Builder().setId(idCompany).setName(nameCompany).build())
+				.build();
+
 		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}
@@ -87,8 +98,13 @@ public class ComputerMapperTest {
 			fail("Fail to construct ResultSet");
 		}
 		
-		Computer computer = new Computer(name,introduced.toLocalDate(),null, new Company(idCompany,nameCompany));
-		computer.setIdComputer(id);
+		Computer computer = new Computer.Builder()
+				.setId(id)
+				.setName(name)
+				.setIntroduced(introduced.toLocalDate())
+				.setCompany(new Company.Builder().setId(idCompany).setName(nameCompany).build())
+				.build();
+
 		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}
@@ -105,9 +121,14 @@ public class ComputerMapperTest {
 			fail("Fail to construct ResultSet");
 		}
 		
-		Computer computer = new Computer(name,introduced.toLocalDate(),discontinued.toLocalDate(), new Company());
-		System.out.println(computer.getManufacturer());
-		computer.setIdComputer(id);
+		Computer computer = new Computer.Builder()
+				.setId(id)
+				.setName(name)
+				.setIntroduced(introduced.toLocalDate())
+				.setDiscontinued(discontinued.toLocalDate())
+				.setCompany(new Company.Builder().setId(0L).build())
+				.build();
+
 		Computer computerMapper = ComputerMapper.mapResultSet(resultSet);
 		assertEquals(computer,computerMapper);
 	}

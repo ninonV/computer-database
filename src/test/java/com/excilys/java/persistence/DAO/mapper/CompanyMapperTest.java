@@ -1,4 +1,4 @@
-package com.excilys.java.mapper;
+package com.excilys.java.persistence.DAO.mapper;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 
 import com.excilys.java.model.Company;
 
@@ -36,7 +35,7 @@ public class CompanyMapperTest {
 		} catch (SQLException e) {
 			fail("Fail to construct ResultSet");
 		}
-		Company company = new Company(id,name);
+		Company company = new Company.Builder().setId(id).setName(name).build();
 		Company companyMapper = CompanyMapper.mapResultSet(resultSet);
 		assertEquals(company, companyMapper);
 	}

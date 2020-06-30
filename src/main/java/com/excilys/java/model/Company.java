@@ -8,25 +8,15 @@ package com.excilys.java.model;
 
 public class Company {
 
-	private Long idCompany; 
+	private Long id; 
 	private String name;
 
-	public Company() {
-		super();
+	public Long getId() {
+		return id;
 	}
 
-	public Company(Long idCompany, String name) {
-		super();
-		this.idCompany = idCompany;
-		this.name = name;
-	}
-
-	public Long getIdCompany() {
-		return idCompany;
-	}
-
-	public void setIdCompany(Long idCompany) {
-		this.idCompany = idCompany;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public String getName() {
@@ -40,7 +30,7 @@ public class Company {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
-		sb.append(" id :").append(this.idCompany);
+		sb.append(" id :").append(this.id);
 		sb.append(", name :").append(this.name).append("\n");
 		return sb.toString();
 	}
@@ -50,7 +40,7 @@ public class Company {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idCompany == null) ? 0 : idCompany.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -64,10 +54,10 @@ public class Company {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
-		if (idCompany == null) {
-			if (other.idCompany != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idCompany.equals(other.idCompany))
+		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -76,5 +66,27 @@ public class Company {
 			return false;
 		return true;
 	}
+	
+    public static class Builder {
+        private Long id;
+        private String name;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Company build() {
+            Company company = new Company();
+            company.id = this.id;
+            company.name = this.name;
+            return company;
+        }
+    }
 	
 }

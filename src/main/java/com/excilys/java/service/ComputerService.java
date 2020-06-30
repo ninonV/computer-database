@@ -79,8 +79,8 @@ public class ComputerService {
 		}else if (computer.getIntroduced()!=null && computer.getDiscontinued()!=null && computer.getDiscontinued().isBefore(computer.getIntroduced())) {
 				System.err.println("Introduced date must be before discontinued date");
 				creationAuthorized = false; 
-			} if (computer.getManufacturer().getIdCompany()!=0) {
-				if (!companyService.existCompany(computer.getManufacturer().getIdCompany())) {
+			} if (computer.getCompany().getId()!=0) {
+				if (!companyService.existCompany(computer.getCompany().getId())) {
 					System.err.println("The company should exist");
 					creationAuthorized = false; 
 				}

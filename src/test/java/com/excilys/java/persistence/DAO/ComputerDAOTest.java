@@ -57,17 +57,19 @@ public class ComputerDAOTest extends DBTestCase {
 		Long id = 8L;
 		Computer computer = computerDAO.findById(id);
 		assertTrue(computerDAO.exist(id));
-		assertEquals(id,computer.getIdComputer());
+		assertEquals(id,computer.getId());
 		assertEquals("Apple IIc",computer.getName());
 	}
 
  	@Test
 	public void testCreate() {
-		String name = "Computer test created";
-		LocalDate introduced = LocalDate.parse("2019-08-24");
-		Company company = new Company();
-		company.setIdCompany(1L);
-		Computer computer = new Computer(name,introduced,null, company);
+		Computer computer = new Computer.Builder()
+				.setId(1L)
+				.setName("Computer test created")
+				.setIntroduced(LocalDate.parse("2019-08-24"))
+				.setCompany(new Company.Builder().setId(1L).build())
+				.build();
+
 		computerDAO.create(computer);
 		assertEquals(4, computerDAO.getAll().size());
 	}

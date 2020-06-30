@@ -2,32 +2,18 @@ package com.excilys.java.DTO;
 
 public class ComputerDTO {
 	
-	private String idComputer;
+	private String id;
 	private String name;
 	private String introduced; 
 	private String discontinued;
-	private CompanyDTO manufacturer;
-	
-	public ComputerDTO() {
-		super();
+	private CompanyDTO company;
+
+	public String getId() {
+		return id;
 	}
 
-	public ComputerDTO(String idComputer, String name, String introduced, String discontinued,
-			CompanyDTO manufacturer) {
-		super();
-		this.idComputer = idComputer;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.manufacturer = manufacturer;
-	}
-
-	public String getIdComputer() {
-		return idComputer;
-	}
-
-	public void setIdComputer(String idComputer) {
-		this.idComputer = idComputer;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -54,22 +40,22 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 	}
 
-	public CompanyDTO getManufacturer() {
-		return manufacturer;
+	public CompanyDTO getCompany() {
+		return company;
 	}
 
-	public void setManufacturer(CompanyDTO manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setCompany(CompanyDTO company) {
+		this.company = company;
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
-		sb.append(" id :").append(this.idComputer);
+		sb.append(" id :").append(this.id);
 		sb.append(", name :").append(this.name);
 		sb.append(", introduced :").append(this.introduced);
 		sb.append(", discontinued :").append(this.discontinued).append(" ");
-		sb.append(this.manufacturer);
+		sb.append(this.company);
 		return sb.toString();
 	}
 
@@ -78,9 +64,9 @@ public class ComputerDTO {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
-		result = prime * result + ((idComputer == null) ? 0 : idComputer.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
-		result = prime * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -99,20 +85,20 @@ public class ComputerDTO {
 				return false;
 		} else if (!discontinued.equals(other.discontinued))
 			return false;
-		if (idComputer == null) {
-			if (other.idComputer != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idComputer.equals(other.idComputer))
+		} else if (!id.equals(other.id))
 			return false;
 		if (introduced == null) {
 			if (other.introduced != null)
 				return false;
 		} else if (!introduced.equals(other.introduced))
 			return false;
-		if (manufacturer == null) {
-			if (other.manufacturer != null)
+		if (company == null) {
+			if (other.company != null)
 				return false;
-		} else if (!manufacturer.equals(other.manufacturer))
+		} else if (!company.equals(other.company))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -122,6 +108,47 @@ public class ComputerDTO {
 		return true;
 	}
 	
-	
+	public static class Builder {
+		private String id;
+		private String name;
+		private String introduced; 
+		private String discontinued;
+		private CompanyDTO company;
+
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+        
+        public Builder setIntroduced(String introduced) {
+            this.introduced = introduced;
+            return this;
+        }
+        
+        public Builder setDiscontinued(String discontinued) {
+            this.discontinued = discontinued;
+            return this;
+        }
+        
+        public Builder setCompany(CompanyDTO company) {
+            this.company = company;
+            return this;
+        }
+
+        public ComputerDTO build() {
+            ComputerDTO computerDTO = new ComputerDTO();
+            computerDTO.id = this.id;
+            computerDTO.name = this.name;
+            computerDTO.introduced = this.introduced;
+            computerDTO.discontinued = this.discontinued;
+            computerDTO.company = this.company;
+            return computerDTO;
+        }
+    }
 	
 }

@@ -2,25 +2,15 @@ package com.excilys.java.DTO;
 
 public class CompanyDTO {
 	
-	private String idCompany; 
+	private String id; 
 	private String name;
-		
-	public CompanyDTO() {
-		super();
+
+	public String getId() {
+		return id;
 	}
 
-	public CompanyDTO(String idCompany, String name) {
-		super();
-		this.idCompany = idCompany;
-		this.name = name;
-	}
-
-	public String getIdCompany() {
-		return idCompany;
-	}
-
-	public void setIdCompany(String idCompany) {
-		this.idCompany = idCompany;
+	public void setId(String idCompany) {
+		this.id = idCompany;
 	}
 
 	public String getName() {
@@ -34,7 +24,7 @@ public class CompanyDTO {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
-		sb.append(" id :").append(this.idCompany);
+		sb.append(" id :").append(this.id);
 		sb.append(", name :").append(this.name).append("\n");
 		return sb.toString();
 	}
@@ -43,7 +33,7 @@ public class CompanyDTO {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idCompany == null) ? 0 : idCompany.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -57,10 +47,10 @@ public class CompanyDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		CompanyDTO other = (CompanyDTO) obj;
-		if (idCompany == null) {
-			if (other.idCompany != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idCompany.equals(other.idCompany))
+		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -70,5 +60,26 @@ public class CompanyDTO {
 		return true;
 	}
 	
+    public static class Builder {
+        private String id;
+        private String name;
+
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CompanyDTO build() {
+            CompanyDTO companyDTO = new CompanyDTO();
+            companyDTO.id = this.id;
+            companyDTO.name = this.name;
+            return companyDTO;
+        }
+    }
 
 }

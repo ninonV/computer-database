@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.java.mapper.CompanyMapper;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
 import com.excilys.java.persistence.MysqlConnect;
+import com.excilys.java.persistence.DAO.mapper.CompanyMapper;
 
 /**
  *  Class doing the relation with the table company  
@@ -46,7 +46,7 @@ public class CompanyDAO extends DAO<Company>{
 
 	@Override
 	public List<Company> getAll() {
-		List<Company> companies= new ArrayList();
+		List<Company> companies= new ArrayList<Company>();
 		
 		try (Connection connect = MysqlConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
@@ -88,7 +88,7 @@ public class CompanyDAO extends DAO<Company>{
 	@Override
 	public boolean exist(Long id){
 		boolean isInBDD = false; 
-		if ((this.findById(id)).getIdCompany()!=null) {
+		if ((this.findById(id)).getId()!=null) {
 			isInBDD=true; 
 		}
 		return isInBDD; 
@@ -111,7 +111,7 @@ public class CompanyDAO extends DAO<Company>{
 
 	@Override
 	public List<Company> getPage(Page page) {
-		List<Company> companies= new ArrayList();
+		List<Company> companies= new ArrayList<Company>();
 		try (Connection connect = MysqlConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
             preparedStatement.setInt(1, page.getLinesPage());

@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.java.mapper.ComputerMapper;
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
 import com.excilys.java.persistence.MysqlConnect;
+import com.excilys.java.persistence.DAO.mapper.ComputerMapper;
 
 /**
  *  Class doing the relation with the table computer  
@@ -53,7 +53,7 @@ public class ComputerDAO extends DAO<Computer>{
 	
 	@Override
 	public List<Computer> getAll() {
-		List<Computer> computers = new ArrayList();
+		List<Computer> computers = new ArrayList<Computer>();
 		try ( Connection connect = MysqlConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
@@ -108,10 +108,10 @@ public class ComputerDAO extends DAO<Computer>{
             }
             preparedStatement.setDate(2, dateSQLIntroduced);
             preparedStatement.setDate(3, dateSQLDiscontinued);
-            if (computer.getManufacturer().getIdCompany()==0) {
+            if (computer.getCompany().getId()==0) {
             	preparedStatement.setNull(4, Types.BIGINT);
             }else {
-            	 preparedStatement.setLong(4, computer.getManufacturer().getIdCompany());
+            	 preparedStatement.setLong(4, computer.getCompany().getId());
             }
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -139,12 +139,12 @@ public class ComputerDAO extends DAO<Computer>{
             }
             preparedStatement.setDate(2, dateSQLIntroduced);
             preparedStatement.setDate(3, dateSQLDiscontinued);
-            if (computer.getManufacturer().getIdCompany()==null) {
+            if (computer.getCompany().getId()==null) {
             	preparedStatement.setNull(4, Types.BIGINT);
             }else {
-            	 preparedStatement.setLong(4, computer.getManufacturer().getIdCompany());
+            	 preparedStatement.setLong(4, computer.getCompany().getId());
             }
-            preparedStatement.setLong(5, computer.getIdComputer());
+            preparedStatement.setLong(5, computer.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,7 +171,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public boolean exist(Long id){
 		boolean isInBDD = false; 
-		if ((this.findById(id)).getIdComputer()!=null) {
+		if ((this.findById(id)).getId()!=null) {
 			isInBDD=true; 
 		}
 		return isInBDD; 
@@ -194,7 +194,7 @@ public class ComputerDAO extends DAO<Computer>{
 
 	@Override
 	public List<Computer> getPage(Page page) {
-		List<Computer> computers= new ArrayList();
+		List<Computer> computers= new ArrayList<Computer>();
 		try (Connection connect = MysqlConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
             preparedStatement.setInt(1, page.getLinesPage());

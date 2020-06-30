@@ -82,14 +82,14 @@
                 <c:forEach items="${listComputers}" var="computer" varStatus="status">
                     <tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="${computer.idComputer}">
+                            <input type="checkbox" name="cb" class="cb" value="${ computer.id }">
                         </td>
                         <td>
                             <a href="editComputer.html" onclick=""><c:out value="${ computer.name }" /></a>
                         </td>
                         <td><c:out value="${ computer.introduced }" /></td>
                         <td><c:out value="${ computer.discontinued }" /></td>
-                        <td><c:out value="${ computer.manufacturer.name }" /></td>
+                        <td><c:out value="${ computer.company.name }" /></td>
 					</tr>
 				</c:forEach>	
                     

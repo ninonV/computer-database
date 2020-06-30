@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.java.DTO.ComputerDTO;
-import com.excilys.java.mapper.ComputerMapper;
+import com.excilys.java.DTO.mapper.ComputerMapper;
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
 import com.excilys.java.service.ComputerService;
@@ -55,11 +55,10 @@ public class ListComputerServlet extends HttpServlet {
 			}
 		
 			List<Computer> computers = computerService.getListPage(page);
-			List<ComputerDTO> computersDTO =new ArrayList();
-			for (Computer computer:computers) {
-				computersDTO.add(ComputerMapper.mapComputertoDTO(computer));
-			}
+			List<ComputerDTO> computersDTO =new ArrayList<ComputerDTO>();
 			
+			computers.stream().forEach(computer->computersDTO.add(ComputerMapper.mapComputertoDTO(computer)));
+		
 			request.setAttribute("totalComputers", total);
 			request.setAttribute("currentPage", page.getCurrentPage());
 			request.setAttribute("totalPages", nbPages);
