@@ -104,11 +104,17 @@ public class ComputerMapper {
 		CompanyDTO companyDTO = new CompanyDTO();
 		computerDTO.setIdComputer(computer.getIdComputer().toString());
 		computerDTO.setName(computer.getName());
-		computerDTO.setIntroduced(computer.getIntroduced().toString());
-		computerDTO.setDiscontinued(computer.getDiscontinued().toString());
-		companyDTO.setIdCompany(computer.getManufacturer().getIdCompany().toString());
-		companyDTO.setName(computer.getManufacturer().getName());
-		computerDTO.setManufacturer(companyDTO);
+		if(computer.getIntroduced()!=null) {
+			computerDTO.setIntroduced(computer.getIntroduced().toString());
+		}
+		if(computer.getDiscontinued()!=null) {
+			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
+		}
+		if(computer.getManufacturer().getIdCompany()!=null && computer.getManufacturer().getIdCompany()!=0){ 
+			companyDTO.setIdCompany(computer.getManufacturer().getIdCompany().toString());
+			companyDTO.setName(computer.getManufacturer().getName());
+			computerDTO.setManufacturer(companyDTO);
+		}
 		return computerDTO;
 	}
 

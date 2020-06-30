@@ -13,7 +13,7 @@ function validateForm() {
 	 discontinuedDate= new Date(discontinued);
 	  if(discontinuedDate<introducedDate){
 		  alert("Introduced date must be before discontinued date");
-		    return false;
+		  return false;
 	  }
   }
   

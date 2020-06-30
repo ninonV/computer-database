@@ -3,6 +3,7 @@ package com.excilys.java.servlet;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.java.DTO.CompanyDTO;
 import com.excilys.java.DTO.ComputerDTO;
+import com.excilys.java.mapper.CompanyMapper;
 import com.excilys.java.mapper.ComputerMapper;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
@@ -36,7 +38,11 @@ public class AddComputerServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Company> companies = companyService.listCompanies();
-		request.setAttribute("listCompanies", companies);
+		List<CompanyDTO> companiesDTO =new ArrayList();
+		for (Company company:companies) {
+			companiesDTO.add(CompanyMapper.mapCompanyToDTO(company));
+		}
+		request.setAttribute("listCompanies", companiesDTO);
 		request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
 	}
 

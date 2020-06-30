@@ -1,6 +1,7 @@
 package com.excilys.java.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.java.DTO.ComputerDTO;
+import com.excilys.java.mapper.ComputerMapper;
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
 import com.excilys.java.service.ComputerService;
@@ -31,8 +34,7 @@ public class ListComputerServlet extends HttpServlet {
 	}
 
 	@Override
-	   protected void doGet(HttpServletRequest request,
-	           HttpServletResponse response) throws ServletException, IOException {
+	   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 			int total = computerService.countComputer();
 			int nbPages = page.getTotalPages(total);
@@ -53,11 +55,15 @@ public class ListComputerServlet extends HttpServlet {
 			}
 		
 			List<Computer> computers = computerService.getListPage(page);
+			List<ComputerDTO> computersDTO =new ArrayList();
+			for (Computer computer:computers) {
+				computersDTO.add(ComputerMapper.mapComputertoDTO(computer));
+			}
 			
 			request.setAttribute("totalComputers", total);
 			request.setAttribute("currentPage", page.getCurrentPage());
 			request.setAttribute("totalPages", nbPages);
-			request.setAttribute("listComputers", computers);
+			request.setAttribute("listComputers", computersDTO);
 			request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
 	   }
 	 
