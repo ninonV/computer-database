@@ -1,4 +1,5 @@
 /src/main/resources/db.properties
+/src/main/resources/datasource.properties
 /src/test/resources/db.properties
 /target/
 .project

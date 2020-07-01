@@ -1,10 +1,10 @@
 package com.excilys.java.servlet;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,30 +26,40 @@ import com.excilys.java.service.ComputerService;
 import com.excilys.java.validator.ValidatorComputer;
 
 /**
- * Servlet class for add a computer
+ * Servlet class for edit a computer
  * @author ninon
  */
-@WebServlet("/AddComputer")
-public class AddComputerServlet extends HttpServlet {
-	
-
+@WebServlet("/EditComputer")
+public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	private static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
 	private static CompanyService companyService = CompanyService.getInstance(); 
-	private static ComputerService computerService = ComputerService.getInstance(); 
-	
-	@Override
+	private static ComputerService computerService = ComputerService.getInstance();  
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Computer computer = new Computer();
+		ComputerDTO computerDTO = new ComputerDTO();
+		String id = request.getParameter("computerId");
+		if (id !=null ) {
+			computer = computerService.findbyID(Long.parseLong(id));
+		}
+		
+		if (computer!=null) {
+			computerDTO = ComputerMapper.mapComputertoDTO(computer);
+		}else {
+			logger.info("The computer does not exist");
+		}
+		
+		
 		List<Company> companies = companyService.listCompanies();
 		List<CompanyDTO> companiesDTO =new ArrayList<CompanyDTO>();
-		
 		companies.stream().forEach(company->companiesDTO.add(CompanyMapper.mapCompanyToDTO(company)));
 	
 		request.setAttribute("listCompanies", companiesDTO);
-		request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
+		request.setAttribute("computer", computerDTO);
+		request.getRequestDispatcher("/views/editComputer.jsp").forward( request, response );
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String resultCreation;
         Map<String, String> errors = new HashMap<String, String>();
@@ -57,7 +67,6 @@ public class AddComputerServlet extends HttpServlet {
 		ComputerDTO computerDTO = new ComputerDTO(); 
 		CompanyDTO companyDTO = new CompanyDTO(); 
 		Computer computer = new Computer();
-	
 	
 		try {
 			ValidatorComputer.validatorName(request.getParameter("computerName"));
@@ -75,20 +84,23 @@ public class AddComputerServlet extends HttpServlet {
         }
 		
 		if (errors.isEmpty()) {
+			computerDTO.setId(request.getParameter("computerId"));
 			companyDTO.setId(request.getParameter("companyId"));
 			computerDTO.setCompany(companyDTO);
+			System.out.println(computerDTO);
 			computer = ComputerMapper.mapDtoToComputer(computerDTO);
-			computerService.createComputer(computer);
-			resultCreation = "Computer added with success.";
-			logger.info("Computer added with success.");
+			System.out.println(computer);
+			computerService.updateComputer(computer);
+			
+			resultCreation = "Computer updated with success.";
+			logger.info("Computer updated with success.");
 		}else {
-			resultCreation = "Impossible to add this computer.";
-			logger.info("Impossible to add this computer.");
+			resultCreation = "Impossible to update this computer.";
+			logger.info("Impossible to update this computer.");
 		}
 		
 		request.setAttribute( "errors", errors );
         request.setAttribute( "resultCreation", resultCreation );
-
 		doGet(request, response);
 	}
 

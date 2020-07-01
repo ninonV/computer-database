@@ -17,11 +17,9 @@ import com.excilys.java.model.Page;
 import com.excilys.java.service.ComputerService;
 
 /**
- * Servlet class for display list of computersS
+ * Servlet class for display list of computers
  * @author ninon
- *
  */
- 
 @WebServlet("/ListComputer")
 public class ListComputerServlet extends HttpServlet {
 	
@@ -68,7 +66,8 @@ public class ListComputerServlet extends HttpServlet {
 	 
 	   @Override
 	   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	       doGet(request, response);
+		   
+		   doGet(request, response);
 	       
 	   }
 

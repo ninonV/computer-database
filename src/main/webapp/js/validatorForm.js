@@ -1,10 +1,10 @@
 function validateForm() {
-  var name = document.addComputer.computerName.value;
-  var introduced = document.addComputer.introduced.value;
-  var discontinued = document.addComputer.discontinued.value;
+  var name = document.getElementsByName("computerName")[0].value;
+  var introduced = document.getElementsByName("introduced")[0].value;
+  var discontinued = document.getElementsByName("discontinued")[0].value;
   
   if (name == "") {
-    alert("Name must be filled out");
+    alert("Name is mandatory");
     return false;
   }
   

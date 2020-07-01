@@ -29,21 +29,20 @@ public class MysqlConnect {
 		if (connection == null || connection.isClosed() ) {
 			try {
 				Properties properties = new Properties();
-				InputStream input = MysqlConnect.class.getClassLoader().getResourceAsStream("db.properties");
+				InputStream configFile = MysqlConnect.class.getClassLoader().getResourceAsStream("db.properties");
 				
-				properties.load(input);
+				properties.load(configFile);
 	
 				String driver = properties.getProperty("jdbc.driver");
 	            String url = properties.getProperty("jdbc.url");
 	            String user = properties.getProperty("jdbc.user");
 	            String password = properties.getProperty("jdbc.password");
 	            
-	            input.close();
+	            configFile.close();
 	            Class.forName(driver);
 			    connection = DriverManager.getConnection( url, user, password );	
 
 			} catch ( SQLException | ClassNotFoundException | IOException e) {
-				e.printStackTrace();
 				logger.error("Error during the connexion with MySQL",e);
 			}	
 		}

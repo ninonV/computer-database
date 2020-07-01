@@ -22,7 +22,7 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-            	<c:out value="${ totalComputers }"></c:out> Computers found
+            	<c:out value="${totalComputers}"></c:out> Computers found
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -82,20 +82,21 @@
                 <c:forEach items="${listComputers}" var="computer" varStatus="status">
                     <tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="${ computer.id }">
+                            <input type="checkbox" name="cb" class="cb" value="${computer.id}">
                         </td>
                         <td>
-                            <a href="editComputer.html" onclick=""><c:out value="${ computer.name }" /></a>
+                            <a href="EditComputer?computerId=${computer.id}" onclick="">
+                            <c:out value="${computer.name}" /></a>
                         </td>
-                        <td><c:out value="${ computer.introduced }" /></td>
-                        <td><c:out value="${ computer.discontinued }" /></td>
-                        <td><c:out value="${ computer.company.name }" /></td>
+                        <td><c:out value="${computer.introduced}" /></td>
+                        <td><c:out value="${computer.discontinued}" /></td>
+                        <td><c:out value="${computer.company.name}" /></td>
 					</tr>
 				</c:forEach>	
                     
                 </tbody>
             </table>
-        </div>
+        </di>
     </section>
 
     <footer class="navbar-fixed-bottom">

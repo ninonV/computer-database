@@ -30,6 +30,10 @@ public class ComputerMapper {
 		Computer computer = new Computer();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		try {
+			Long id = null;
+			if(computerDTO.getId()!=null) {
+				id=Long.parseLong(computerDTO.getId());
+			}
 			String name = computerDTO.getName();
 	    	LocalDate introduced = null;
 	    	if (!computerDTO.getIntroduced().equals(null) && !computerDTO.getIntroduced().isEmpty()) {
@@ -43,6 +47,7 @@ public class ComputerMapper {
 	    	Long company_id = Long.parseLong(computerDTO.getCompany().getId());
 	    	String company_name = computerDTO.getCompany().getName();
 	    	
+	    	computer.setId(id);
 	    	computer.setName(name);
 			computer.setIntroduced(introduced);
 			computer.setDiscontinued(discontinued);
@@ -63,15 +68,19 @@ public class ComputerMapper {
 	 */
 	public static ComputerDTO mapComputertoDTO(Computer computer){
 		ComputerDTO computerDTO = new ComputerDTO();
-		computerDTO.setId(computer.getId().toString());
-		computerDTO.setName(computer.getName());
+		if(computer.getId()!=null) {
+			computerDTO.setId(computer.getId().toString());
+		}
+		if(computer.getName()!=null) {
+			computerDTO.setName(computer.getName());
+		}
 		if(computer.getIntroduced()!=null) {
 			computerDTO.setIntroduced(computer.getIntroduced().toString());
 		}
 		if(computer.getDiscontinued()!=null) {
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		}
-		if(computer.getCompany().getId()!=null && computer.getCompany().getId()!=0){ 
+		if(computer.getCompany()!=null && computer.getCompany().getId()!=null){ 
 			CompanyDTO companyDTO = new CompanyDTO.Builder()
 					.setId(computer.getCompany().getId().toString())
 					.setName(computer.getCompany().getName())

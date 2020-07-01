@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
-import com.excilys.java.persistence.MysqlConnect;
+import com.excilys.java.persistence.HikariConnect;
 import com.excilys.java.persistence.DAO.mapper.ComputerMapper;
 
 /**
@@ -54,7 +54,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public List<Computer> getAll() {
 		List<Computer> computers = new ArrayList<Computer>();
-		try ( Connection connect = MysqlConnect.getInstance();
+		try ( Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
@@ -62,7 +62,6 @@ public class ComputerDAO extends DAO<Computer>{
             	computers.add(computer);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.error("Error when listing all computers",e);
         }
 		return computers;	
@@ -73,7 +72,7 @@ public class ComputerDAO extends DAO<Computer>{
 		Computer computer = new Computer();
 		ResultSet result = null;
 		if(id!=null) {
-			try ( Connection connect = MysqlConnect.getInstance();
+			try ( Connection connect = HikariConnect.getInstance();
 				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID)) {
 	            preparedStatement.setLong(1, id);
 	            result = preparedStatement.executeQuery();
@@ -82,7 +81,6 @@ public class ComputerDAO extends DAO<Computer>{
 	            }
 	            result.close();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
 	           logger.error("Error when finding a computer with its ID",e);
 	        }
 		}
@@ -95,7 +93,7 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	
 	public void create(Computer computer) {
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(CREATE)) {
             preparedStatement.setString(1, computer.getName());
             Date  dateSQLIntroduced = null;
@@ -115,7 +113,6 @@ public class ComputerDAO extends DAO<Computer>{
             }
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.error("Error when creating a computer",e);
         }
 	}
@@ -126,7 +123,7 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	
 	public void update(Computer computer) {
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(UPDATE)) {
             preparedStatement.setString(1, computer.getName());
             Date  dateSQLIntroduced = null;
@@ -147,7 +144,6 @@ public class ComputerDAO extends DAO<Computer>{
             preparedStatement.setLong(5, computer.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.error("Error when updating a computer",e);
         }
 	}
@@ -158,12 +154,11 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	
 	public void delete(Long id) {
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(DELETE)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.error("Error when deleting a computer",e);
         }		
 	}
@@ -180,13 +175,12 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public int count() {
 		int total = 0;
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(COUNT);
 			ResultSet result = preparedStatement.executeQuery()){
             result.next();
             total = result.getInt(1);
 		 } catch (SQLException e) {
-	            e.printStackTrace();
 	            logger.error("Error when counting the number of computers",e);
 	        }
             return total; 
@@ -195,7 +189,7 @@ public class ComputerDAO extends DAO<Computer>{
 	@Override
 	public List<Computer> getPage(Page page) {
 		List<Computer> computers= new ArrayList<Computer>();
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
             preparedStatement.setInt(1, page.getLinesPage());
             preparedStatement.setInt(2, page.getFirstLine()-1);
@@ -206,7 +200,6 @@ public class ComputerDAO extends DAO<Computer>{
             }
             result.close();
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.error("Error when listing the computers on a page",e);
         }
 		return computers;

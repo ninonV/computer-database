@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
-import com.excilys.java.persistence.MysqlConnect;
+import com.excilys.java.persistence.HikariConnect;
 import com.excilys.java.persistence.DAO.mapper.CompanyMapper;
 
 /**
@@ -48,7 +48,7 @@ public class CompanyDAO extends DAO<Company>{
 	public List<Company> getAll() {
 		List<Company> companies= new ArrayList<Company>();
 		
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
@@ -57,7 +57,6 @@ public class CompanyDAO extends DAO<Company>{
             }
             result.next();
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.error("Error when listing all companies",e);
         }
 		return companies;
@@ -69,7 +68,7 @@ public class CompanyDAO extends DAO<Company>{
 		Company company = new Company();
 		if(id!=null) {
 			
-			try (Connection connect = MysqlConnect.getInstance();
+			try (Connection connect = HikariConnect.getInstance();
 				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID))	 {
 	            preparedStatement.setLong(1, id);
 	            ResultSet result = preparedStatement.executeQuery();
@@ -78,7 +77,6 @@ public class CompanyDAO extends DAO<Company>{
 	            }
 	            result.close();
 	        } catch (SQLException e) {
-	            e.printStackTrace();
 	            logger.error("Error when finding a company with its ID",e);
 	        }
 		}
@@ -97,13 +95,12 @@ public class CompanyDAO extends DAO<Company>{
 	@Override
 	public int count() {
 		int total = 0;
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(COUNT);
 			ResultSet result = preparedStatement.executeQuery()){
             result.next();
             total = result.getInt(1);
 		 } catch (SQLException e) {
-	            e.printStackTrace();
 	            logger.error("Error when counting the number of companies",e);
 	        }
             return total; 
@@ -112,7 +109,7 @@ public class CompanyDAO extends DAO<Company>{
 	@Override
 	public List<Company> getPage(Page page) {
 		List<Company> companies= new ArrayList<Company>();
-		try (Connection connect = MysqlConnect.getInstance();
+		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
             preparedStatement.setInt(1, page.getLinesPage());
             preparedStatement.setInt(2, page.getFirstLine()-1);
@@ -123,7 +120,6 @@ public class CompanyDAO extends DAO<Company>{
             }
             result.close();
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.error("Error when listing the companies on a page",e);
         }
 		return companies;
