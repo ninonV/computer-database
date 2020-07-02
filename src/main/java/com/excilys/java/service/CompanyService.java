@@ -35,8 +35,12 @@ public class CompanyService {
 		return companyDAO.getAll();
 	}
 	
-	public Company findbyID(long id) {
+	public Company findbyID(Long id) {
 		return companyDAO.findById(id);
+	}
+	
+	public void deleteCompany(Long id) {
+		companyDAO.delete(id);
 	}
 
 	public boolean existCompany(Long id) {

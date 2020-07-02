@@ -17,7 +17,7 @@ public class CompanyMapper {
 	 */
 	public static Company mapDtoToCompany(CompanyDTO companyDTO){
 		Company company = new Company.Builder()
-									.setId(Long.parseLong(companyDTO.getId()))
+									.setId(Long.valueOf(companyDTO.getId()))
 									.setName(companyDTO.getName())
 									.build();
 		return company;

@@ -23,6 +23,7 @@ public class CompanyDAO extends DAO<Company>{
 
 	private static final String GET_ALL = "SELECT id, name FROM company ORDER BY id";
 	private static final String GET_WITH_ID = "SELECT id, name  FROM company WHERE id = ?";
+	private static final String DELETE = "DELETE FROM company WHERE id = ?";
 	private static final String COUNT = "SELECT COUNT(id) FROM company";
 	private static final String GET_PAGE = "SELECT id, name  FROM company LIMIT ? OFFSET ?";
 	
@@ -91,8 +92,23 @@ public class CompanyDAO extends DAO<Company>{
 		}
 		return isInBDD; 
 	}
-
+	
 	@Override
+	public void delete(Long id) {
+		try (Connection connect = HikariConnect.getInstance();
+			PreparedStatement preparedStatement= connect.prepareStatement(DELETE)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+            
+        } catch (SQLException e) {
+            logger.error("Error when deleting a company",e);
+        }		
+	}
+
+	/**
+	 * Count the number of companies
+	 * @return int total
+	 */
 	public int count() {
 		int total = 0;
 		try (Connection connect = HikariConnect.getInstance();
@@ -106,7 +122,11 @@ public class CompanyDAO extends DAO<Company>{
             return total; 
 	}
 
-	@Override
+	/**
+	 * List the companies on a page
+	 * @param page
+	 * @return list of companies
+	 */
 	public List<Company> getPage(Page page) {
 		List<Company> companies= new ArrayList<Company>();
 		try (Connection connect = HikariConnect.getInstance();

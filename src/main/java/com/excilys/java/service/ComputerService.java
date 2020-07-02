@@ -36,7 +36,7 @@ public class ComputerService {
 		return computerDAO.getAll();
 	}
 	
-	public Computer findbyID(long id) {
+	public Computer findbyID(Long id) {
 		return computerDAO.findById(id);
 	}
 	
@@ -56,14 +56,17 @@ public class ComputerService {
 		return computerDAO.exist(id);
 	}
 	
-	public int countComputer() {
-		return computerDAO.count();
+	public int countComputer(String search) {
+		return computerDAO.count(search);
 	}
 	
-	public List<Computer> getListPage(Page page) {
-		return computerDAO.getPage(page);
+	public List<Computer> getListPage(Page page, String search, String order) {
+		return computerDAO.getPage(page,search,order);
 	}
 	
+	public void deleteComputersFromCompany(Long id) {
+		computerDAO.deleteComputersFromCompany(id);;
+	}
 	
 	/**
 	 * Check the conditions to create or update a computer

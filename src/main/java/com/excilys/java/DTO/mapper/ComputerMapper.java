@@ -32,7 +32,7 @@ public class ComputerMapper {
 		try {
 			Long id = null;
 			if(computerDTO.getId()!=null) {
-				id=Long.parseLong(computerDTO.getId());
+				id=Long.valueOf(computerDTO.getId());
 			}
 			String name = computerDTO.getName();
 	    	LocalDate introduced = null;
@@ -44,7 +44,7 @@ public class ComputerMapper {
 	    		discontinued = LocalDate.parse(computerDTO.getDiscontinued(), formatter);
 	    	}
 	    	
-	    	Long company_id = Long.parseLong(computerDTO.getCompany().getId());
+	    	Long company_id = Long.valueOf(computerDTO.getCompany().getId());
 	    	String company_name = computerDTO.getCompany().getName();
 	    	
 	    	computer.setId(id);

@@ -94,6 +94,8 @@ public class EditComputerServlet extends HttpServlet {
 			
 			resultCreation = "Computer updated with success.";
 			logger.info("Computer updated with success.");
+
+			//response.sendRedirect(request.getContextPath() + "/ListComputer");
 		}else {
 			resultCreation = "Impossible to update this computer.";
 			logger.info("Impossible to update this computer.");

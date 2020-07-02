@@ -37,7 +37,7 @@ public class ComputerDAOTest extends DBTestCase {
 
 	@Test
 	public void testCount() {
-		assertEquals(3, computerDAO.count());
+		assertEquals(3, computerDAO.count(null));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class ComputerDAOTest extends DBTestCase {
 	public void testGetPage() {
 		Page page = new Page();
 		page.setLinesPage(2);
-		List<Computer> computers = computerDAO.getPage(page);
+		List<Computer> computers = computerDAO.getPage(page,null,null);
 		assertEquals(2,computers.size());
 	}
 	

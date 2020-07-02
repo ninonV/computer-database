@@ -37,7 +37,8 @@ public class UserInterface {
 				System.out.println("\t 4- Create a computer");
 				System.out.println("\t 5- Update a computer");
 				System.out.println("\t 6- Delete a computer");
-				System.out.println("\t 7- Quit");
+				System.out.println("\t 7- Delete a company");
+				System.out.println("\t 8- Quit");
 				
 				System.out.println("What do you want to do ? ");
 				Scanner sc = new Scanner(System.in);
@@ -95,6 +96,22 @@ public class UserInterface {
 						}
 						break;
 					case 7: 
+						System.out.println("Which company do you want to delete: ");
+						Long idCompanyDelete = getID();
+						if (companyService.existCompany(idCompanyDelete)){
+							Company companyIdDelete = companyService.findbyID(idCompanyDelete);
+							System.out.println(companyIdDelete);
+							computerService.deleteComputersFromCompany(idCompanyDelete);
+							System.out.println("Computers of the company deleted with success");
+							companyService.deleteCompany(idCompanyDelete);
+							System.out.println("Company deleted with success");
+							
+							
+						}else {
+							System.out.println("This company does not exist");
+						}
+						break;
+					case 8: 
 						quit = true; 
 						break;
 					default: 
@@ -119,7 +136,7 @@ public class UserInterface {
 		Long id=null;
 		
 		try{
-			id = Long.parseLong(idC);
+			id = Long.valueOf(idC);
 		}catch (java.lang.NumberFormatException e) {
 			System.err.println("Enter a number");
 		}
@@ -172,7 +189,7 @@ public class UserInterface {
 			try{
 				id = sc.nextLine();
 				if (id.length()>0) {
-					idCompany = Long.parseLong(id);
+					idCompany = Long.valueOf(id);
 					company = companyService.findbyID(idCompany);
 				}
 			}catch (java.lang.NumberFormatException e) {
@@ -198,12 +215,12 @@ public class UserInterface {
 	
 	public void pagesComputers(){
 		Page page = new Page();
-		int total = computerService.countComputer();
+		int total = computerService.countComputer(null);
 		int nbPages = page.getTotalPages(total);
 		boolean quitPage = false; 
 		
 		while (!quitPage) {
-			List<Computer> computers = computerService.getListPage(page);
+			List<Computer> computers = computerService.getListPage(page,null,null);
 			System.out.println(computers);
 			quitPage = menuPage(page, nbPages);
 		}

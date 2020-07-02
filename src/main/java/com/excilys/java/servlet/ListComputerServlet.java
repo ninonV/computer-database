@@ -2,6 +2,7 @@ package com.excilys.java.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.java.DTO.ComputerDTO;
 import com.excilys.java.DTO.mapper.ComputerMapper;
@@ -23,9 +27,12 @@ import com.excilys.java.service.ComputerService;
 @WebServlet("/ListComputer")
 public class ListComputerServlet extends HttpServlet {
 	
-	private static Page page = new Page();
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LoggerFactory.getLogger(ListComputerServlet.class);
+	
+	private static Page page = new Page();
 	private static ComputerService computerService = ComputerService.getInstance();  
+	
 
 	public ListComputerServlet() {
 		super();
@@ -33,10 +40,15 @@ public class ListComputerServlet extends HttpServlet {
 
 	@Override
 	   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			List<Computer> computers = new ArrayList<Computer>();
+			List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
 		
-			int total = computerService.countComputer();
+		
+			String inputSearch = request.getParameter("search");
+			String order = request.getParameter("order");
+			int total = computerService.countComputer(inputSearch);
 			int nbPages = page.getTotalPages(total);
-		
+			
 			if(request.getParameter("pageNb")!=null) {
 				int pageAsked = Integer.parseInt(request.getParameter("pageNb"));
 				if (pageAsked>0 & pageAsked <= nbPages) {
@@ -49,23 +61,32 @@ public class ListComputerServlet extends HttpServlet {
 				int LinesAsked = Integer.parseInt(request.getParameter("linesNb"));
 				page.setLinesPage(LinesAsked);
 				page.setCurrentPage(1);
+				page.setFirstLine(1);
 				nbPages = page.getTotalPages(total);
 			}
 		
-			List<Computer> computers = computerService.getListPage(page);
-			List<ComputerDTO> computersDTO =new ArrayList<ComputerDTO>();
-			
+			computers = computerService.getListPage(page,inputSearch,order);
 			computers.stream().forEach(computer->computersDTO.add(ComputerMapper.mapComputertoDTO(computer)));
-		
+			
 			request.setAttribute("totalComputers", total);
 			request.setAttribute("currentPage", page.getCurrentPage());
 			request.setAttribute("totalPages", nbPages);
+			request.setAttribute("search", inputSearch);
+			request.setAttribute("order", order);
 			request.setAttribute("listComputers", computersDTO);
 			request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
 	   }
 	 
 	   @Override
 	   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		   if(request.getParameter("selection")!=null) {
+			   String[] idToDelete = request.getParameter("selection").split(",");
+			   for(int i=0;i<idToDelete.length;i++) {
+				   Long id = Long.valueOf(idToDelete[i]);
+				   computerService.deleteComputer(id);
+				   logger.info("Computers deleted");
+			   }
+		   }
 		   
 		   doGet(request, response);
 	       

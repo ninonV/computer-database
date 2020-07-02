@@ -23,13 +23,21 @@ import com.excilys.java.persistence.DAO.mapper.ComputerMapper;
 
 public class ComputerDAO extends DAO<Computer>{
 	
-	private static final String GET_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.id ";
-	private static final String GET_WITH_ID = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.id = ? ";
+	private static final String GET_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name "
+			+ "FROM computer LEFT JOIN company ON company_id = company.id ORDER BY computer.id ";
+	private static final String GET_WITH_ID = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name "
+			+ "FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.id = ? ";
 	private static final String CREATE = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id= ?";
 	private static final String DELETE = "DELETE FROM computer WHERE id = ? ";
 	private static final String COUNT = "SELECT COUNT(id) FROM computer";
-	private static final String GET_PAGE = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name FROM computer LEFT JOIN company ON company_id = company.id LIMIT ? OFFSET ?";
+	private static final String COUNT_SEARCH = "SELECT COUNT(computer.id) FROM computer LEFT JOIN company ON company_id = company.id "
+			+ "WHERE computer.name LIKE ? OR company.name LIKE ?";
+	private static final String GET_PAGE = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS "
+			+ "company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY %s LIMIT ? OFFSET ?";
+	private static final String GET_PAGE_SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name "
+			+ "FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY %s LIMIT ? OFFSET ?";
+	private static final String DELETE_COMPUTER_FROM_COMPANY = "DELETE FROM computer WHERE company_id = ?";
 	
 	private static ComputerDAO computerDAO;
 	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
@@ -41,7 +49,6 @@ public class ComputerDAO extends DAO<Computer>{
      * Create the instance of computerDAO if it not exists
      * @return computerDAO
      */
-
 	public static ComputerDAO getInstance() {
 		if (computerDAO == null) {
             computerDAO = new ComputerDAO();
@@ -65,8 +72,8 @@ public class ComputerDAO extends DAO<Computer>{
             logger.error("Error when listing all computers",e);
         }
 		return computers;	
-	
 	}
+	
 	@Override
 	public Computer findById(Long id) {
 		Computer computer = new Computer();
@@ -121,7 +128,6 @@ public class ComputerDAO extends DAO<Computer>{
 	 * Update an existing computer
 	 * @param computer
 	 */
-	
 	public void update(Computer computer) {
 		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(UPDATE)) {
@@ -148,11 +154,7 @@ public class ComputerDAO extends DAO<Computer>{
         }
 	}
 	
-	/**
-	 * Delete an existing computer
-	 * @param computer
-	 */
-	
+	@Override
 	public void delete(Long id) {
 		try (Connection connect = HikariConnect.getInstance();
 			PreparedStatement preparedStatement= connect.prepareStatement(DELETE)) {
@@ -163,6 +165,11 @@ public class ComputerDAO extends DAO<Computer>{
         }		
 	}
 	
+	/**
+	 * Check if the computer exists in the BDD
+	 * @param idComputer
+	 * @return boolean 
+	 */
 	@Override
 	public boolean exist(Long id){
 		boolean isInBDD = false; 
@@ -172,36 +179,82 @@ public class ComputerDAO extends DAO<Computer>{
 		return isInBDD; 
 	}
 
-	@Override
-	public int count() {
+	/**
+	 * Count the number of computers : total or depending of the research
+	 * @param search string
+	 * @return int total
+	 */
+	public int count(String search) {
 		int total = 0;
-		try (Connection connect = HikariConnect.getInstance();
-			PreparedStatement preparedStatement= connect.prepareStatement(COUNT);
-			ResultSet result = preparedStatement.executeQuery()){
+		try (Connection connect = HikariConnect.getInstance()){
+			PreparedStatement preparedStatement;
+			if(search==null) {
+				preparedStatement= connect.prepareStatement(COUNT);
+			}else {
+				preparedStatement= connect.prepareStatement(COUNT_SEARCH);
+				preparedStatement.setString(1, "%"+search+"%");
+				preparedStatement.setString(2, "%"+search+"%");
+			}
+			ResultSet result = preparedStatement.executeQuery();
             result.next();
             total = result.getInt(1);
+            preparedStatement.close();
+            result.close();
 		 } catch (SQLException e) {
 	            logger.error("Error when counting the number of computers",e);
 	        }
             return total; 
 	}
 
-	@Override
-	public List<Computer> getPage(Page page) {
+	/**
+	 * List of the computers for a page depending of the research and the order asked
+	 * @param page, search string, order string
+	 * @return computers
+	 */
+	public List<Computer> getPage(Page page, String search, String order) {
 		List<Computer> computers= new ArrayList<Computer>();
-		try (Connection connect = HikariConnect.getInstance();
-			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
-            preparedStatement.setInt(1, page.getLinesPage());
-            preparedStatement.setInt(2, page.getFirstLine()-1);
+		try (Connection connect = HikariConnect.getInstance()){
+			PreparedStatement preparedStatement;
+			if(order==null || order.isEmpty()) {
+				order="computer.id";
+			}
+			if(search==null || search.isEmpty()) {
+				String orderChoice= String.format(GET_PAGE,order);
+				preparedStatement= connect.prepareStatement(orderChoice);
+				preparedStatement.setInt(1, page.getLinesPage());
+	            preparedStatement.setInt(2, page.getFirstLine()-1);
+			}else {
+				String orderChoice= String.format(GET_PAGE_SEARCH,order);
+				preparedStatement= connect.prepareStatement(orderChoice);
+				preparedStatement.setString(1, "%"+search+"%");
+				preparedStatement.setString(2, "%"+search+"%");
+	            preparedStatement.setInt(3, page.getLinesPage());
+	            preparedStatement.setInt(4, page.getFirstLine()-1);
+			}
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
             	Computer computer = ComputerMapper.mapResultSet(result);
             	computers.add(computer);
             }
+            preparedStatement.close();
             result.close();
         } catch (SQLException e) {
             logger.error("Error when listing the computers on a page",e);
         }
 		return computers;
+	}
+	
+	/**
+	 * Delete the computers associated with the company deleted
+	 * @param idCompany
+	 */
+	public void deleteComputersFromCompany(Long id) {
+		try (Connection connect = HikariConnect.getInstance();
+				PreparedStatement preparedStatement= connect.prepareStatement(DELETE_COMPUTER_FROM_COMPANY)) {
+	            preparedStatement.setLong(1, id);
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            logger.error("Error when deleting a computer for the company desired",e);
+	        }	
 	}
 }
