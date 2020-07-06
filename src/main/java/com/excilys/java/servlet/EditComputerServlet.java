@@ -31,7 +31,7 @@ import com.excilys.java.validator.ValidatorComputer;
  */
 @WebServlet("/EditComputer")
 public class EditComputerServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
 	private static CompanyService companyService = CompanyService.getInstance(); 
 	private static ComputerService computerService = ComputerService.getInstance();  

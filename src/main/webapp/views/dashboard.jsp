@@ -28,7 +28,7 @@
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="search" class="form-control" value="${param.search}" placeholder="Search name" />
+                        <input type="search" id="searchbox" name="search" class="form-control" value="<c:out value="${param.search}"/>"  placeholder="Search name" />
                         <input type="submit" id="searchsubmit" value="Filter by name"
                         class="btn btn-primary" />
                     </form>
@@ -110,27 +110,55 @@
       
             <%--For displaying Previous link except for the 1st page --%>
                <li><c:if test="${currentPage != 1}">
-                	<a href="ListComputer?pageNb=${currentPage - 1}&search=${search}&order=${order}" aria-label="Previous">
-                	<span aria-hidden="true">&laquo;</span></a>
+                	<button onclick="window.location.href='ListComputer?pageNb=${currentPage - 1}&search=${search}&order=${order}'" aria-label="Previous">
+                	<span aria-hidden="true">&laquo;</span></button>
 				</c:if>
  
             	<c:forEach begin="0" end="10" var="i">
             		<c:if test="${currentPage+i<=totalPages}">
-						<a href="ListComputer?pageNb=${currentPage+i}&search=${search}&order=${order}"><c:out value="${currentPage+i}"></c:out></a>
-					</c:if>  
+            			<c:choose>
+            				<c:when test="${i==0}">
+            					<button type="button" class="btn active" onclick="window.location.href='ListComputer?pageNb=${currentPage}&search=${search}&order=${order}'"><c:out value="${currentPage}"></c:out></button>
+            				</c:when>
+            			 	<c:otherwise>
+            			 		<button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?pageNb=${currentPage+i}&search=${search}&order=${order}'"><c:out value="${currentPage+i}"></c:out></button>
+            			 	</c:otherwise>
+            	  		</c:choose>
+            	  	</c:if>	
 				</c:forEach>
               
              <%--For displaying Next link except for the last page --%>
               <c:if test="${currentPage != totalPages}">
-                	<a href="ListComputer?pageNb=${currentPage + 1}&search=${search}&order=${order}" aria-label="Next">
-                	<span aria-hidden="true">&raquo;</span></a>
-				</c:if></li>		
+                <button onclick="window.location.href='ListComputer?pageNb=${currentPage + 1}&search=${search}&order=${order}'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span></button>
+			</c:if></li>		
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=10&search=${search}&order=${order}'">10</button>
-            <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=50&search=${search}&order=${order}'">50</button>
-            <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=100&search=${search}&order=${order}'">100</button>
+         <c:choose>
+            <c:when test="${ linesNb eq 10 }">
+              <button type="button" class="btn active" onclick="window.location.href='ListComputer?linesNb=10&search=${search}&order=${order}'">10</button>
+            </c:when>
+            <c:otherwise>
+               <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=10&search=${search}&order=${order}'">10</button>
+            </c:otherwise>
+          </c:choose>
+          <c:choose>
+            <c:when test="${ linesNb eq 50 }">
+              <button type="button" class="btn active" onclick="window.location.href='ListComputer?linesNb=50&search=${search}&order=${order}'">50</button>
+            </c:when>
+            <c:otherwise>
+               <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=50&search=${search}&order=${order}'">50</button>
+            </c:otherwise>
+          </c:choose>
+          <c:choose>
+            <c:when test="${ linesNb eq 100 }">
+              <button type="button" class="btn active" onclick="window.location.href='ListComputer?linesNb=100&search=${search}&order=${order}'">100</button>
+            </c:when>
+            <c:otherwise>
+               <button type="button" class="btn btn-default" onclick="window.location.href='ListComputer?linesNb=100&search=${search}&order=${order}'">100</button>
+            </c:otherwise>
+          </c:choose>
         </div>
 
     </footer>

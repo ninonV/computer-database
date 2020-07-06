@@ -27,7 +27,7 @@ import com.excilys.java.service.ComputerService;
 @WebServlet("/ListComputer")
 public class ListComputerServlet extends HttpServlet {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private static Logger logger = LoggerFactory.getLogger(ListComputerServlet.class);
 	
 	private static Page page = new Page();
@@ -71,6 +71,7 @@ public class ListComputerServlet extends HttpServlet {
 			request.setAttribute("totalComputers", total);
 			request.setAttribute("currentPage", page.getCurrentPage());
 			request.setAttribute("totalPages", nbPages);
+			request.setAttribute("linesNb", page.getLinesPage());
 			request.setAttribute("search", inputSearch);
 			request.setAttribute("order", order);
 			request.setAttribute("listComputers", computersDTO);

@@ -2,8 +2,6 @@ package com.excilys.java.persistence.DAO;
 
 import java.util.List;
 
-import com.excilys.java.model.Page;
-
 public abstract class DAO<T> {
 	
 	/**

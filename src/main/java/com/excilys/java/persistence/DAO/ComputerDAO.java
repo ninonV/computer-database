@@ -142,7 +142,7 @@ public class ComputerDAO extends DAO<Computer>{
             }
             preparedStatement.setDate(2, dateSQLIntroduced);
             preparedStatement.setDate(3, dateSQLDiscontinued);
-            if (computer.getCompany().getId()==null) {
+            if (computer.getCompany().getId()==null || computer.getCompany().getId()==0) {
             	preparedStatement.setNull(4, Types.BIGINT);
             }else {
             	 preparedStatement.setLong(4, computer.getCompany().getId());
