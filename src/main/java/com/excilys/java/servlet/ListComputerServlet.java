@@ -2,9 +2,9 @@ package com.excilys.java.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.java.DTO.ComputerDTO;
 import com.excilys.java.DTO.mapper.ComputerMapper;
@@ -30,13 +32,19 @@ public class ListComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 2L;
 	private static Logger logger = LoggerFactory.getLogger(ListComputerServlet.class);
 	
-	private static Page page = new Page();
-	private static ComputerService computerService = ComputerService.getInstance();  
+	@Autowired
+	private Page page;
+	@Autowired
+	private ComputerService computerService;  
 	
-
-	public ListComputerServlet() {
-		super();
-	}
+	public void init(ServletConfig config) {
+	    try {
+			super.init(config);
+		} catch (ServletException e) {
+			logger.error("Error during initalization in ListComputer ",e);
+		}
+	    SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+	  }
 
 	@Override
 	   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

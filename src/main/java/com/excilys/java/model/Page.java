@@ -1,5 +1,8 @@
 package com.excilys.java.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Page {
 	
 	/**

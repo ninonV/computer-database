@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
@@ -21,6 +22,7 @@ import com.excilys.java.persistence.DAO.mapper.ComputerMapper;
  *  @author ninonV
  *  **/
 
+@Repository
 public class ComputerDAO extends DAO<Computer>{
 	
 	private static final String GET_ALL = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name "
@@ -39,22 +41,19 @@ public class ComputerDAO extends DAO<Computer>{
 			+ "FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY %s LIMIT ? OFFSET ?";
 	private static final String DELETE_COMPUTER_FROM_COMPANY = "DELETE FROM computer WHERE company_id = ?";
 	
-	private static ComputerDAO computerDAO;
+	//private static ComputerDAO computerDAO;
 	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	
-	public ComputerDAO() {
-	}
 	
 	/**
      * Create the instance of computerDAO if it not exists
      * @return computerDAO
      */
-	public static ComputerDAO getInstance() {
+	/*public static ComputerDAO getInstance() {
 		if (computerDAO == null) {
             computerDAO = new ComputerDAO();
         }
         return computerDAO;
-    }
+    }*/
 
 	
 	

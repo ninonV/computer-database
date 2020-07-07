@@ -2,6 +2,9 @@ package com.excilys.java.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
 import com.excilys.java.persistence.DAO.ComputerDAO;
@@ -11,11 +14,15 @@ import com.excilys.java.persistence.DAO.ComputerDAO;
  *  @author ninonV
  *  **/
 
+@Service
 public class ComputerService {
 	
 	private static ComputerService computerService;
-	private static ComputerDAO computerDAO = ComputerDAO.getInstance();
-	private static CompanyService companyService = CompanyService.getInstance();
+	
+	@Autowired
+	private ComputerDAO computerDAO;
+	@Autowired
+	private CompanyService companyService;;
 	
 	public ComputerService() {
 	}

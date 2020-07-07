@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
@@ -14,6 +15,7 @@ import com.excilys.java.model.Computer;
  *
  */
 
+@Component
 public class ComputerMapper {
 	
 	private static Logger logger = LoggerFactory.getLogger(ComputerMapper.class);

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
@@ -19,6 +21,7 @@ import com.excilys.java.persistence.DAO.mapper.CompanyMapper;
  *  @author ninonV
  *  **/
 
+@Repository
 public class CompanyDAO extends DAO<Company>{
 
 	private static final String GET_ALL = "SELECT id, name FROM company ORDER BY id";
@@ -27,7 +30,7 @@ public class CompanyDAO extends DAO<Company>{
 	private static final String COUNT = "SELECT COUNT(id) FROM company";
 	private static final String GET_PAGE = "SELECT id, name  FROM company LIMIT ? OFFSET ?";
 	
-	private static CompanyDAO companyDAO;
+	//private CompanyDAO companyDAO;
 	private static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	
 	public CompanyDAO() {
@@ -38,12 +41,12 @@ public class CompanyDAO extends DAO<Company>{
      * @return companyDAO
      */
 	
-	public static CompanyDAO getInstance() {
+	/*public static CompanyDAO getInstance() {
 		if (companyDAO == null) {
 			companyDAO = new CompanyDAO();
         }
         return companyDAO;
-    }
+    }*/
 
 	@Override
 	public List<Company> getAll() {

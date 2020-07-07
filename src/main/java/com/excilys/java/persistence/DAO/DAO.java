@@ -2,6 +2,9 @@ package com.excilys.java.persistence.DAO;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public abstract class DAO<T> {
 	
 	/**
