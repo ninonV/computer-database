@@ -7,7 +7,8 @@ import org.springframework.web.context.AbstractContextLoaderInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
-import com.excilys.java.ui.UserInterface;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 
 @Configuration
@@ -21,4 +22,13 @@ public class SpringConfiguration extends AbstractContextLoaderInitializer {
 	    return applicationContext;
 	  }
 
+	@Bean
+	public HikariConfig config() {
+		return new HikariConfig("/datasource.properties");
+	}
+	
+	@Bean
+	public HikariDataSource dataSource() {
+		return new HikariDataSource(config());
+	}
 }
