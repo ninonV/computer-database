@@ -17,27 +17,11 @@ import com.excilys.java.persistence.DAO.ComputerDAO;
 @Service
 public class ComputerService {
 	
-	private static ComputerService computerService;
-	
 	@Autowired
 	private ComputerDAO computerDAO;
 	@Autowired
-	private CompanyService companyService;;
-	
-	public ComputerService() {
-	}
-	
-	/**
-     * Create the instance of companyService if it not exists
-     * @return companyService
-     */
+	private CompanyService companyService;
 
-	public static ComputerService  getInstance() {
-		if (computerService== null) {
-			computerService = new ComputerService();
-        }
-        return computerService;
-    }
 	
 	public List<Computer> listComputers() {
 		return computerDAO.getAll();

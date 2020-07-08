@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.model.Company;
@@ -30,29 +29,14 @@ public class CompanyDAO extends DAO<Company>{
 	private static final String COUNT = "SELECT COUNT(id) FROM company";
 	private static final String GET_PAGE = "SELECT id, name  FROM company LIMIT ? OFFSET ?";
 	
-	//private CompanyDAO companyDAO;
 	private static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	
-	public CompanyDAO() {
-	}
-
-	/**
-     * Create the instance of companyDAO if it not exists
-     * @return companyDAO
-     */
-	
-	/*public static CompanyDAO getInstance() {
-		if (companyDAO == null) {
-			companyDAO = new CompanyDAO();
-        }
-        return companyDAO;
-    }*/
 
 	@Override
 	public List<Company> getAll() {
 		List<Company> companies= new ArrayList<Company>();
 		
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
@@ -72,7 +56,7 @@ public class CompanyDAO extends DAO<Company>{
 		Company company = new Company();
 		if(id!=null) {
 			
-			try (Connection connect = HikariConnect.getInstance();
+			try (Connection connect = HikariConnect.getConnexion();
 				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID))	 {
 	            preparedStatement.setLong(1, id);
 	            ResultSet result = preparedStatement.executeQuery();
@@ -98,7 +82,7 @@ public class CompanyDAO extends DAO<Company>{
 	
 	@Override
 	public void delete(Long id) {
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(DELETE)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -114,7 +98,7 @@ public class CompanyDAO extends DAO<Company>{
 	 */
 	public int count() {
 		int total = 0;
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(COUNT);
 			ResultSet result = preparedStatement.executeQuery()){
             result.next();
@@ -132,7 +116,7 @@ public class CompanyDAO extends DAO<Company>{
 	 */
 	public List<Company> getPage(Page page) {
 		List<Company> companies= new ArrayList<Company>();
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
             preparedStatement.setInt(1, page.getLinesPage());
             preparedStatement.setInt(2, page.getFirstLine()-1);

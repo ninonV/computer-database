@@ -31,13 +31,15 @@ public class ListComputerServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 2L;
 	private static Logger logger = LoggerFactory.getLogger(ListComputerServlet.class);
-	
+
 	@Autowired
-	private Page page;
-	@Autowired
-	private ComputerService computerService;  
+	private ComputerService computerService; 
+	private String order ="computer.id";
+	private int pageAsked = 1;
+	private int linesNb = 20;
 	
-	public void init(ServletConfig config) {
+	
+    public void init(ServletConfig config) {
 	    try {
 			super.init(config);
 		} catch (ServletException e) {
@@ -50,24 +52,24 @@ public class ListComputerServlet extends HttpServlet {
 	   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			List<Computer> computers = new ArrayList<Computer>();
 			List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
-		
+			Page page = new Page(pageAsked, linesNb);
 		
 			String inputSearch = request.getParameter("search");
-			String order = request.getParameter("order");
+			order = request.getParameter("order");
 			int total = computerService.countComputer(inputSearch);
 			int nbPages = page.getTotalPages(total);
 			
 			if(request.getParameter("pageNb")!=null) {
-				int pageAsked = Integer.parseInt(request.getParameter("pageNb"));
+				pageAsked = Integer.parseInt(request.getParameter("pageNb"));
 				if (pageAsked>0 & pageAsked <= nbPages) {
 					page.setCurrentPage(pageAsked);
-					page.setFirstLine(page.getLinesPage() * (page.getCurrentPage()- 1) +1);
+					page.setFirstLine(page.calculFirstLine());
 				}
 			}
 			
 			if(request.getParameter("linesNb")!=null) {
-				int LinesAsked = Integer.parseInt(request.getParameter("linesNb"));
-				page.setLinesPage(LinesAsked);
+				linesNb= Integer.parseInt(request.getParameter("linesNb"));
+				page.setLinesPage(linesNb);
 				page.setCurrentPage(1);
 				page.setFirstLine(1);
 				nbPages = page.getTotalPages(total);

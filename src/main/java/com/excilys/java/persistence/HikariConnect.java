@@ -16,7 +16,7 @@ public class HikariConnect {
 	private static HikariConfig config = new HikariConfig("/datasource.properties");
 	private static HikariDataSource ds = new HikariDataSource(config);
 	
-	 public static Connection getInstance() throws SQLException{
+	 public static Connection getConnexion() throws SQLException{
 		 if (connection == null || connection.isClosed() ) {
 				try {   
 					return ds.getConnection();

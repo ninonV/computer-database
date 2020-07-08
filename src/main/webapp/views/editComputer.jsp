@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <label for="companyId">Company</label>
                                 <select class="form-control" id="companyId" name="companyId" >
-                                    <option selected="selected"><c:out value=" ${computer.company.name}"/></option>
+                                    <option value="${computer.company.id}" selected="selected"><c:out value=" ${computer.company.name}"/></option>
                                     <option value="0">--</option>
                                     	<c:forEach items="${listCompanies}" var="company" varStatus="status">
                                 			<option value="${company.id}"><c:out value="${company.name}"/></option>
@@ -55,7 +55,7 @@
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
-                        	<a href="ListComputer" class="btn btn-primary">Edit</a> 
+                        	<input type ="submit" value="Edit" class="btn btn-primary" onclick="window.location.href='ListComputer'" >
                             or
                             <a href="ListComputer" class="btn btn-default">Cancel</a>
                         </div>

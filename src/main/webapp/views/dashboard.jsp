@@ -61,25 +61,25 @@
                         </th>
                         <th>
                         	Computer name
-                        	<a href="ListComputer?order=computer.name ASC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet"></i></a>
-                          	<a href="ListComputer?order=computer.name DESC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet-alt"></i></a>
+                        	<a href="ListComputer?order=computer.name ASC&search=${search}"><i class="glyphicon glyphicon-chevron-up"></i></a> 
+                          	<a href="ListComputer?order=computer.name DESC&search=${search}"><i class="glyphicon glyphicon-chevron-down"></i></a>
                         </th>
                         <th>
                             Introduced date
-                            <a href="ListComputer?order=introduced ASC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet"></i></a>
-                          	<a href="ListComputer?order=introduced DESC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet-alt"></i></a>
+                            <a href="ListComputer?order=introduced ASC&search=${search}"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                          	<a href="ListComputer?order=introduced DESC&search=${search}"><i class="glyphicon glyphicon-chevron-down"></i></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
                         	Discontinued date
-                            <a href="ListComputer?order=discontinued ASC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet"></i></a>
-                          	<a href="ListComputer?order=discontinued DESC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet-alt"></i></a>
+                            <a href="ListComputer?order=discontinued ASC&search=${search}"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                          	<a href="ListComputer?order=discontinued DESC&search=${search}"><i class="glyphicon glyphicon-chevron-down"></i></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
                         	Company
-                            <a href="ListComputer?order=company.name ASC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet"></i></a>
-                          	<a href="ListComputer?order=company.name DESC&search=${search}"><i class="glyphicon glyphicon-sort-by-alphabet-alt"></i></a>
+                            <a href="ListComputer?order=company.name ASC&search=${search}"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                          	<a href="ListComputer?order=company.name DESC&search=${search}"><i class="glyphicon glyphicon-chevron-down"></i></a>
                         </th>
 
                     </tr>

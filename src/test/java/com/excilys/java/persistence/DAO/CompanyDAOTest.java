@@ -9,13 +9,15 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
 
 public class CompanyDAOTest extends DBTestCase {
 	
-	private static CompanyDAO companyDAO = CompanyDAO.getInstance();
+	@Autowired
+	private static CompanyDAO companyDAO;
 	private static final String DB_FILE = "src/test/resources/dbTest.xml";
 	
 	public CompanyDAOTest(String name) {
@@ -35,12 +37,6 @@ public class CompanyDAOTest extends DBTestCase {
 	@Test
 	public void testCount() {
 		assertEquals(3, companyDAO.count());
-	}
-
-	@Test
-	public void testGetInstance() {
-	    assertNotNull(companyDAO);
-	    assertEquals(CompanyDAO.getInstance(), companyDAO);
 	}
 
 	@Test

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.model.Computer;
@@ -41,26 +42,13 @@ public class ComputerDAO extends DAO<Computer>{
 			+ "FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY %s LIMIT ? OFFSET ?";
 	private static final String DELETE_COMPUTER_FROM_COMPANY = "DELETE FROM computer WHERE company_id = ?";
 	
-	//private static ComputerDAO computerDAO;
 	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	
-	/**
-     * Create the instance of computerDAO if it not exists
-     * @return computerDAO
-     */
-	/*public static ComputerDAO getInstance() {
-		if (computerDAO == null) {
-            computerDAO = new ComputerDAO();
-        }
-        return computerDAO;
-    }*/
-
 	
 	
 	@Override
 	public List<Computer> getAll() {
 		List<Computer> computers = new ArrayList<Computer>();
-		try ( Connection connect = HikariConnect.getInstance();
+		try ( Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
 			ResultSet result = preparedStatement.executeQuery()) {
             while (result.next()){
@@ -78,7 +66,7 @@ public class ComputerDAO extends DAO<Computer>{
 		Computer computer = new Computer();
 		ResultSet result = null;
 		if(id!=null) {
-			try ( Connection connect = HikariConnect.getInstance();
+			try ( Connection connect = HikariConnect.getConnexion();
 				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID)) {
 	            preparedStatement.setLong(1, id);
 	            result = preparedStatement.executeQuery();
@@ -99,7 +87,7 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	
 	public void create(Computer computer) {
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(CREATE)) {
             preparedStatement.setString(1, computer.getName());
             Date  dateSQLIntroduced = null;
@@ -128,7 +116,7 @@ public class ComputerDAO extends DAO<Computer>{
 	 * @param computer
 	 */
 	public void update(Computer computer) {
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(UPDATE)) {
             preparedStatement.setString(1, computer.getName());
             Date  dateSQLIntroduced = null;
@@ -155,7 +143,7 @@ public class ComputerDAO extends DAO<Computer>{
 	
 	@Override
 	public void delete(Long id) {
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 			PreparedStatement preparedStatement= connect.prepareStatement(DELETE)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -185,7 +173,7 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	public int count(String search) {
 		int total = 0;
-		try (Connection connect = HikariConnect.getInstance()){
+		try (Connection connect = HikariConnect.getConnexion()){
 			PreparedStatement preparedStatement;
 			if(search==null) {
 				preparedStatement= connect.prepareStatement(COUNT);
@@ -212,9 +200,11 @@ public class ComputerDAO extends DAO<Computer>{
 	 */
 	public List<Computer> getPage(Page page, String search, String order) {
 		List<Computer> computers= new ArrayList<Computer>();
-		try (Connection connect = HikariConnect.getInstance()){
+		try (Connection connect = HikariConnect.getConnexion()){
 			PreparedStatement preparedStatement;
-			if(order==null || order.isEmpty()) {
+			if(order==null || order.isEmpty() || 
+					(!order.equals("computer.id") &  !order.equals("computer.name ASC") &   !order.equals("computer.name DESC") & !order.equals("introduced ASC") & !order.equals("introduced DESC")
+					& !order.equals("discontinued ASC") & !order.equals("discontinued DESC") & !order.equals("company.name ASC") & !order.equals("company.name DESC"))) {
 				order="computer.id";
 			}
 			if(search==null || search.isEmpty()) {
@@ -248,7 +238,7 @@ public class ComputerDAO extends DAO<Computer>{
 	 * @param idCompany
 	 */
 	public void deleteComputersFromCompany(Long id) {
-		try (Connection connect = HikariConnect.getInstance();
+		try (Connection connect = HikariConnect.getConnexion();
 				PreparedStatement preparedStatement= connect.prepareStatement(DELETE_COMPUTER_FROM_COMPANY)) {
 	            preparedStatement.setLong(1, id);
 	            preparedStatement.executeUpdate();

@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
@@ -16,10 +19,13 @@ import com.excilys.java.service.ComputerService;
  *  @author ninonV
  *  **/
 
+@Component 
 public class UserInterface {
 	
-	private static ComputerService computerService = ComputerService.getInstance();  
-	private static CompanyService companyService = CompanyService.getInstance();
+	@Autowired
+	private ComputerService computerService;  
+	@Autowired
+	private CompanyService companyService;
 	
 	/**
 	 * Main menu that calls the different functions 

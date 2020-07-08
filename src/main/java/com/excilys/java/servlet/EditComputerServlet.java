@@ -99,7 +99,9 @@ public class EditComputerServlet extends HttpServlet {
         }
 		
 		if (errors.isEmpty()) {
+			System.out.println(request.getParameter("companyId"));
 			computerDTO.setId(request.getParameter("computerId"));
+			
 			companyDTO.setId(request.getParameter("companyId"));
 			computerDTO.setCompany(companyDTO);
 			System.out.println(computerDTO);
@@ -110,7 +112,6 @@ public class EditComputerServlet extends HttpServlet {
 			resultCreation = "Computer updated with success.";
 			logger.info("Computer updated with success.");
 
-			//response.sendRedirect(request.getContextPath() + "/ListComputer");
 		}else {
 			resultCreation = "Impossible to update this computer.";
 			logger.info("Impossible to update this computer.");

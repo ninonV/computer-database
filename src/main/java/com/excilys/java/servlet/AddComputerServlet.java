@@ -35,9 +35,9 @@ import com.excilys.java.validator.ValidatorComputer;
 @WebServlet("/AddComputer")
 public class AddComputerServlet extends HttpServlet {
 	
-
 	private static final long serialVersionUID = 2L;
 	private static Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	
 	@Autowired
 	private CompanyService companyService;
 	@Autowired
@@ -65,13 +65,12 @@ public class AddComputerServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String resultCreation;
-        Map<String, String> errors = new HashMap<String, String>();
+		Map<String, String> errors = new HashMap<String, String>();
 		
+		String resultCreation;
 		ComputerDTO computerDTO = new ComputerDTO(); 
 		CompanyDTO companyDTO = new CompanyDTO(); 
 		Computer computer = new Computer();
-	
 	
 		try {
 			ValidatorComputer.validatorName(request.getParameter("computerName"));

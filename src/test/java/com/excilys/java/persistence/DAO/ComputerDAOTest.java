@@ -10,6 +10,7 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
@@ -18,7 +19,8 @@ import com.excilys.java.model.Page;
 
 public class ComputerDAOTest extends DBTestCase {
 	
-	private static ComputerDAO computerDAO = ComputerDAO.getInstance();
+	@Autowired
+	private static ComputerDAO computerDAO;
 	private static final String DB_FILE = "src/test/resources/dbTest.xml";
 	
 	public ComputerDAOTest(String name) {
@@ -40,11 +42,6 @@ public class ComputerDAOTest extends DBTestCase {
 		assertEquals(3, computerDAO.count(null));
 	}
 
-	@Test
-	public void testGetInstance() {
-	    assertNotNull(computerDAO);
-	    assertEquals(ComputerDAO.getInstance(), computerDAO);
-	}
 
 	@Test
 	public void testGetAll() {

@@ -1,8 +1,5 @@
 package com.excilys.java.model;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class Page {
 	
 	/**
@@ -23,6 +20,14 @@ public class Page {
 		this.linesPage = MAX_LINES;
 	}
 
+	public Page(int currentPage, int linesPage) {
+		this.currentPage = currentPage;
+		this.linesPage = linesPage;
+		this.firstLine = calculFirstLine(); 
+	}
+
+
+
 	/**
 	 * Go to the next page
 	 */
@@ -39,8 +44,21 @@ public class Page {
 		firstLine-=MAX_LINES;
 	}
 	
+	/**
+	 * Calcul the total number of pages 
+	 * @param total computers
+	 * @return total pages
+	 */
 	public int getTotalPages(int total) {
 	    return (int) Math.ceil((double) total/ linesPage);
+	}
+	
+	/**
+	 * Calcul the first line of a page
+	 * @return the first line
+	 */
+	public int calculFirstLine() {
+		return (linesPage * (currentPage - 1) +1);
 	}
 	
 	public int getFirstLine() {

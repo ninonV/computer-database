@@ -17,26 +17,8 @@ public class CompanyService {
 	 *  @author ninonV
 	 *  **/
 	
-	
-	private static CompanyService companyService;
-	
 	@Autowired
 	private CompanyDAO companyDAO;
-	
-	public CompanyService() {
-	}
-	
-	/**
-     * Create the instance of companyService if it not exists
-     * @return companyService
-     */
-
-	public static CompanyService  getInstance() {
-		if (companyService == null) {
-			companyService = new CompanyService();
-        }
-        return companyService;
-    }
 	
 	public List<Company> listCompanies(){
 		return companyDAO.getAll();
