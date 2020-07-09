@@ -165,7 +165,7 @@ public class UserInterface {
 		Long idCompany= null;
 		Company company = new Company();
 		Computer computer = new Computer();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 		
 		while(!conditionsOK) {
 			System.out.println("Name : ");

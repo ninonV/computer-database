@@ -15,13 +15,11 @@ public class HikariConnect {
 	
 	private static Connection connection;
 	private static Logger logger = LoggerFactory.getLogger(HikariConnect.class);
-	//private static HikariConfig config = new HikariConfig("/datasource.properties");
-	//private static HikariDataSource ds = new HikariDataSource(config);
 	
 	@Autowired
 	private HikariDataSource dataSource;
 	
-	 public Connection getConnexion() throws SQLException{
+	 public Connection getConnection() throws SQLException{
 		 if (connection == null || connection.isClosed() ) {
 				try {   
 					return dataSource.getConnection();

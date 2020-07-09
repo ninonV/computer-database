@@ -38,7 +38,7 @@ public class ListComputerServlet extends HttpServlet {
 	private int pageAsked = 1;
 	private int linesNb = 20;
 	
-	
+	@Override
     public void init(ServletConfig config) {
 	    try {
 			super.init(config);

@@ -1,6 +1,7 @@
 package com.excilys.java.persistence.DAO;
 
 import java.io.FileInputStream;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,8 +36,10 @@ public class ComputerDAOTest extends DBTestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		DatabaseConnection jUnitConnect = new DatabaseConnection(hikariConnect.getConnexion());
-		getSetUpOperation().execute(jUnitConnect, getDataSet());
+		try(Connection connection = hikariConnect.getConnection()){
+			DatabaseConnection jUnitConnect = new DatabaseConnection(connection);
+			getSetUpOperation().execute(jUnitConnect, getDataSet());
+		}
 	}
 	
 	@Override
@@ -103,7 +106,7 @@ public class ComputerDAOTest extends DBTestCase {
 
 	@Test
 	public void testDelete() {
-		Long id = 607L;
+		Long id = 608L;
 		assertTrue(computerDAO.exist(id));
 	    computerDAO.delete(id);
 	    assertFalse(computerDAO.exist(id));

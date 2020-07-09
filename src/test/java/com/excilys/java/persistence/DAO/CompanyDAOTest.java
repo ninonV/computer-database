@@ -1,6 +1,7 @@
 package com.excilys.java.persistence.DAO;
 
 import java.io.FileInputStream;
+import java.sql.Connection;
 import java.util.List;
 
 import org.dbunit.DBTestCase;
@@ -31,18 +32,12 @@ public class CompanyDAOTest extends DBTestCase {
 	
 	private static final String DB_FILE = "src/test/resources/dbTest.xml";
 	
-	/*public CompanyDAOTest(String name) {
-		super(name);
-		System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "com.mysql.cj.jdbc.Driver");
-	    System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,"jdbc:mysql://localhost:3306/computer-database-test?serverTimezone=Europe/Paris");
-	    System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "adminTest");
-	    System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,"test");
-	}*/
-	
 	@Before
 	public void setUp() throws Exception {
-		DatabaseConnection jUnitConnect = new DatabaseConnection(hikariConnect.getConnexion());
-		getSetUpOperation().execute(jUnitConnect, getDataSet());
+		try(Connection connection = hikariConnect.getConnection()){
+			DatabaseConnection jUnitConnect = new DatabaseConnection(connection);
+			getSetUpOperation().execute(jUnitConnect, getDataSet());
+		}
 	}
 	
 	@Override

@@ -12,7 +12,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 
 @Configuration
-@ComponentScan("com.excilys.java")
+@ComponentScan({"com.excilys.java.persistence" , "com.excilys.java.service" , "com.excilys.java.ui"})
 public class SpringConfiguration extends AbstractContextLoaderInitializer {
 	
 	@Override
@@ -21,14 +21,9 @@ public class SpringConfiguration extends AbstractContextLoaderInitializer {
 	    applicationContext.register(SpringConfiguration.class);
 	    return applicationContext;
 	  }
-
-	@Bean
-	public HikariConfig config() {
-		return new HikariConfig("/datasource.properties");
-	}
 	
 	@Bean
 	public HikariDataSource dataSource() {
-		return new HikariDataSource(config());
+		return new HikariDataSource(new HikariConfig("/datasource.properties"));
 	}
 }

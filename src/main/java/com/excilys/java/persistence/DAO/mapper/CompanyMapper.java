@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.excilys.java.model.Company;
 
@@ -13,7 +12,6 @@ import com.excilys.java.model.Company;
  * @author ninonV
  */
 
-@Component
 public class CompanyMapper {
 	
 	private static Logger logger = LoggerFactory.getLogger(CompanyMapper.class);

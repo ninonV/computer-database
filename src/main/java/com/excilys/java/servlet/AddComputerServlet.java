@@ -22,6 +22,7 @@ import com.excilys.java.DTO.CompanyDTO;
 import com.excilys.java.DTO.ComputerDTO;
 import com.excilys.java.DTO.mapper.CompanyMapper;
 import com.excilys.java.DTO.mapper.ComputerMapper;
+import com.excilys.java.exception.ComputerException;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
 import com.excilys.java.service.CompanyService;
@@ -43,6 +44,7 @@ public class AddComputerServlet extends HttpServlet {
 	@Autowired
 	private ComputerService computerService; 
 	
+	@Override
 	public void init(ServletConfig config){
 	    try {
 			super.init(config);
@@ -75,7 +77,7 @@ public class AddComputerServlet extends HttpServlet {
 		try {
 			ValidatorComputer.validatorName(request.getParameter("computerName"));
 			computerDTO.setName(request.getParameter("computerName"));
-		}catch ( Exception e ) {
+		}catch ( ComputerException e ) {
             errors.put( "computerName", e.getMessage() );
         }
 		
@@ -83,7 +85,7 @@ public class AddComputerServlet extends HttpServlet {
 			ValidatorComputer.validatorDate(request.getParameter("introduced"), request.getParameter("discontinued"));
 			computerDTO.setIntroduced(request.getParameter("introduced"));
 			computerDTO.setDiscontinued(request.getParameter("discontinued"));
-		}catch ( Exception e ) {
+		}catch ( ComputerException e ) {
             errors.put( "discontinued", e.getMessage());
         }
 		

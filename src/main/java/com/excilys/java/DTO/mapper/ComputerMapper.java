@@ -28,7 +28,7 @@ public class ComputerMapper {
 	 */
 	public static Computer mapDtoToComputer(ComputerDTO computerDTO){
 		Computer computer = new Computer();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 		try {
 			Long id = null;
 			if(computerDTO.getId()!=null) {
