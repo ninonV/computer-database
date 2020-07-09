@@ -5,32 +5,53 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.dbunit.DBTestCase;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.excilys.java.Spring.SpringConfiguration;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
 import com.excilys.java.model.Page;
+import com.excilys.java.persistence.HikariConnect;
 
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {SpringConfiguration.class})
 public class ComputerDAOTest extends DBTestCase {
 	
 	@Autowired
-	private static ComputerDAO computerDAO;
-	private static final String DB_FILE = "src/test/resources/dbTest.xml";
+	private ComputerDAO computerDAO;
+	@Autowired
+	private HikariConnect hikariConnect;
 	
-	public ComputerDAOTest(String name) {
-		super(name);
-		System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "com.mysql.cj.jdbc.Driver");
-	    System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,"jdbc:mysql://localhost:3306/computer-database-test?serverTimezone=Europe/Paris");
-	    System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "adminTest");
-	    System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,"test");
-	}
+	private static final String DB_FILE = "src/test/resources/dbTest.xml";
 
+	@Before
+	public void setUp() throws Exception {
+		DatabaseConnection jUnitConnect = new DatabaseConnection(hikariConnect.getConnexion());
+		getSetUpOperation().execute(jUnitConnect, getDataSet());
+	}
+	
+	@Override
+	protected IDataSet getDataSet() throws Exception {
+		return new FlatXmlDataSetBuilder().build(new FileInputStream(DB_FILE));
+	}
+	
+	protected DatabaseOperation getSetUpOperation() throws Exception{
+        return DatabaseOperation.REFRESH;
+    }
+
+    protected DatabaseOperation getTearDownOperation() throws Exception{
+        return DatabaseOperation.NONE;
+    }
+	
 	@Test
 	public void testExist() {
 		assertTrue(computerDAO.exist(6L));
@@ -82,7 +103,7 @@ public class ComputerDAOTest extends DBTestCase {
 
 	@Test
 	public void testDelete() {
-		Long id = 605L;
+		Long id = 607L;
 		assertTrue(computerDAO.exist(id));
 	    computerDAO.delete(id);
 	    assertFalse(computerDAO.exist(id));
@@ -96,17 +117,5 @@ public class ComputerDAOTest extends DBTestCase {
 		assertEquals(2,computers.size());
 	}
 	
-	@Override
-	protected IDataSet getDataSet() throws Exception {
-		return new FlatXmlDataSetBuilder().build(new FileInputStream(DB_FILE));
-	}
-	
-	protected DatabaseOperation getSetUpOperation() throws Exception{
-        return DatabaseOperation.REFRESH;
-    }
-
-    protected DatabaseOperation getTearDownOperation() throws Exception{
-        return DatabaseOperation.NONE;
-    }
 
 }
