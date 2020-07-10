@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.excilys.java.model.Company;
 
@@ -12,7 +13,7 @@ import com.excilys.java.model.Company;
  * @author ninonV
  */
 
-public class CompanyMapper {
+public class CompanyMapper implements RowMapper<Company> {
 	
 	private static Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 	
@@ -21,18 +22,18 @@ public class CompanyMapper {
 	 * @param result
 	 * @return company
 	 */
-	
-	public static Company mapResultSet(ResultSet result){
-		Company company = new Company(); 
+
+	@Override
+	public Company mapRow(ResultSet rs, int rowNum) {
+		Company company = new Company();
 		try {
-			Long id = result.getLong("id");
-			String name = result.getString("name");
-			company.setId(id);
-			company.setName(name);
+			company = new Company.Builder()
+					.setId(rs.getLong("id"))
+					.setName(rs.getString("name"))
+					.build();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			logger.error("Error when mapping a ResultSet to a Company",e);
-		}
+		}	
 		return company;
 	}
 	

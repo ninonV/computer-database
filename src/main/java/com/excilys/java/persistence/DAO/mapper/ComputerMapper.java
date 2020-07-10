@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
@@ -14,7 +15,7 @@ import com.excilys.java.model.Computer;
  *
  */
 
-public class ComputerMapper {
+public class ComputerMapper implements RowMapper<Computer> {
 	
 	private static Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 	
@@ -23,32 +24,32 @@ public class ComputerMapper {
 	 * @param result
 	 * @return computer
 	 */
-	
-	public static Computer mapResultSet(ResultSet result){
+
+	@Override
+	public Computer mapRow(ResultSet rs, int rowNum) {
 		Computer computer = new Computer();
 		try {
-			Long id = result.getLong("id");
-	    	String name = result.getString("name");
+			computer.setId(rs.getLong("id"));
+			computer.setName(rs.getString("name"));
+			
 	    	LocalDate introduced = null;
-	    	if (result.getDate("introduced")!=null) {
-	    		introduced = result.getDate("introduced").toLocalDate();
+	    	if (rs.getDate("introduced")!=null) {
+	    		introduced = rs.getDate("introduced").toLocalDate();
 	    	}
-	    	LocalDate discontinued = null; 
-	    	if (result.getDate("discontinued")!=null) {
-	    		discontinued = result.getDate("discontinued").toLocalDate();
-	    	}
-	    	
-	    	Long company_id = result.getLong("company_id");
-	    	String company_name = result.getString("company_name");
-	    	
-	    	computer.setId(id);
-	    	computer.setName(name);
 			computer.setIntroduced(introduced);
+			
+	    	LocalDate discontinued = null; 
+	    	if (rs.getDate("discontinued")!=null) {
+	    		discontinued = rs.getDate("discontinued").toLocalDate();
+	    	}
 			computer.setDiscontinued(discontinued);
-	    	computer.setCompany(new Company.Builder().setId(company_id).setName(company_name).build());
-	    	
-		} catch (Exception e) {
-			e.printStackTrace();
+
+	    	computer.setCompany(new Company.Builder()
+	    			.setId(rs.getLong("company_id"))
+	    			.setName(rs.getString("company_name"))
+	    			.build());
+			
+		}catch (Exception e) {
 			logger.error("Error when mapping a ResultSet to a Computer",e);
 		}
 		return computer;

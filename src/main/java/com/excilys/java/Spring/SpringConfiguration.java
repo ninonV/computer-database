@@ -3,6 +3,7 @@ package com.excilys.java.Spring;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.AbstractContextLoaderInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -24,6 +25,12 @@ public class SpringConfiguration extends AbstractContextLoaderInitializer {
 	
 	@Bean
 	public HikariDataSource dataSource() {
-		return new HikariDataSource(new HikariConfig("/datasource.properties"));
+		HikariConfig config = new HikariConfig("/datasource.properties");
+		return new HikariDataSource(config);
+	}
+	
+	@Bean
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(dataSource());
 	}
 }

@@ -20,14 +20,6 @@ public class Page {
 		this.linesPage = MAX_LINES;
 	}
 
-	public Page(int currentPage, int linesPage) {
-		this.currentPage = currentPage;
-		this.linesPage = linesPage;
-		this.firstLine = calculFirstLine(); 
-	}
-
-
-
 	/**
 	 * Go to the next page
 	 */

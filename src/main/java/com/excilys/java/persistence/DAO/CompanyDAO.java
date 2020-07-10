@@ -1,14 +1,14 @@
 package com.excilys.java.persistence.DAO;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.model.Company;
@@ -33,40 +33,29 @@ public class CompanyDAO extends DAO<Company>{
 	private static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	
 	@Autowired
-	private HikariConnect hikariConnect;
+	private HikariConnect dataSource;
+	@Autowired
+	private JdbcTemplate jdbcTemplate; 
 	
 	@Override
 	public List<Company> getAll() {
 		List<Company> companies= new ArrayList<Company>();
-		
-		try (Connection connect = hikariConnect.getConnection();
-			PreparedStatement preparedStatement= connect.prepareStatement(GET_ALL);
-			ResultSet result = preparedStatement.executeQuery()) {
-            while (result.next()){
-            	Company company = CompanyMapper.mapResultSet(result);
-            	companies.add(company);
-            }
-            result.next();
+		try (Connection connect = dataSource.getConnection()){
+			companies = jdbcTemplate.query(GET_ALL, new CompanyMapper());
         } catch (SQLException e) {
             logger.error("Error when listing all companies",e);
         }
 		return companies;
 		
 	}
+
 	
 	@Override
 	public Company findById(Long id) {
 		Company company = new Company();
 		if(id!=null) {
-			
-			try (Connection connect = hikariConnect.getConnection();
-				PreparedStatement preparedStatement= connect.prepareStatement(GET_WITH_ID))	 {
-	            preparedStatement.setLong(1, id);
-	            ResultSet result = preparedStatement.executeQuery();
-	            while (result.next()){
-	            	company = CompanyMapper.mapResultSet(result);
-	            }
-	            result.close();
+			try (Connection connect = dataSource.getConnection()){
+				company = jdbcTemplate.queryForObject(GET_WITH_ID, new CompanyMapper(), id);
 	        } catch (SQLException e) {
 	            logger.error("Error when finding a company with its ID",e);
 	        }
@@ -77,7 +66,7 @@ public class CompanyDAO extends DAO<Company>{
 	@Override
 	public boolean exist(Long id){
 		boolean isInBDD = false; 
-		if ((this.findById(id)).getId()!=null) {
+		if ((this.findById(id)).getId()!=null || this.findById(id).getId()!=0) {
 			isInBDD=true; 
 		}
 		return isInBDD; 
@@ -85,11 +74,8 @@ public class CompanyDAO extends DAO<Company>{
 	
 	@Override
 	public void delete(Long id) {
-		try (Connection connect = hikariConnect.getConnection();
-			PreparedStatement preparedStatement= connect.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-            
+		try (Connection connect = dataSource.getConnection()) {
+            jdbcTemplate.update(DELETE, id);
         } catch (SQLException e) {
             logger.error("Error when deleting a company",e);
         }		
@@ -101,11 +87,8 @@ public class CompanyDAO extends DAO<Company>{
 	 */
 	public int count() {
 		int total = 0;
-		try (Connection connect = hikariConnect.getConnection();
-			PreparedStatement preparedStatement= connect.prepareStatement(COUNT);
-			ResultSet result = preparedStatement.executeQuery()){
-            result.next();
-            total = result.getInt(1);
+		try (Connection connect = dataSource.getConnection()){
+            total = jdbcTemplate.queryForObject(COUNT, Integer.class);
 		 } catch (SQLException e) {
 	            logger.error("Error when counting the number of companies",e);
 	        }
@@ -119,16 +102,8 @@ public class CompanyDAO extends DAO<Company>{
 	 */
 	public List<Company> getPage(Page page) {
 		List<Company> companies= new ArrayList<Company>();
-		try (Connection connect = hikariConnect.getConnection();
-			PreparedStatement preparedStatement= connect.prepareStatement(GET_PAGE)){
-            preparedStatement.setInt(1, page.getLinesPage());
-            preparedStatement.setInt(2, page.getFirstLine()-1);
-            ResultSet result = preparedStatement.executeQuery();
-            while (result.next()){
-            	Company company = CompanyMapper.mapResultSet(result);
-            	companies.add(company);
-            }
-            result.close();
+		try (Connection connect = dataSource.getConnection()){
+            companies = jdbcTemplate.query(GET_PAGE, new CompanyMapper(), page.getLinesPage(), page.getFirstLine()-1);
         } catch (SQLException e) {
             logger.error("Error when listing the companies on a page",e);
         }

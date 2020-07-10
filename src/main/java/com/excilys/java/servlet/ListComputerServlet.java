@@ -35,8 +35,6 @@ public class ListComputerServlet extends HttpServlet {
 	@Autowired
 	private ComputerService computerService; 
 	private String order ="computer.id";
-	private int pageAsked = 1;
-	private int linesNb = 20;
 	
 	@Override
     public void init(ServletConfig config) {
@@ -52,7 +50,7 @@ public class ListComputerServlet extends HttpServlet {
 	   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			List<Computer> computers = new ArrayList<Computer>();
 			List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
-			Page page = new Page(pageAsked, linesNb);
+			Page page = new Page();
 		
 			String inputSearch = request.getParameter("search");
 			order = request.getParameter("order");
@@ -60,7 +58,7 @@ public class ListComputerServlet extends HttpServlet {
 			int nbPages = page.getTotalPages(total);
 			
 			if(request.getParameter("pageNb")!=null) {
-				pageAsked = Integer.parseInt(request.getParameter("pageNb"));
+				int pageAsked = Integer.parseInt(request.getParameter("pageNb"));
 				if (pageAsked>0 & pageAsked <= nbPages) {
 					page.setCurrentPage(pageAsked);
 					page.setFirstLine(page.calculFirstLine());
@@ -68,7 +66,7 @@ public class ListComputerServlet extends HttpServlet {
 			}
 			
 			if(request.getParameter("linesNb")!=null) {
-				linesNb= Integer.parseInt(request.getParameter("linesNb"));
+				int linesNb= Integer.parseInt(request.getParameter("linesNb"));
 				page.setLinesPage(linesNb);
 				page.setCurrentPage(1);
 				page.setFirstLine(1);
@@ -77,6 +75,11 @@ public class ListComputerServlet extends HttpServlet {
 		
 			computers = computerService.getListPage(page,inputSearch,order);
 			computers.stream().forEach(computer->computersDTO.add(ComputerMapper.mapComputertoDTO(computer)));
+			
+			System.out.println("2- current : " + page.getCurrentPage());
+			System.out.println("first : " + page.getFirstLine());
+			System.out.println("totalLines : " + page.getLinesPage());
+			System.out.println(request.getParameter("linesNb"));
 			
 			request.setAttribute("totalComputers", total);
 			request.setAttribute("currentPage", page.getCurrentPage());
