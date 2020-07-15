@@ -26,7 +26,8 @@ import com.excilys.java.service.ComputerService;
  * Servlet class for display list of computers
  * @author ninon
  */
-@WebServlet("/ListComputer")
+
+//@WebServlet("/ListComputer")
 public class ListComputerServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 2L;
@@ -48,44 +49,37 @@ public class ListComputerServlet extends HttpServlet {
 
 	@Override
 	   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			List<Computer> computers = new ArrayList<Computer>();
-			List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
 			Page page = new Page();
 		
-			String inputSearch = request.getParameter("search");
+			String search = request.getParameter("search");
 			order = request.getParameter("order");
-			int total = computerService.countComputer(inputSearch);
+			
+			if(request.getParameter("linesNb")!=null) {
+				int linesNb= Integer.parseInt(request.getParameter("linesNb"));
+				page.setLinesPage(linesNb);
+			}
+			
+			int total = computerService.countComputer(search);
 			int nbPages = page.getTotalPages(total);
 			
 			if(request.getParameter("pageNb")!=null) {
 				int pageAsked = Integer.parseInt(request.getParameter("pageNb"));
 				if (pageAsked>0 & pageAsked <= nbPages) {
 					page.setCurrentPage(pageAsked);
-					page.setFirstLine(page.calculFirstLine());
 				}
 			}
 			
-			if(request.getParameter("linesNb")!=null) {
-				int linesNb= Integer.parseInt(request.getParameter("linesNb"));
-				page.setLinesPage(linesNb);
-				page.setCurrentPage(1);
-				page.setFirstLine(1);
-				nbPages = page.getTotalPages(total);
-			}
-		
-			computers = computerService.getListPage(page,inputSearch,order);
-			computers.stream().forEach(computer->computersDTO.add(ComputerMapper.mapComputertoDTO(computer)));
+			page.setFirstLine(page.calculFirstLine());
 			
-			System.out.println("2- current : " + page.getCurrentPage());
-			System.out.println("first : " + page.getFirstLine());
-			System.out.println("totalLines : " + page.getLinesPage());
-			System.out.println(request.getParameter("linesNb"));
+			List<Computer> computers = computerService.getListPage(page,search,order);
+			List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
+			computers.stream().forEach(computer->computersDTO.add(ComputerMapper.mapComputertoDTO(computer)));
 			
 			request.setAttribute("totalComputers", total);
 			request.setAttribute("currentPage", page.getCurrentPage());
 			request.setAttribute("totalPages", nbPages);
 			request.setAttribute("linesNb", page.getLinesPage());
-			request.setAttribute("search", inputSearch);
+			request.setAttribute("search", search);
 			request.setAttribute("order", order);
 			request.setAttribute("listComputers", computersDTO);
 			request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );

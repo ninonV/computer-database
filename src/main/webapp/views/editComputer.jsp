@@ -55,7 +55,7 @@
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
-                        	<input type ="submit" value="Edit" class="btn btn-primary" onclick="window.location.href='ListComputer'" >
+                        	<input type ="submit" value="Edit" class="btn btn-primary" >
                             or
                             <a href="ListComputer" class="btn btn-default">Cancel</a>
                         </div>

@@ -13,13 +13,13 @@ import com.zaxxer.hikari.HikariDataSource;
 
 
 @Configuration
-@ComponentScan({"com.excilys.java.persistence" , "com.excilys.java.service" , "com.excilys.java.ui"})
+@ComponentScan({"com.excilys.java.persistence" , "com.excilys.java.service", "com.excilys.java.controller" , "com.excilys.java.ui"})
 public class SpringConfiguration extends AbstractContextLoaderInitializer {
 	
 	@Override
 	  protected WebApplicationContext createRootApplicationContext() {
 	    AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
-	    applicationContext.register(SpringConfiguration.class);
+	    applicationContext.register(SpringConfiguration.class, SpringMVCConfiguration.class);
 	    return applicationContext;
 	  }
 	

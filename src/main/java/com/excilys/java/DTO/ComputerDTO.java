@@ -6,7 +6,7 @@ public class ComputerDTO {
 	private String name;
 	private String introduced; 
 	private String discontinued;
-	private CompanyDTO company;
+	private CompanyDTO companyDTO;
 
 	public String getId() {
 		return id;
@@ -40,14 +40,14 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 	}
 
-	public CompanyDTO getCompany() {
-		return company;
+	public CompanyDTO getCompanyDTO() {
+		return companyDTO;
 	}
 
-	public void setCompany(CompanyDTO company) {
-		this.company = company;
+	public void setCompanyDTO(CompanyDTO companyDTO) {
+		this.companyDTO = companyDTO;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
@@ -55,7 +55,7 @@ public class ComputerDTO {
 		sb.append(", name :").append(this.name);
 		sb.append(", introduced :").append(this.introduced);
 		sb.append(", discontinued :").append(this.discontinued).append(" ");
-		sb.append(this.company);
+		sb.append(this.companyDTO);
 		return sb.toString();
 	}
 
@@ -66,7 +66,7 @@ public class ComputerDTO {
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
-		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		result = prime * result + ((companyDTO == null) ? 0 : companyDTO.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -95,10 +95,10 @@ public class ComputerDTO {
 				return false;
 		} else if (!introduced.equals(other.introduced))
 			return false;
-		if (company == null) {
-			if (other.company != null)
+		if (companyDTO == null) {
+			if (other.companyDTO != null)
 				return false;
-		} else if (!company.equals(other.company))
+		} else if (!companyDTO.equals(other.companyDTO))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -146,7 +146,7 @@ public class ComputerDTO {
             computerDTO.name = this.name;
             computerDTO.introduced = this.introduced;
             computerDTO.discontinued = this.discontinued;
-            computerDTO.company = this.company;
+            computerDTO.companyDTO = this.company;
             return computerDTO;
         }
     }

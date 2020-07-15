@@ -22,6 +22,8 @@ import com.excilys.java.DTO.CompanyDTO;
 import com.excilys.java.DTO.ComputerDTO;
 import com.excilys.java.DTO.mapper.CompanyMapper;
 import com.excilys.java.DTO.mapper.ComputerMapper;
+import com.excilys.java.exception.ComputerDateException;
+import com.excilys.java.exception.ComputerNameException;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
 import com.excilys.java.service.CompanyService;
@@ -32,7 +34,8 @@ import com.excilys.java.validator.ValidatorComputer;
  * Servlet class for edit a computer
  * @author ninon
  */
-@WebServlet("/EditComputer")
+
+//@WebServlet("/EditComputer")
 public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 2L;
 	private static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
@@ -86,28 +89,22 @@ public class EditComputerServlet extends HttpServlet {
 	
 		try {
 			ValidatorComputer.validatorName(request.getParameter("computerName"));
-			computerDTO.setName(request.getParameter("computerName"));
-		}catch ( Exception e ) {
-            errors.put( "computerName", e.getMessage() );
-        }
-		
-		try {
+			computerDTO.setComputerName(request.getParameter("computerName"));
+			
 			ValidatorComputer.validatorDate(request.getParameter("introduced"), request.getParameter("discontinued"));
 			computerDTO.setIntroduced(request.getParameter("introduced"));
 			computerDTO.setDiscontinued(request.getParameter("discontinued"));
-		}catch ( Exception e ) {
+		}catch ( ComputerNameException e ) {
+            errors.put( "computerName", e.getMessage() );
+        }catch ( ComputerDateException e ) {
             errors.put( "discontinued", e.getMessage());
         }
 		
 		if (errors.isEmpty()) {
-			System.out.println(request.getParameter("companyId"));
-			computerDTO.setId(request.getParameter("computerId"));
-			
-			companyDTO.setId(request.getParameter("companyId"));
-			computerDTO.setCompany(companyDTO);
-			System.out.println(computerDTO);
+			computerDTO.setComputerId(request.getParameter("computerId"));
+			companyDTO.setCompanyId(request.getParameter("companyId"));
+			computerDTO.setCompanyDTO(companyDTO);
 			computer = ComputerMapper.mapDtoToComputer(computerDTO);
-			System.out.println(computer);
 			computerService.updateComputer(computer);
 			
 			resultCreation = "Computer updated with success.";

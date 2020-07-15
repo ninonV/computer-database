@@ -22,7 +22,8 @@ import com.excilys.java.DTO.CompanyDTO;
 import com.excilys.java.DTO.ComputerDTO;
 import com.excilys.java.DTO.mapper.CompanyMapper;
 import com.excilys.java.DTO.mapper.ComputerMapper;
-import com.excilys.java.exception.ComputerException;
+import com.excilys.java.exception.ComputerDateException;
+import com.excilys.java.exception.ComputerNameException;
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
 import com.excilys.java.service.CompanyService;
@@ -33,7 +34,8 @@ import com.excilys.java.validator.ValidatorComputer;
  * Servlet class for add a computer
  * @author ninon
  */
-@WebServlet("/AddComputer")
+
+//@WebServlet("/AddComputer")
 public class AddComputerServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 2L;
@@ -76,22 +78,20 @@ public class AddComputerServlet extends HttpServlet {
 	
 		try {
 			ValidatorComputer.validatorName(request.getParameter("computerName"));
-			computerDTO.setName(request.getParameter("computerName"));
-		}catch ( ComputerException e ) {
-            errors.put( "computerName", e.getMessage() );
-        }
-		
-		try {
+			computerDTO.setComputerName(request.getParameter("computerName"));
+			
 			ValidatorComputer.validatorDate(request.getParameter("introduced"), request.getParameter("discontinued"));
 			computerDTO.setIntroduced(request.getParameter("introduced"));
 			computerDTO.setDiscontinued(request.getParameter("discontinued"));
-		}catch ( ComputerException e ) {
+		}catch ( ComputerNameException e ) {
+            errors.put( "computerName", e.getMessage() );
+        }catch ( ComputerDateException e ) {
             errors.put( "discontinued", e.getMessage());
         }
 		
 		if (errors.isEmpty()) {
-			companyDTO.setId(request.getParameter("companyId"));
-			computerDTO.setCompany(companyDTO);
+			companyDTO.setCompanyId(request.getParameter("companyId"));
+			computerDTO.setCompanyDTO(companyDTO);
 			computer = ComputerMapper.mapDtoToComputer(computerDTO);
 			computerService.createComputer(computer);
 			resultCreation = "Computer added with success.";

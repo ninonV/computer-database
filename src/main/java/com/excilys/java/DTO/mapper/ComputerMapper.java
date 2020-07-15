@@ -44,8 +44,8 @@ public class ComputerMapper {
 	    		discontinued = LocalDate.parse(computerDTO.getDiscontinued(), formatter);
 	    	}
 	    	
-	    	Long company_id = Long.valueOf(computerDTO.getCompany().getId());
-	    	String company_name = computerDTO.getCompany().getName();
+	    	Long company_id = Long.valueOf(computerDTO.getCompanyDTO().getId());
+	    	String company_name = computerDTO.getCompanyDTO().getName();
 	    	
 	    	computer.setId(id);
 	    	computer.setName(name);
@@ -85,7 +85,7 @@ public class ComputerMapper {
 					.setId(computer.getCompany().getId().toString())
 					.setName(computer.getCompany().getName())
 					.build();
-			computerDTO.setCompany(companyDTO);
+			computerDTO.setCompanyDTO(companyDTO);
 		}
 		return computerDTO;
 	}

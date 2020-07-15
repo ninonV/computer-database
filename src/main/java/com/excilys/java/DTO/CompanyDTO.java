@@ -9,8 +9,8 @@ public class CompanyDTO {
 		return id;
 	}
 
-	public void setId(String idCompany) {
-		this.id = idCompany;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {

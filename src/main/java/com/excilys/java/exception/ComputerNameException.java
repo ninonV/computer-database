@@ -1,15 +1,16 @@
 package com.excilys.java.exception;
 
-public class DateException extends ComputerException {
+public class ComputerNameException extends ComputerException {
 
 	private static final long serialVersionUID = 1L;
 	private String message;
-
-	public DateException() {
-		message = "Introduced date must be before discontinued date.";
+	
+	public ComputerNameException() {
+		message = "The name is mandatory.";
 	}
 
 	public String getMessage() {
 		return message;
 	}
+	
 }
