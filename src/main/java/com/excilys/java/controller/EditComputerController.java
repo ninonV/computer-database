@@ -41,8 +41,8 @@ public class EditComputerController {
 		ModelAndView modelView = new ModelAndView("editComputer");
 		Computer computer = new Computer();
 
-		if (computerDTO.getId() != null) {
-			computer = computerService.findbyID(Long.parseLong(computerDTO.getId()));
+		if (computerDTO.getComputerId() != null) {
+			computer = computerService.findbyID(Long.parseLong(computerDTO.getComputerId()));
 		}
 
 		if (computer != null) {
@@ -66,10 +66,9 @@ public class EditComputerController {
 		
 		Map<String, String> errors = new HashMap<String, String>();
 		String resultCreation;
-		Computer computer = new Computer();
 	
 		try {
-			ValidatorComputer.validatorName(computerDTO.getName());
+			ValidatorComputer.validatorName(computerDTO.getComputerName());
 			ValidatorComputer.validatorDate(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		}catch ( ComputerNameException e ) {
             errors.put( "computerName", e.getMessage() );
@@ -78,20 +77,21 @@ public class EditComputerController {
         }
 		
 		if (errors.isEmpty()) {
-			computer = ComputerMapper.mapDtoToComputer(computerDTO);
-			computerService.createComputer(computer);
+			computerDTO.setCompanyDTO(companyDTO);
+			Computer computer = ComputerMapper.mapDtoToComputer(computerDTO);
+			computerService.updateComputer(computer);
 			resultCreation = "Computer updated with success.";
 			logger.info("Computer updated with success.");
 			
 			modelView.addObject("resultCreation", resultCreation);
-			return new RedirectView("/ListComputer");
+			return new RedirectView("/Computer-database/");
 		}else {
 			resultCreation = "Impossible to update this computer.";
 			logger.info("Impossible to update this computer.");
 			
 			modelView.addObject("errors", errors );
 			modelView.addObject("resultCreation", resultCreation);
-			return new RedirectView("redirect:/editComputer?computer=" + computerDTO);
+			return new RedirectView("redirect:/Computer-database/editComputer?computer=" + computerDTO);
 		}
 	}
 }

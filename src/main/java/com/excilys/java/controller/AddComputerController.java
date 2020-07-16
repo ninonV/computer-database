@@ -53,19 +53,19 @@ public class AddComputerController {
 		
 		Map<String, String> errors = new HashMap<String, String>();
 		String resultCreation;
-		Computer computer = new Computer();
 	
 		try {
-			ValidatorComputer.validatorName(computerDTO.getName());
+			ValidatorComputer.validatorName(computerDTO.getComputerName());
 			ValidatorComputer.validatorDate(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		}catch ( ComputerNameException e ) {
-            errors.put( "computerName", e.getMessage() );
+            errors.put( "name", e.getMessage() );
         }catch ( ComputerDateException e ) {
             errors.put( "discontinued", e.getMessage());
         }
 		
 		if (errors.isEmpty()) {
-			computer = ComputerMapper.mapDtoToComputer(computerDTO);
+			computerDTO.setCompanyDTO(companyDTO);
+			Computer computer = ComputerMapper.mapDtoToComputer(computerDTO);
 			computerService.createComputer(computer);
 			resultCreation = "Computer added with success.";
 			logger.info("Computer added with success.");

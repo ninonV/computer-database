@@ -31,10 +31,10 @@ public class ComputerMapper {
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 		try {
 			Long id = null;
-			if(computerDTO.getId()!=null) {
-				id=Long.valueOf(computerDTO.getId());
+			if(computerDTO.getComputerId()!=null) {
+				id=Long.valueOf(computerDTO.getComputerId());
 			}
-			String name = computerDTO.getName();
+			String name = computerDTO.getComputerName();
 	    	LocalDate introduced = null;
 	    	if (!computerDTO.getIntroduced().equals(null) && !computerDTO.getIntroduced().isEmpty()) {
 	    		introduced = LocalDate.parse(computerDTO.getIntroduced(), formatter);
@@ -44,8 +44,8 @@ public class ComputerMapper {
 	    		discontinued = LocalDate.parse(computerDTO.getDiscontinued(), formatter);
 	    	}
 	    	
-	    	Long company_id = Long.valueOf(computerDTO.getCompanyDTO().getId());
-	    	String company_name = computerDTO.getCompanyDTO().getName();
+	    	Long company_id = Long.valueOf(computerDTO.getCompanyDTO().getCompanyId());
+	    	String company_name = computerDTO.getCompanyDTO().getCompanyName();
 	    	
 	    	computer.setId(id);
 	    	computer.setName(name);
@@ -69,10 +69,10 @@ public class ComputerMapper {
 	public static ComputerDTO mapComputertoDTO(Computer computer){
 		ComputerDTO computerDTO = new ComputerDTO();
 		if(computer.getId()!=null) {
-			computerDTO.setId(computer.getId().toString());
+			computerDTO.setComputerId(computer.getId().toString());
 		}
 		if(computer.getName()!=null) {
-			computerDTO.setName(computer.getName());
+			computerDTO.setComputerName(computer.getName());
 		}
 		if(computer.getIntroduced()!=null) {
 			computerDTO.setIntroduced(computer.getIntroduced().toString());
@@ -82,8 +82,8 @@ public class ComputerMapper {
 		}
 		if(computer.getCompany()!=null && computer.getCompany().getId()!=null){ 
 			CompanyDTO companyDTO = new CompanyDTO.Builder()
-					.setId(computer.getCompany().getId().toString())
-					.setName(computer.getCompany().getName())
+					.setCompanyId(computer.getCompany().getId().toString())
+					.setCompanyName(computer.getCompany().getName())
 					.build();
 			computerDTO.setCompanyDTO(companyDTO);
 		}

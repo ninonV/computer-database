@@ -17,8 +17,8 @@ public class CompanyMapper {
 	 */
 	public static Company mapDtoToCompany(CompanyDTO companyDTO){
 		Company company = new Company.Builder()
-									.setId(Long.valueOf(companyDTO.getId()))
-									.setName(companyDTO.getName())
+									.setId(Long.valueOf(companyDTO.getCompanyId()))
+									.setName(companyDTO.getCompanyName())
 									.build();
 		return company;
 	}
@@ -30,8 +30,8 @@ public class CompanyMapper {
 	 */
 	public static CompanyDTO mapCompanyToDTO(Company company){
 		CompanyDTO companyDTO = new CompanyDTO.Builder()
-											.setId(company.getId().toString())
-											.setName(company.getName())
+											.setCompanyId(company.getId().toString())
+											.setCompanyName(company.getName())
 											.build();
 		return companyDTO;
 	}

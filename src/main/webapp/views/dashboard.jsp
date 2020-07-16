@@ -98,12 +98,12 @@
 						varStatus="status">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="${computer.id}"></td>
-							<td><a href="EditComputer?computerId=${computer.id}"
-								onclick=""><c:out value="${computer.name}" /></a></td>
+								class="cb" value="${computer.computerId}"></td>
+							<td><a href="EditComputer?computerId=${computer.computerId}"
+								onclick=""><c:out value="${computer.computerName}" /></a></td>
 							<td><c:out value="${computer.introduced}" /></td>
 							<td><c:out value="${computer.discontinued}" /></td>
-							<td><c:out value="${computer.company.name}" /></td>
+							<td><c:out value="${computer.companyDTO.companyName}" /></td>
 						</tr>
 					</c:forEach>
 

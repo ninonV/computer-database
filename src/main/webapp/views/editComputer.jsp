@@ -22,16 +22,16 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <div class="label label-default pull-right">
-                        id: <c:out value="${computer.id}"/>
+                        id: <c:out value="${computer.computerId}"/>
                     </div>
                     <h1>Edit Computer</h1>
 
                     <form action="EditComputer" method="POST" onsubmit="return validateForm()">
-                        <input type="hidden" value="${computer.id}" id="computerId" name = "computerId"/>
+                        <input type="hidden" value="${computer.computerId}" id="computerId" name = "computerId"/>
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" name = "computerName" value ="${computer.name}" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name = "computerName" value ="${computer.computerName}" placeholder="Computer name">
                             	<p class="error">${errors['computerName']}</p>
                             </div>
                             <div class="form-group">
@@ -46,10 +46,10 @@
                             <div class="form-group">
                                 <label for="companyId">Company</label>
                                 <select class="form-control" id="companyId" name="companyId" >
-                                    <option value="${computer.company.id}" selected="selected"><c:out value=" ${computer.company.name}"/></option>
+                                    <option value="${computer.companyDTO.companyId}" selected="selected"><c:out value=" ${computer.companyDTO.companyName}"/></option>
                                     <option value="0">--</option>
                                     	<c:forEach items="${listCompanies}" var="company" varStatus="status">
-                                			<option value="${company.id}"><c:out value="${company.name}"/></option>
+                                			<option value="${company.companyId}"><c:out value="${company.companyName}"/></option>
                                 		</c:forEach>
                                 </select>
                             </div>            

@@ -36,9 +36,9 @@ public class ComputerDAO extends DAO<Computer>{
 	private static final String COUNT_SEARCH = "SELECT COUNT(computer.id) FROM computer LEFT JOIN company ON company_id = company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ?";
 	private static final String GET_PAGE = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS "
-			+ "company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY %s LIMIT ? OFFSET ?";
+			+ "company_name FROM computer LEFT JOIN company ON company_id = company.id ORDER BY %s IS NULL, %s LIMIT ? OFFSET ?";
 	private static final String GET_PAGE_SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company_id, company.name AS company_name "
-			+ "FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY %s LIMIT ? OFFSET ?";
+			+ "FROM computer LEFT JOIN company ON company_id = company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY %s IS NULL, %s LIMIT ? OFFSET ?";
 
 	
 	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
@@ -112,11 +112,6 @@ public class ComputerDAO extends DAO<Computer>{
             if (computer.getDiscontinued()!=null) {
             	dateSQLDiscontinued=Date.valueOf(computer.getDiscontinued());
             }
-            /*if (computer.getCompany().getId()==null || computer.getCompany().getId()==0) {
-            	preparedStatement.setNull(4, Types.BIGINT);
-            }else {
-            	 preparedStatement.setLong(4, computer.getCompany().getId());
-            }*/
             jdbcTemplate.update(UPDATE, 
             		computer.getName(), 
             		dateSQLIntroduced,
@@ -184,13 +179,13 @@ public class ComputerDAO extends DAO<Computer>{
 				order="computer.id";
 			}
 			if(search==null || search.isEmpty()) {
-				String orderChoice= String.format(GET_PAGE,order);
+				String orderChoice= String.format(GET_PAGE,(order.split(" "))[0],order);
 				computers = jdbcTemplate.query(orderChoice, 
 						new ComputerMapper(), 
 						page.getLinesPage() , 
 						page.getFirstLine()-1);
 			}else {
-				String orderChoice= String.format(GET_PAGE_SEARCH,order);
+				String orderChoice= String.format(GET_PAGE_SEARCH,(order.split(" "))[0],order);
 				computers = jdbcTemplate.query(orderChoice, 
 						new ComputerMapper(),
 						"%"+search+"%",

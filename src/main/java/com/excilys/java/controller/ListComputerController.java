@@ -60,7 +60,7 @@ public class ListComputerController {
         modelView.addObject("totalPages", nbPages);
         modelView.addObject("linesNb", page.getLinesPage());
         modelView.addObject("search", dashboardDTO.getSearch());
-        modelView.addObject("order", dashboardDTO.getSearch());
+        modelView.addObject("order", dashboardDTO.getOrder());
         modelView.addObject("listComputers", computersDTO);
         
         return modelView; 

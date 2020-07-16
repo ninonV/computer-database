@@ -2,30 +2,30 @@ package com.excilys.java.DTO;
 
 public class CompanyDTO {
 	
-	private String id; 
-	private String name;
+	private String companyId; 
+	private String companyName;
 
-	public String getId() {
-		return id;
+	public String getCompanyId() {
+		return companyId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCompanyId(String id) {
+		this.companyId = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCompanyName(String name) {
+		this.companyName = name;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
-		sb.append(" id :").append(this.id);
-		sb.append(", name :").append(this.name).append("\n");
+		sb.append(" id :").append(this.companyId);
+		sb.append(", name :").append(this.companyName).append("\n");
 		return sb.toString();
 	}
 
@@ -33,8 +33,8 @@ public class CompanyDTO {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
 		return result;
 	}
 
@@ -47,37 +47,37 @@ public class CompanyDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		CompanyDTO other = (CompanyDTO) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (companyId == null) {
+			if (other.companyId != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!companyId.equals(other.companyId))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (companyName == null) {
+			if (other.companyName != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!companyName.equals(other.companyName))
 			return false;
 		return true;
 	}
 	
     public static class Builder {
-        private String id;
-        private String name;
+        private String companyId;
+        private String companyName;
 
-        public Builder setId(String id) {
-            this.id = id;
+        public Builder setCompanyId(String id) {
+            this.companyId = id;
             return this;
         }
 
-        public Builder setName(String name) {
-            this.name = name;
+        public Builder setCompanyName(String name) {
+            this.companyName = name;
             return this;
         }
 
         public CompanyDTO build() {
             CompanyDTO companyDTO = new CompanyDTO();
-            companyDTO.id = this.id;
-            companyDTO.name = this.name;
+            companyDTO.companyId = this.companyId;
+            companyDTO.companyName = this.companyName;
             return companyDTO;
         }
     }
