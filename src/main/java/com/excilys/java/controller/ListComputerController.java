@@ -1,7 +1,7 @@
 package com.excilys.java.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +52,7 @@ public class ListComputerController {
 		page.setFirstLine(page.calculFirstLine());
 		
 		List<Computer> computers = computerService.getListPage(page,dashboardDTO.getSearch(),dashboardDTO.getOrder());
-		List<ComputerDTO> computersDTO = new ArrayList<ComputerDTO>();
-		computers.stream().forEach(computer->computersDTO.add(ComputerMapper.mapComputertoDTO(computer)));
+		List<ComputerDTO> computersDTO = computers.stream().map(computer->ComputerMapper.mapComputertoDTO(computer)).collect(Collectors.toList());
         
         modelView.addObject("totalComputers", total); 
         modelView.addObject("currentPage", page.getCurrentPage());

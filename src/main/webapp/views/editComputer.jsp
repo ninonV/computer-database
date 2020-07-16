@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,9 @@
         <div class="container">
             <a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
         </div>
+        <div class="container">
+				<a id="en" href="/ListComputer/lang=en"><spring:message code="lang.en" /></a> | <a id="fr" href="/ListComputer/lang=fr"><spring:message code="lang.fr" /></a>	
+		</div>
     </header>
     <section id="main">
         <div class="container">
@@ -24,27 +28,27 @@
                     <div class="label label-default pull-right">
                         id: <c:out value="${computer.computerId}"/>
                     </div>
-                    <h1>Edit Computer</h1>
+                    <h1><spring:message code="label.editComputer" /></h1>
 
                     <form action="EditComputer" method="POST" onsubmit="return validateForm()">
                         <input type="hidden" value="${computer.computerId}" id="computerId" name = "computerId"/>
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
+                                <label for="computerName"><spring:message code="label.computer" /></label>
                                 <input type="text" class="form-control" id="computerName" name = "computerName" value ="${computer.computerName}" placeholder="Computer name">
                             	<p class="error">${errors['computerName']}</p>
                             </div>
                             <div class="form-group">
-                                <label for="introduced">Introduced date</label>
+                                <label for="introduced"><spring:message code="label.introduced" /></label>
                                 <input type="date" class="form-control" id="introduced" name = "introduced" value = "${computer.introduced}" placeholder="Introduced date">
                             </div>
                             <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
+                                <label for="discontinued"><spring:message code="label.discontinued" /></label>
                                 <input type="date" class="form-control" id="discontinued" name = "discontinued" value ="${computer.discontinued}" placeholder="Discontinued date">                                
 								<p class="error">${errors['discontinued']}</p>                            
                             </div>
                             <div class="form-group">
-                                <label for="companyId">Company</label>
+                                <label for="companyId"><spring:message code="label.company" /></label>
                                 <select class="form-control" id="companyId" name="companyId" >
                                     <option value="${computer.companyDTO.companyId}" selected="selected"><c:out value=" ${computer.companyDTO.companyName}"/></option>
                                     <option value="0">--</option>
@@ -55,9 +59,9 @@
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
-                        	<input type ="submit" value="Edit" class="btn btn-primary" >
+                        	<input type ="submit" value=<spring:message code="button.edit" /> class="btn btn-primary" >
                             or
-                            <a href="ListComputer" class="btn btn-default">Cancel</a>
+                            <a href="ListComputer" class="btn btn-default"><spring:message code="button.cancel" /></a>
                         </div>
                         <p class="${empty errors ? 'success' : 'error'}">${resultCreation}</p>
                     </form>

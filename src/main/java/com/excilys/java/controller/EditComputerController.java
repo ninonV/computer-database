@@ -1,9 +1,9 @@
 package com.excilys.java.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +52,7 @@ public class EditComputerController {
 		}
 
 		List<Company> companies = companyService.listCompanies();
-		List<CompanyDTO> companiesDTO = new ArrayList<CompanyDTO>();
-		companies.stream().forEach(company -> companiesDTO.add(CompanyMapper.mapCompanyToDTO(company)));
+		List<CompanyDTO> companiesDTO = companies.stream().map(company -> CompanyMapper.mapCompanyToDTO(company)).collect(Collectors.toList());
 
 		modelView.addObject("listCompanies", companiesDTO);
 		modelView.addObject("computer", computerDTO);

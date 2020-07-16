@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -15,8 +16,10 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="ListComputer"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
+		</div>
+		<div class="container">
+			<a id="en" href="ListComputer?lang=en"><spring:message code="lang.en" /></a> | <a id="fr" href="ListComputer?lang=fr"><spring:message code="lang.fr" /></a>			
 		</div>
 	</header>
 
@@ -24,7 +27,15 @@
 		<div class="container">
 			<h1 id="homeTitle">
 				<c:out value="${totalComputers}" />
-				Computers found
+				<c:choose>
+					<c:when test="${totalComputers <= 1 }">
+						<spring:message code="label.numberComputer" />
+					</c:when>
+					<c:otherwise>
+						<spring:message code="label.numberComputers" />
+					</c:otherwise>
+				</c:choose>
+				
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -33,13 +44,12 @@
 						<input type="search" id="searchbox" name="search"
 							class="form-control" value="<c:out value="${param.search}"/>"
 							placeholder="Search name" /> <input type="submit"
-							id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+							id="searchsubmit" value=<spring:message code="label.search" /> class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="AddComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="AddComputer"><spring:message code="label.addComputer" /></a> 
+					<a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="button.edit" /></a>
 				</div>
 			</div>
 		</div>
@@ -62,27 +72,27 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name <a
+						<th><spring:message code="label.computer" /><a
 							href="ListComputer?linesNb=${linesNb}&order=computer.name ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
 							href="ListComputer?linesNb=${linesNb}&order=computer.name DESC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-down"></i></a>
 						</th>
-						<th>Introduced date <a
+						<th><spring:message code="label.introduced" /><a
 							href="ListComputer?linesNb=${linesNb}&order=introduced ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
 							href="ListComputer?linesNb=${linesNb}&order=introduced DESC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-down"></i></a>
 						</th>
 						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date <a
+						<th><spring:message code="label.discontinued" /> <a
 							href="ListComputer?linesNb=${linesNb}&order=discontinued ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
 							href="ListComputer?linesNb=${linesNb}&order=discontinued DESC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-down"></i></a>
 						</th>
 						<!-- Table header for Company -->
-						<th>Company <a
+						<th><spring:message code="label.company" /> <a
 							href="ListComputer?linesNb=${linesNb}&order=company.name ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
 							href="ListComputer?linesNb=${linesNb}&order=company.name DESC&search=${search}"><i
