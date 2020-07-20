@@ -1,18 +1,37 @@
 package com.excilys.java.model;
 
 import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.data.annotation.Id;
 /**
  * Class representing a computer
  * @author ninonV
  *
  */
 
+@Entity
+@Table(name = "computer")
 public class Computer {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "name")
 	private String name;
-	private LocalDate introduced; 
+	@Column(name = "introduced")
+	private LocalDate introduced;
+	@Column(name = "discontinued")
 	private LocalDate discontinued;
+	@ManyToOne
+	@JoinColumn(name = "company_id")
 	private Company company;
 
 	public Long getId() {

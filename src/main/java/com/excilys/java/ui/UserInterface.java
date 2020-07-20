@@ -3,6 +3,7 @@ package com.excilys.java.ui;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class UserInterface {
 						
 					case 3: 
 						Long idC = getID();
-						Computer computerID = computerService.findbyID(idC);
+						Optional<Computer> computerID = computerService.findbyID(idC);
 						System.out.println(computerID);
 						break; 
 						
@@ -77,7 +78,7 @@ public class UserInterface {
 						System.out.println("Which computer do you want to update: ");
 						Long idComputer = getID();
 						if (computerService.existComputer(idComputer)) {
-							Computer computerIdUpdate = computerService.findbyID(idComputer);
+							Optional<Computer> computerIdUpdate = computerService.findbyID(idComputer);
 							System.out.println(computerIdUpdate);
 							System.out.println("Complete the new informations : ");
 							Computer computerUpdate = infoComputer();
@@ -93,7 +94,7 @@ public class UserInterface {
 						System.out.println("Which computer do you want to delete: ");
 						Long idComputerDelete = getID();
 						if (computerService.existComputer(idComputerDelete)) {
-							Computer computerIdDelete = computerService.findbyID(idComputerDelete);
+							Optional<Computer> computerIdDelete = computerService.findbyID(idComputerDelete);
 							System.out.println(computerIdDelete);
 							computerService.deleteComputer(idComputerDelete);
 							System.out.println("Computer deleted with success");
@@ -105,7 +106,7 @@ public class UserInterface {
 						System.out.println("Which company do you want to delete: ");
 						Long idCompanyDelete = getID();
 						if (companyService.existCompany(idCompanyDelete)){
-							Company companyIdDelete = companyService.findbyID(idCompanyDelete);
+							Optional<Company> companyIdDelete = companyService.findbyID(idCompanyDelete);
 							System.out.println(companyIdDelete);
 							companyService.deleteCompany(idCompanyDelete);
 							System.out.println("Company ans computers of the company deleted with success");

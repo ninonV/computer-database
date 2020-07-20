@@ -1,6 +1,7 @@
 package com.excilys.java.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,27 +22,27 @@ public class CompanyService {
 	private CompanyDAO companyDAO;
 	
 	public List<Company> listCompanies(){
-		return companyDAO.getAll();
+		return companyDAO.findAll();
 	}
 	
-	public Company findbyID(Long id) {
+	public Optional<Company> findbyID(Long id) {
 		return companyDAO.findById(id);
 	}
 	
 	public void deleteCompany(Long id) {
-		companyDAO.delete(id);
+		companyDAO.deleteById(id);
 	}
 
 	public boolean existCompany(Long id) {
-		return companyDAO.exist(id);
+		return companyDAO.existsById(id);
 	}
 	
 	public int countCompany() {
-		return companyDAO.count();
+		return (int) companyDAO.count();
 	}
 	
-	public List<Company> getListPage(Page page){
+	/*public List<Company> getListPage(Page page){
 		return companyDAO.getPage(page);
-	}
+	}*/
 	
 }

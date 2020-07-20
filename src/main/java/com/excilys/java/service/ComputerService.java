@@ -1,6 +1,7 @@
 package com.excilys.java.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,36 +25,36 @@ public class ComputerService {
 
 	
 	public List<Computer> listComputers() {
-		return computerDAO.getAll();
+		return computerDAO.findAll();
 	}
 	
-	public Computer findbyID(Long id) {
+	public Optional<Computer> findbyID(Long id) {
 		return computerDAO.findById(id);
 	}
 	
 	public void createComputer(Computer computer) {
-		computerDAO.create(computer);
+		computerDAO.save(computer);
 	}
 	
 	public void updateComputer(Computer computer) {
-		computerDAO.update(computer);
+		computerDAO.save(computer);
 	}
 	
 	public void deleteComputer(Long id) {
-		computerDAO.delete(id);
+		computerDAO.deleteById(id);
 	}
 	
 	public boolean existComputer(Long id) {
-		return computerDAO.exist(id);
+		return computerDAO.existsById(id);
 	}
 	
 	public int countComputer(String search) {
-		return computerDAO.count(search);
+		return (int) computerDAO.count();
 	}
 	
-	public List<Computer> getListPage(Page page, String search, String order) {
+	/*public List<Computer> getListPage(Page page, String search, String order) {
 		return computerDAO.getPage(page,search,order);
-	}
+	}*/
 	
 	/**
 	 * Check the conditions to create or update a computer
