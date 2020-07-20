@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.java.DTO.CompanyDTO;
@@ -26,6 +27,7 @@ import com.excilys.java.service.ComputerService;
 import com.excilys.java.validator.ValidatorComputer;
 
 @Controller
+@RequestMapping("/AddComputer")
 public class AddComputerController {
 
 	private static Logger logger = LoggerFactory.getLogger(AddComputerController.class);
@@ -35,7 +37,7 @@ public class AddComputerController {
 	@Autowired
 	private ComputerService computerService;  
 	
-	@GetMapping("/AddComputer")
+	@GetMapping
 	public ModelAndView computerInfo() {
 		ModelAndView modelView = new ModelAndView("addComputer"); 
 		
@@ -46,7 +48,7 @@ public class AddComputerController {
 		return modelView; 
 	}
 	
-	@PostMapping("/AddComputer")
+	@PostMapping
 	public ModelAndView addComputer(ComputerDTO computerDTO, CompanyDTO companyDTO) {
 		ModelAndView modelView = new ModelAndView("addComputer");
 		

@@ -19,7 +19,8 @@
 			<a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
 		</div>
 		<div class="container">
-			<a id="en" href="ListComputer?lang=en"><spring:message code="lang.en" /></a> | <a id="fr" href="ListComputer?lang=fr"><spring:message code="lang.fr" /></a>			
+			<a id="en" href="ListComputer?lang=en&linesNb=${linesNb}&pageNb=${currentPage}&search=${search}&order=${order}"><spring:message code="lang.en" /></a> 
+			| <a id="fr" href="ListComputer?lang=fr&linesNb=${linesNb}&pageNb=${currentPage}&search=${search}&order=${order}"><spring:message code="lang.fr" /></a>			
 		</div>
 	</header>
 

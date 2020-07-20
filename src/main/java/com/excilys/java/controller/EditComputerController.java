@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -27,6 +28,7 @@ import com.excilys.java.service.ComputerService;
 import com.excilys.java.validator.ValidatorComputer;
 
 @Controller
+@RequestMapping("/EditComputer")
 public class EditComputerController {
 
 	private static Logger logger = LoggerFactory.getLogger(EditComputerController.class);
@@ -36,7 +38,7 @@ public class EditComputerController {
 	@Autowired
 	private ComputerService computerService;
 
-	@GetMapping("/EditComputer")
+	@GetMapping
 	public ModelAndView computerInfo(ComputerDTO computerDTO) {
 		ModelAndView modelView = new ModelAndView("editComputer");
 		Computer computer = new Computer();
@@ -59,7 +61,7 @@ public class EditComputerController {
 		return modelView;
 	}
 
-	@PostMapping("/EditComputer")
+	@PostMapping
 	public RedirectView addComputer(ComputerDTO computerDTO, CompanyDTO companyDTO) {
 		ModelAndView modelView = new ModelAndView("editComputer");
 		

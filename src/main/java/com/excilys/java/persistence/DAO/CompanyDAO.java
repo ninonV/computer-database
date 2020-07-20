@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Page;
@@ -27,6 +28,7 @@ public class CompanyDAO extends DAO<Company>{
 	private static final String GET_ALL = "SELECT id, name FROM company ORDER BY id";
 	private static final String GET_WITH_ID = "SELECT id, name  FROM company WHERE id = ?";
 	private static final String DELETE = "DELETE FROM company WHERE id = ?";
+	private static final String DELETE_COMPUTER_FROM_COMPANY = "DELETE FROM computer WHERE company_id = ?";
 	private static final String COUNT = "SELECT COUNT(id) FROM company";
 	private static final String GET_PAGE = "SELECT id, name  FROM company LIMIT ? OFFSET ?";
 	
@@ -65,16 +67,20 @@ public class CompanyDAO extends DAO<Company>{
 	
 	@Override
 	public boolean exist(Long id){
-		boolean isInBDD = false; 
-		if ((this.findById(id)).getId()!=null || this.findById(id).getId()!=0) {
-			isInBDD=true; 
+		boolean isInBDD = false;
+		if(id!=null) {
+			if ((this.findById(id)).getId()!=null || this.findById(id).getId()!=0) {
+				isInBDD=true; 
+			}
 		}
 		return isInBDD; 
 	}
 	
+	@Transactional
 	@Override
 	public void delete(Long id) {
 		try (Connection connect = dataSource.getConnection()) {
+            jdbcTemplate.update(DELETE_COMPUTER_FROM_COMPANY, id);
             jdbcTemplate.update(DELETE, id);
         } catch (SQLException e) {
             logger.error("Error when deleting a company",e);

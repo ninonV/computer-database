@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +22,7 @@ import com.excilys.java.service.ComputerService;
 
 
 @Controller
+@RequestMapping("/ListComputer")
 public class ListComputerController {
 	
 	private static Logger logger = LoggerFactory.getLogger(ListComputerController.class);
@@ -28,7 +30,7 @@ public class ListComputerController {
 	@Autowired
 	private ComputerService computerService; 
 	
-	@GetMapping("/ListComputer")
+	@GetMapping
 	public ModelAndView listComputer(DashboardDTO dashboardDTO) { 
         ModelAndView modelView = new ModelAndView("dashboard"); 
         
@@ -65,7 +67,7 @@ public class ListComputerController {
         return modelView; 
     } 
 	
-	@PostMapping("/ListComputer")
+	@PostMapping
 	 public ModelAndView deleteComputer(@RequestParam String selection){
 		ModelAndView modelView = new ModelAndView("redirect:/ListComputer"); 
 		

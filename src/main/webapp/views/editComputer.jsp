@@ -17,9 +17,10 @@
         <div class="container">
             <a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
         </div>
-        <div class="container">
-				<a id="en" href="/ListComputer/lang=en"><spring:message code="lang.en" /></a> | <a id="fr" href="/ListComputer/lang=fr"><spring:message code="lang.fr" /></a>	
-		</div>
+       <%-- <div class="container">
+			 <a id="en" href="EditComputer?lang=en"><spring:message code="lang.en" /></a> 
+			| <a id="fr" href="EditComputer?lang=fr"><spring:message code="lang.fr" /></a>	
+		</div> --%>
     </header>
     <section id="main">
         <div class="container">

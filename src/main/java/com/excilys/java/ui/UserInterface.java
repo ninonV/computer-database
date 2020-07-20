@@ -107,10 +107,8 @@ public class UserInterface {
 						if (companyService.existCompany(idCompanyDelete)){
 							Company companyIdDelete = companyService.findbyID(idCompanyDelete);
 							System.out.println(companyIdDelete);
-							computerService.deleteComputersFromCompany(idCompanyDelete);
-							System.out.println("Computers of the company deleted with success");
 							companyService.deleteCompany(idCompanyDelete);
-							System.out.println("Company deleted with success");
+							System.out.println("Company ans computers of the company deleted with success");
 							
 							
 						}else {

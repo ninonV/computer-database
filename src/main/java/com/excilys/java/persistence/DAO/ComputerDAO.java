@@ -31,7 +31,6 @@ public class ComputerDAO extends DAO<Computer>{
 	private static final String CREATE = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 	private static final String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id= ?";
 	private static final String DELETE = "DELETE FROM computer WHERE id = ? ";
-	private static final String DELETE_COMPUTER_FROM_COMPANY = "DELETE FROM computer WHERE company_id = ?";
 	private static final String COUNT = "SELECT COUNT(id) FROM computer";
 	private static final String COUNT_SEARCH = "SELECT COUNT(computer.id) FROM computer LEFT JOIN company ON company_id = company.id "
 			+ "WHERE computer.name LIKE ? OR company.name LIKE ?";
@@ -200,15 +199,4 @@ public class ComputerDAO extends DAO<Computer>{
 		return computers;
 	}
 	
-	/**
-	 * Delete the computers associated with the company deleted
-	 * @param idCompany
-	 */
-	public void deleteComputersFromCompany(Long id) {
-		try (Connection connect = dataSource.getConnection()) {
-	            jdbcTemplate.update(DELETE_COMPUTER_FROM_COMPANY, id);
-	        } catch (SQLException e) {
-	            logger.error("Error when deleting a computer for the company desired",e);
-	        }	
-	}
 }

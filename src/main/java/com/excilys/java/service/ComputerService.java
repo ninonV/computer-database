@@ -55,10 +55,6 @@ public class ComputerService {
 		return computerDAO.getPage(page,search,order);
 	}
 	
-	public void deleteComputersFromCompany(Long id) {
-		computerDAO.deleteComputersFromCompany(id);;
-	}
-	
 	/**
 	 * Check the conditions to create or update a computer
 	 * @param computer
