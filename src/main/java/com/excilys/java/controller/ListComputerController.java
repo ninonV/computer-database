@@ -17,7 +17,7 @@ import com.excilys.java.DTO.ComputerDTO;
 import com.excilys.java.DTO.DashboardDTO;
 import com.excilys.java.DTO.mapper.ComputerMapper;
 import com.excilys.java.model.Computer;
-import com.excilys.java.model.Page;
+import com.excilys.java.model.Pagination;
 import com.excilys.java.service.ComputerService;
 
 
@@ -34,7 +34,7 @@ public class ListComputerController {
 	public ModelAndView listComputer(DashboardDTO dashboardDTO) { 
         ModelAndView modelView = new ModelAndView("dashboard"); 
         
-        Page page = new Page();
+        Pagination page = new Pagination();
         
         if(dashboardDTO.getLinesNb()!=null) {
 			int linesNb= Integer.parseInt(dashboardDTO.getLinesNb());

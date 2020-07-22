@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.java.Spring.SpringConfiguration;
 import com.excilys.java.model.Company;
-import com.excilys.java.model.Page;
+import com.excilys.java.model.Pagination;
 import com.excilys.java.persistence.HikariConnect;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -81,7 +81,7 @@ public class CompanyDAOTest extends DBTestCase {
 	
 	@Test
 	public void testGetPage() {
-		Page page = new Page();
+		Pagination page = new Pagination();
 		page.setLinesPage(2);
 		List<Company> companies = companyDAO.getPage(page);
 		assertEquals(2,companies.size());

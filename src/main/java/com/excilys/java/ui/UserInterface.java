@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.java.model.Company;
 import com.excilys.java.model.Computer;
-import com.excilys.java.model.Page;
+import com.excilys.java.model.Pagination;
 import com.excilys.java.service.CompanyService;
 import com.excilys.java.service.ComputerService;
 
@@ -219,7 +219,7 @@ public class UserInterface {
 	 */
 	
 	public void pagesComputers(){
-		Page page = new Page();
+		Pagination page = new Pagination();
 		int total = computerService.countComputer(null);
 		int nbPages = page.getTotalPages(total);
 		boolean quitPage = false; 
@@ -237,7 +237,7 @@ public class UserInterface {
 	
 	
 	public void pagesCompanies() {
-		Page page = new Page();
+		Pagination page = new Pagination();
 		
 		int total = companyService.countCompany();
 		int nbPages = page.getTotalPages(total);
@@ -252,10 +252,10 @@ public class UserInterface {
 
 	/**
 	 * Show the menu of a page and calls the function of the pages
-	 * @param Page page, int nbPages
+	 * @param Pagination page, int nbPages
 	 * @return boolean
 	 */
-	public boolean menuPage(Page page, int nbPages) {
+	public boolean menuPage(Pagination page, int nbPages) {
 		boolean quitPage = false; 
 		
 		System.out.println("Page " + page.getCurrentPage() + "/"+ nbPages );

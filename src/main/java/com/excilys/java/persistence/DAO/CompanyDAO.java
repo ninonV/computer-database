@@ -10,4 +10,16 @@ import com.excilys.java.model.Company;
  *  **/
 @Repository
 public interface CompanyDAO extends JpaRepository<Company, Long> {
+	
+	/*
+	public List<Company> getPage(Page page) {
+		List<Company> companies= new ArrayList<Company>();
+		try (Connection connect = dataSource.getConnection()){
+            companies = jdbcTemplate.query(GET_PAGE, new CompanyMapper(), page.getLinesPage(), page.getFirstLine()-1);
+        } catch (SQLException e) {
+            logger.error("Error when listing the companies on a page",e);
+        }
+		return companies;
+	}
+	 */
 }

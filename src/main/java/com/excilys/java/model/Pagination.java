@@ -1,6 +1,6 @@
 package com.excilys.java.model;
 
-public class Page {
+public class Pagination {
 	
 	/**
 	 * Class representing a page
@@ -14,7 +14,7 @@ public class Page {
 	private static final int DEFAULT_PAGE = 1;
 	private static final int MAX_LINES = 20;
 	
-	public Page() {
+	public Pagination() {
 		this.firstLine = DEFAULT_PAGE;
 		this.currentPage = DEFAULT_PAGE;
 		this.linesPage = MAX_LINES;

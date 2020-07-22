@@ -6,13 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.AbstractContextLoaderInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
@@ -21,16 +20,16 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"com.excilys.java.service", "com.excilys.java.controller","com.excilys.java.ui", "com.excilys.java.model" })
+@ComponentScan({"com.excilys.java.service", "com.excilys.java.controller","com.excilys.java.persistence", "com.excilys.java.model", "com.excilys.java.ui" })
 @EnableJpaRepositories("com.excilys.java.persistence")
-public class SpringConfiguration extends AbstractContextLoaderInitializer {
+public class SpringConfiguration {
+	
 
-	@Override
-	protected WebApplicationContext createRootApplicationContext() {
+	/**protected WebApplicationContext createRootApplicationContext() {
 		AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
 		applicationContext.register(SpringConfiguration.class, SpringMVCConfiguration.class);
 		return applicationContext;
-	}
+	}**/
 
 	@Bean
 	public HikariDataSource dataSource() {
@@ -38,11 +37,12 @@ public class SpringConfiguration extends AbstractContextLoaderInitializer {
 		return new HikariDataSource(config);
 	}
 
+	/*
 	@Bean
 	public JdbcTemplate jdbcTemplate() {
 		return new JdbcTemplate(dataSource());
-	}
-	
+	}*/
+
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -52,11 +52,11 @@ public class SpringConfiguration extends AbstractContextLoaderInitializer {
 	
 	@Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan(new String[] {"com.excilys.java.model"});
 
-        final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactoryBean.setJpaProperties(additionalProperties());
 

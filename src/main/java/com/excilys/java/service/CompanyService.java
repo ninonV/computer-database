@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excilys.java.model.Company;
-import com.excilys.java.model.Page;
+import com.excilys.java.model.Pagination;
 import com.excilys.java.persistence.DAO.CompanyDAO;
 
 @Service
