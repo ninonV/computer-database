@@ -1,9 +1,9 @@
-/src/main/resources/db.properties
-/src/main/resources/datasource.properties
-/src/test/resources/db.properties
-/target/
+/persistence/src/main/resources/db.properties
+/persistence/src/main/resources/datasource.properties
+/persistence/src/test/resources/db.properties
 .project
-.classpath
 .settings
-.tern-project
-
+/*/.settings
+/*/.classpath
+/*/.project
+/*/target/
