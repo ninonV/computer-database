@@ -41,6 +41,7 @@ public class ListComputerController {
 			page.setLinesPage(linesNb);
 		}
         
+
 		int total = computerService.countComputer(dashboardDTO.getSearch());
 		int nbPages = page.getTotalPages(total);
 		
@@ -52,7 +53,7 @@ public class ListComputerController {
 		}
 		
 		page.setFirstLine(page.calculFirstLine());
-		
+
 		List<Computer> computers = computerService.getListPage(page,dashboardDTO.getSearch(),dashboardDTO.getOrder());
 		List<ComputerDTO> computersDTO = computers.stream().map(computer->ComputerMapper.mapComputertoDTO(computer)).collect(Collectors.toList());
         

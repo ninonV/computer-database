@@ -1,7 +1,5 @@
 package com.excilys.java.Spring;
 
-import java.util.Properties;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +10,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -23,25 +19,12 @@ import com.zaxxer.hikari.HikariDataSource;
 @ComponentScan({"com.excilys.java.service", "com.excilys.java.controller","com.excilys.java.persistence", "com.excilys.java.model", "com.excilys.java.ui" })
 @EnableJpaRepositories("com.excilys.java.persistence")
 public class SpringConfiguration {
-	
-
-	/**protected WebApplicationContext createRootApplicationContext() {
-		AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
-		applicationContext.register(SpringConfiguration.class, SpringMVCConfiguration.class);
-		return applicationContext;
-	}**/
 
 	@Bean
 	public HikariDataSource dataSource() {
 		HikariConfig config = new HikariConfig("/datasource.properties");
 		return new HikariDataSource(config);
 	}
-
-	/*
-	@Bean
-	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource());
-	}*/
 
 	@Bean
 	public PlatformTransactionManager transactionManager() {
@@ -58,15 +41,6 @@ public class SpringConfiguration {
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
-        entityManagerFactoryBean.setJpaProperties(additionalProperties());
-
         return entityManagerFactoryBean;
     }
-	
-	Properties additionalProperties() {
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		properties.setProperty("hibernate.show_sql", "false");
-		return properties;
-	}
 }

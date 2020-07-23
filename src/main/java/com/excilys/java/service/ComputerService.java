@@ -1,7 +1,6 @@
 package com.excilys.java.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,8 +31,8 @@ public class ComputerService {
 		return computerDAO.findAll();
 	}
 	
-	public Optional<Computer> findbyID(Long id) {
-		return computerDAO.findById(id);
+	public Computer findbyID(Long id) {
+		return computerDAO.findById(id).get();
 	}
 	
 	public void createComputer(Computer computer) {
@@ -54,35 +53,36 @@ public class ComputerService {
 	
 	
 	public int countComputer(String search) {
-		return computerDAO.countByNameContaining(search);
+		if(search==null) {
+			return (int) computerDAO.count();
+		}else {
+			return computerDAO.countByNameContaining(search);
+		}
 	}
 	
 	public List<Computer> getListPage(Pagination page, String search, String order) {
 		if(order==null || order.isEmpty() || 
-				(!order.equals("computer.id ASC") &  !order.equals("computer.name ASC") &   !order.equals("computer.name DESC") & !order.equals("introduced ASC") & !order.equals("introduced DESC")
-				& !order.equals("discontinued ASC") & !order.equals("discontinued DESC") & !order.equals("company.name ASC") & !order.equals("company.name DESC"))) {
-			order="computer.id ASC";
+				(!order.equals("id ASC") &  !order.equals("name ASC") &   !order.equals("name DESC") & !order.equals("introduced ASC") & !order.equals("introduced DESC")
+				& !order.equals("discontinued ASC") & !order.equals("discontinued DESC") & !order.equals("company_name ASC") & !order.equals("company_name DESC"))) {
+			order="id ASC";
 		}
 		
 		String orderColumn = order.split(" ")[0];
 		String direction = order.split(" ")[1];
 		Pageable pageRequest;
 		
-		if(search==null || search.isEmpty()) {
-			if (direction.equals("ASC")) {
-				pageRequest = PageRequest.of(page.getCurrentPage(), page.getLinesPage(), Sort.by(Sort.Direction.ASC, order.split(" ")[0]));
-			}else {
-				pageRequest = PageRequest.of(page.getCurrentPage(), page.getLinesPage(), Sort.by(Sort.Direction.DESC, order.split(" ")[0]));
-			}
+		if (direction.equals("ASC")) {
+			pageRequest = PageRequest.of(page.getCurrentPage()-1, page.getLinesPage(), Sort.by(Sort.Direction.ASC, orderColumn));
+
+		}else {
+			pageRequest = PageRequest.of(page.getCurrentPage()-1, page.getLinesPage(), Sort.by(Sort.Direction.DESC, orderColumn));
+		}
+		
+		if(search==null || search.isEmpty()) {	
 			Page<Computer> computersPage = computerDAO.findAll(pageRequest);
 			return computersPage.getContent() ;
 		}else {
-			if (direction.equals("ASC")) {
-				pageRequest = PageRequest.of(page.getCurrentPage(), page.getLinesPage(), Sort.by(Sort.Direction.ASC, order.split(" ")[0]));
-			}else {
-				pageRequest = PageRequest.of(page.getCurrentPage(), page.getLinesPage(), Sort.by(Sort.Direction.DESC, order.split(" ")[0]));
-			}
-			List<Computer> computersPage = computerDAO.findByNameContaining(pageRequest, search, order);
+			List<Computer> computersPage = computerDAO.findByNameContaining(pageRequest, search);
 			return computersPage;
 		}
 		

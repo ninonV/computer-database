@@ -3,7 +3,7 @@ package com.excilys.java.DTO;
 public class DashboardDTO {
 
 	private String search;
-	private String order = "computer.id ASC";
+	private String order = "id ASC";
 	private String pageNb;
 	private String linesNb;
 	

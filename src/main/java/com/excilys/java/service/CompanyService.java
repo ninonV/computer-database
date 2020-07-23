@@ -1,9 +1,11 @@
 package com.excilys.java.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.excilys.java.model.Company;
@@ -25,8 +27,8 @@ public class CompanyService {
 		return companyDAO.findAll();
 	}
 	
-	public Optional<Company> findbyID(Long id) {
-		return companyDAO.findById(id);
+	public Company findbyID(Long id) {
+		return companyDAO.findById(id).get();
 	}
 	
 	public void deleteCompany(Long id) {
@@ -41,8 +43,10 @@ public class CompanyService {
 		return (int) companyDAO.count();
 	}
 	
-	/*public List<Company> getListPage(Page page){
-		return companyDAO.getPage(page);
-	}*/
+	public List<Company> getListPage(Pagination page){
+		Pageable pageRequest = PageRequest.of(page.getCurrentPage()-1, page.getLinesPage());
+		Page<Company> companiesPage = companyDAO.findAll(pageRequest);
+		return companiesPage.getContent();
+	}
 	
 }

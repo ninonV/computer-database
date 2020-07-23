@@ -74,29 +74,29 @@
 							</a>
 						</span></th>
 						<th><spring:message code="label.computer" /><a
-							href="ListComputer?linesNb=${linesNb}&order=computer.name ASC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=name ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
-							href="ListComputer?linesNb=${linesNb}&order=computer.name DESC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=name DESC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-down"></i></a>
 						</th>
 						<th><spring:message code="label.introduced" /><a
-							href="ListComputer?linesNb=${linesNb}&order=introduced ASC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=introduced ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
-							href="ListComputer?linesNb=${linesNb}&order=introduced DESC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=introduced DESC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-down"></i></a>
 						</th>
 						<!-- Table header for Discontinued Date -->
 						<th><spring:message code="label.discontinued" /> <a
-							href="ListComputer?linesNb=${linesNb}&order=discontinued ASC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=discontinued ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
-							href="ListComputer?linesNb=${linesNb}&order=discontinued DESC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=discontinued DESC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-down"></i></a>
 						</th>
 						<!-- Table header for Company -->
 						<th><spring:message code="label.company" /> <a
-							href="ListComputer?linesNb=${linesNb}&order=company.name ASC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=company_name ASC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-up"></i></a> <a
-							href="ListComputer?linesNb=${linesNb}&order=company.name DESC&search=${search}"><i
+							href="ListComputer?pageNb=${currentPage}&linesNb=${linesNb}&order=company_name DESC&search=${search}"><i
 								class="glyphicon glyphicon-chevron-down"></i></a>
 						</th>
 
