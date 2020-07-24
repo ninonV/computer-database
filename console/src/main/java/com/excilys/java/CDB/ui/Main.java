@@ -3,7 +3,7 @@ package com.excilys.java.CDB.ui;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.excilys.java.CDB.Spring.SpringConfiguration;
+import com.excilys.java.CDB.configuration.SpringConfiguration;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package com.excilys.java.CDB.Spring;
+package com.excilys.java.CDB.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +16,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"com.excilys.java.CDB.service", "com.excilys.java.CDB.controller","com.excilys.java.CDB.persistence", "com.excilys.java.CDB.model", "com.excilys.java.CDB.ui" })
+@ComponentScan({"com.excilys.java.CDB.service","com.excilys.java.CDB.persistence", "com.excilys.java.CDB.ui" })
 @EnableJpaRepositories("com.excilys.java.CDB.persistence")
 public class SpringConfiguration {
 

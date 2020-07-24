@@ -1,4 +1,4 @@
-package com.excilys.java.CDB.Spring;
+package com.excilys.java.CDB.configuration;
 
 import java.util.Locale;
 

@@ -26,11 +26,12 @@
 			<artifactId>service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>com.excilys.java.CDB</groupId>
-			<artifactId>webapp</artifactId>
-			<version>${project.version}</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>
