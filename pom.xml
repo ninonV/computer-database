@@ -1,152 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.excilys.java</groupId>
-  <artifactId>CDB</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+	<groupId>com.excilys.java</groupId>
+	<artifactId>CDB</artifactId>
+	<version>${project.version}</version>
+	<packaging>pom</packaging>
 
-  <name>CDB</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+	<name>CDB</name>
 
-<properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
-    <junit.version>4.12</junit.version>
-    <mysql-connector-java.version>8.0.20</mysql-connector-java.version>
-    <slf4j-api.version>1.7.9</slf4j-api.version> 
-    <slf4j-log4j12.version>1.7.9</slf4j-log4j12.version>
-    <mockito-core.version>1.10.19</mockito-core.version>
-    <dbunit.version>2.5.1</dbunit.version>
-    <javax.servlet-api.version>4.0.0</javax.servlet-api.version>
-    <jstl.version>1.2</jstl.version>
-    <HikariCP.version>3.4.5</HikariCP.version>
-    <spring.version>5.2.7.RELEASE</spring.version>
-    <springJPA.version>2.3.1.RELEASE</springJPA.version>
-    <hibernate.version> 5.4.18.Final </hibernate.version>
-    
- </properties>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-  <dependencies>
+		<project.version>5.0</project.version>
 
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>${junit.version}</version>
-	</dependency>
+		<junit.version>4.12</junit.version>
+		<mysql-connector-java.version>8.0.20</mysql-connector-java.version>
+		<slf4j-api.version>1.7.9</slf4j-api.version>
+		<slf4j-log4j12.version>1.7.9</slf4j-log4j12.version>
+		<mockito-core.version>1.10.19</mockito-core.version>
+		<dbunit.version>2.5.1</dbunit.version>
+		<javax.servlet-api.version>4.0.0</javax.servlet-api.version>
+		<jstl.version>1.2</jstl.version>
+		<HikariCP.version>3.4.5</HikariCP.version>
+		<spring.version>5.2.7.RELEASE</spring.version>
+		<hibernate.version> 5.4.18.Final </hibernate.version>
+		<springJPA.version>2.3.1.RELEASE</springJPA.version>
+		<spring-security.version>5.3.3.RELEASE</spring-security.version>
 
-   <dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-		<version>${mysql-connector-java.version}</version>
-		<scope>runtime</scope>
-	</dependency>
-    
-    <dependency>
-    	<groupId>org.slf4j</groupId>
-    	<artifactId>slf4j-api</artifactId>
-    	<version>${slf4j-api.version}</version>
-    </dependency>
-    
-    <dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-log4j12</artifactId>
-		<version>${slf4j-log4j12.version}</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>org.mockito</groupId>
-		<artifactId>mockito-core</artifactId>
-		<version>${mockito-core.version}</version>
-		<scope>test</scope>
-	</dependency>
-	
-	<dependency>
-    	<groupId>org.dbunit</groupId>
-    	<artifactId>dbunit</artifactId>
-    	<version>${dbunit.version}</version>
-    	<scope>test</scope>
-	</dependency>
-	
-	<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javax.servlet-api.version}</version>
-			<scope>provided</scope>
-	</dependency>
-	
-	<dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>jstl</artifactId>
-    	<version>${jstl.version}</version>
-    	<scope>runtime</scope>
-	</dependency>
-	
-	<dependency>
-		 <groupId>com.zaxxer</groupId>
-		 <artifactId>HikariCP</artifactId>
-		 <version>${HikariCP.version}</version>
-	</dependency>
+	</properties>
 
-    <dependency>
-		 <groupId>org.springframework</groupId>
-		 <artifactId>spring-test</artifactId>
-		 <version>${spring.version}</version>
-		 <scope>test</scope>
-    </dependency>
-		
-	<dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-jdbc</artifactId>
-         <version>${spring.version}</version>
-    </dependency>
-      
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-webmvc</artifactId>
-    	<version>${spring.version}</version>
-	</dependency>
-	
-	<dependency>
-    	<groupId>org.hibernate</groupId>
-    	<artifactId>hibernate-entitymanager</artifactId>
-    	<version>${hibernate.version}</version>
-	</dependency>
-	
-	<dependency>
-    	<groupId>org.springframework.data</groupId>
-    	<artifactId>spring-data-jpa</artifactId>
-    	<version>${springJPA.version}</version>
-	</dependency>
-	
- </dependencies>
-  
-<build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.7.1</version>
-            </plugin>
+	<dependencies>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
 
-        </plugins>
-    </build>
+	</dependencies>
 
-<modules>  <module>persistence</module>
-    <module>core</module>
-    <module>service</module>
-    <module>binding</module>
-    <module>console</module>
-    <module>webapp</module>
-  </modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.7.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<modules>
+		<module>persistence</module>
+		<module>core</module>
+		<module>service</module>
+		<module>binding</module>
+		<module>console</module>
+		<module>webapp</module>
+	</modules>
 </project>

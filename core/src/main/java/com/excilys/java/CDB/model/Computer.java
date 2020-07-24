@@ -31,7 +31,7 @@ public class Computer {
 	@Column(name = "discontinued")
 	private LocalDate discontinued;
 	@ManyToOne
-	@JoinColumn(name = "company_id", nullable=true)
+	@JoinColumn(name = "company_id")
 	private Company company;
 
 	public Long getId() {
