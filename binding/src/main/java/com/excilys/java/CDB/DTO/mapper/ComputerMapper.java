@@ -54,7 +54,6 @@ public class ComputerMapper {
 	    	computer.setCompany(new Company.Builder().setId(company_id).setName(company_name).build());
 	    	
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error when mapping a ComputerDTO to a Computer",e);
 		}
 		return computer;

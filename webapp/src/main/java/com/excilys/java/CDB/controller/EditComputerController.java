@@ -66,7 +66,6 @@ public class EditComputerController {
 		ModelAndView modelView = new ModelAndView("editComputer");
 		
 		Map<String, String> errors = new HashMap<String, String>();
-		String resultCreation;
 	
 		try {
 			ValidatorComputer.validatorName(computerDTO.getComputerName());
@@ -81,17 +80,12 @@ public class EditComputerController {
 			computerDTO.setCompanyDTO(companyDTO);
 			Computer computer = ComputerMapper.mapDtoToComputer(computerDTO);
 			computerService.updateComputer(computer);
-			resultCreation = "Computer updated with success.";
 			logger.info("Computer updated with success.");
-			
-			modelView.addObject("resultCreation", resultCreation);
 			return new RedirectView("/webapp/");
 		}else {
-			resultCreation = "Impossible to update this computer.";
 			logger.info("Impossible to update this computer.");
 			
 			modelView.addObject("errors", errors );
-			modelView.addObject("resultCreation", resultCreation);
 			return new RedirectView("redirect:/webapp/editComputer?computer=" + computerDTO);
 		}
 	}

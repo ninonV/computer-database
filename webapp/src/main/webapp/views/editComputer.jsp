@@ -64,7 +64,6 @@
                             or
                             <a href="ListComputer" class="btn btn-default"><spring:message code="button.cancel" /></a>
                         </div>
-                        <p class="${empty errors ? 'success' : 'error'}">${resultCreation}</p>
                     </form>
                 </div>
             </div>
