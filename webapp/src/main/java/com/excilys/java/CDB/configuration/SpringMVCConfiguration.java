@@ -33,9 +33,10 @@ public class SpringMVCConfiguration implements WebMvcConfigurer {
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-          .addResourceHandler("/**")
-          .addResourceLocations("/");	
+        	.addResourceHandler("/**")
+        	.addResourceLocations("/");	
     }
+	
 	
 	@Bean("messageSource")
 	public MessageSource messageSource() {
