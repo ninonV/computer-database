@@ -14,41 +14,53 @@
 <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
+	
 	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="ListComputer"> Application -	Computer Database </a>
+		<div id="actions" class="form-horizontal">
+			<div class="pull-left">
+				<a class="navbar-brand" href="login"> Application -	Computer Database </a>
+			</div>
+			<div class="pull-right">
+				 <a id="en" href="login?lang=en"><spring:message code="lang.en" /></a> 
+				| <a id="fr" href="login?lang=fr"><spring:message code="lang.fr" /></a>	
+			</div>
 		</div>
-
 	</header>
 
 	<section id="main">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-8 col-xs-offset-2 box">
+				<div class="pull-right">
+					<a class="btn btn-default" id="registerUser" href="RegisterUser"><spring:message code="label.register" /></a> 
+				</div>
+				<div class="col-xs-6 col-xs-offset-2 box">
 					<h1>
 						<spring:message code="label.login" />
 					</h1>
-
-					<form name='login' action="login" method='POST'>
-					<fieldset>
-						<div class="form-group">
-							<spring:message code="label.username" />
-							<input type='text' name='username' value=''>
-						</div>
-						<div class="form-group">
-							<spring:message code="label.password" />
-							<input type='password' name='password' />
-						</div>
-						<div class = "pull-right">
-						 	<input type="submit" value=<spring:message code="label.login" /> class="btn btn-primary">
-						</div>
-					</fieldset>
 					
+					
+					<form name= "login" action="login" method="POST" >
+					
+						<fieldset>
+							<div class="form-group">
+								<label for="username"><spring:message code="label.username" /></label>
+								<input type="text" class="form-control" id="username" name="username" placeholder="<spring:message code="label.username" />">
+							</div>
+							<div class="form-group">
+								<label for="password"><spring:message code="label.password" /></label> 
+								<input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="label.password" />">
+							</div>
+
+						</fieldset>
+						<div class="actions pull-right">
+							<input type="submit" value=<spring:message code="label.login" /> class="btn btn-primary"> 
+						</div>
+	
 					<c:if test="${param.error=='true'}">
-           				 Invalid username and password.
+						<p class="error"><spring:message code="label.userInvalid" /></p>
        				 </c:if>
 						<c:if test="${param.logout =='true'}">
-            			You have been logged out.
+            				<p class="success"><spring:message code="label.logout" /></p>
        				</c:if>
 					</form>
 				</div>

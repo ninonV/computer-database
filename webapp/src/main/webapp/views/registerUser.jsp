@@ -13,49 +13,52 @@
 <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
-		</div>
-		<div class="container">
-			<a id="en" href="RegisterUser?lang=en"><spring:message code="lang.en" /></a> | 
-			<a id="fr" href="RegisterUser?lang=fr"><spring:message code="lang.fr" /></a>
+
+<header class="navbar navbar-inverse navbar-fixed-top">
+		<div id="actions" class="form-horizontal">
+			<div class="pull-left">
+				<a class="navbar-brand" href="login"> Application -	Computer Database </a>
+			</div>
+			<div class="pull-right">
+				 <a id="en" href="RegisterUser?lang=en"><spring:message code="lang.en" /></a> 
+			| <a id="fr" href="RegisterUser?lang=fr"><spring:message code="lang.fr" /></a>	
+			</div>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-8 col-xs-offset-2 box">
+				<div class="col-xs-6 col-xs-offset-2 box">
 					<h1>
-						<spring:message code="label.newUser" />
+						<spring:message code="label.register" />
 					</h1>
-					<form action="RegisterUser" method="POST" onsubmit="">
+					<form name= "RegisterUser" action="RegisterUser" method="POST" onsubmit="return validateNewUser()">
 						<fieldset>
 							<div class="form-group">
-								<label for="username"><spring:message
-										code="label.username" /></label> <input type="text"
-									class="form-control" id="username" name="username"
-									placeholder="Username">
+								<label for="username"><spring:message code="label.username" /></label> 
+								<input type="text" class="form-control" id="username" name="username" placeholder="<spring:message code="label.username" />">
 							</div>
 							<div class="form-group">
-								<label for="password"><spring:message
-										code="label.password" /></label> <input type="text"
-									class="form-control" id="password" name="password"
-									placeholder="Password">
+								<label for="password"><spring:message code="label.password" /></label> 
+								<input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="label.password" />">
+							</div>
+							
+							<div class="form-group">
+								<label for="passwordConfirm"><spring:message code="label.passwordConfirm" /></label> 
+								<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="<spring:message code="label.password" />">
 							</div>
 
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value=<spring:message code="button.add" />
-								class="btn btn-primary"> <a href="ListComputer"
-								class="btn btn-default"><spring:message code="button.cancel" /></a>
+							<input type="submit" value=<spring:message code="button.add" /> class="btn btn-primary"> 
+							<a href="login" class="btn btn-default"><spring:message code="button.cancel" /></a>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</section>
-
+<script src="js/validatorNewUser.js"></script>
 </body>
 </html>

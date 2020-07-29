@@ -13,15 +13,21 @@
 <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
+    
     <header class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
-        </div>
-      <%--  <div class="container">
-			<a id="en" href="AddComputer?lang=en"><spring:message code="lang.en" /></a> 
-			| <a id="fr" href="AddComputer?lang=fr"><spring:message code="lang.fr" /></a>	
-		</div> --%>
-    </header>
+		<div id="actions" class="form-horizontal">
+			<div class="pull-left">
+				<a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
+			</div>
+			<div class="pull-right">
+				<a class="navbar-brand" href="logout" >Logout</a> 
+				<div>
+				<%--<a id="en" href="AddComputer?lang=en"><spring:message code="lang.en" /></a> 
+					| <a id="fr" href="AddComputer?lang=fr"><spring:message code="lang.fr" /></a>--%>
+				</div>
+			</div>
+		</div>
+	</header>
 
     <section id="main">
         <div class="container">
@@ -32,16 +38,16 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName"><spring:message code="label.computer" /></label>
-                                <input type="text" class="form-control" id="computerName" name="computerName" value="<c:out value="${param.computerName}"/>" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name="computerName" value="<c:out value="${param.computerName}"/>" placeholder="<spring:message code="label.computer" />">
                                 <p class="error">${errors['computerName']}</p>
                             </div>
                             <div class="form-group">
                                 <label for="introduced"><spring:message code="label.introduced" /></label>
-                                <input type="date" class="form-control" id="introduced" name="introduced" value="<c:out value="${param.introduced}"/>" placeholder="Introduced date">
+                                <input type="date" class="form-control" id="introduced" name="introduced" value="<c:out value="${param.introduced}"/>" placeholder="<spring:message code="label.introduced" />">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued"><spring:message code="label.discontinued" /></label>
-                                <input type="date" class="form-control" id="discontinued" name="discontinued" value="<c:out value="${param.discontinued}"/>" placeholder="Discontinued date">
+                                <input type="date" class="form-control" id="discontinued" name="discontinued" value="<c:out value="${param.discontinued}"/>" placeholder="<spring:message code="label.discontinued" />">
                                 <p class="error">${errors['discontinued']}</p>
                             </div>
                             <div class="form-group">

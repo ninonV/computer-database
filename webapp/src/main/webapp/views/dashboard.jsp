@@ -15,13 +15,17 @@
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
-			<a class="navbar-brand" href="logout" >Logout</a> 
-		</div>
-		<div class="container">
-			<a id="en" href="ListComputer?lang=en&linesNb=${linesNb}&pageNb=${currentPage}&search=${search}&order=${order}"><spring:message code="lang.en" /></a> 
-			| <a id="fr" href="ListComputer?lang=fr&linesNb=${linesNb}&pageNb=${currentPage}&search=${search}&order=${order}"><spring:message code="lang.fr" /></a>	
+		<div id="actions" class="form-horizontal">
+			<div class="pull-left">
+				<a class="navbar-brand" href="ListComputer"> Application - Computer Database </a>
+			</div>
+			<div class="pull-right">
+				<a class="navbar-brand" href="logout" >Logout</a> 
+				<div>
+					<a id="en" href="ListComputer?lang=en&linesNb=${linesNb}&pageNb=${currentPage}&search=${search}&order=${order}"><spring:message code="lang.en" /></a> 
+			| 		<a id="fr" href="ListComputer?lang=fr&linesNb=${linesNb}&pageNb=${currentPage}&search=${search}&order=${order}"><spring:message code="lang.fr" /></a>	
+				</div>
+			</div>
 		</div>
 	</header>
 
