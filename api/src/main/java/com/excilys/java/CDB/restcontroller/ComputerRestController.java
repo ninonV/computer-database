@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.excilys.java.CDB.DTO.CompanyDTO;
 import com.excilys.java.CDB.DTO.ComputerDTO;
 import com.excilys.java.CDB.DTO.DashboardDTO;
 import com.excilys.java.CDB.DTO.mapper.ComputerMapper;
+import com.excilys.java.CDB.exception.ComputerDateException;
+import com.excilys.java.CDB.exception.ComputerNameException;
 import com.excilys.java.CDB.model.Computer;
+import com.excilys.java.CDB.model.Pagination;
 import com.excilys.java.CDB.service.ComputerService;
+import com.excilys.java.CDB.validator.ValidatorComputer;
 
 @RestController
 @RequestMapping("computers")
@@ -27,10 +32,41 @@ public class ComputerRestController {
 	@Autowired
 	private ComputerService computerService;
 
-	@GetMapping(value = { "", "/" })
-	public List<ComputerDTO> listComputers() {
+	@GetMapping({"", "/"})
+	public List<ComputerDTO> allComputers() {
 		List<Computer> computers = computerService.listComputers();
 		return computers.stream().map(computer -> ComputerMapper.mapComputerToDTO(computer)).collect(Collectors.toList());
+	}
+	
+	@GetMapping("/page")
+	public List<ComputerDTO> listComputers(@RequestBody DashboardDTO dashboardDTO) {
+		Pagination page = new Pagination();
+        
+        if(dashboardDTO.getLinesNb()!=null) {
+			int linesNb= Integer.parseInt(dashboardDTO.getLinesNb());
+			page.setLinesPage(linesNb);
+		}
+        
+		int total = computerService.countComputer(dashboardDTO.getSearch());
+		int nbPages = page.getTotalPages(total);
+		
+		if(dashboardDTO.getPageNb()!=null) {
+			int pageAsked = Integer.parseInt(dashboardDTO.getPageNb());
+			if (pageAsked>0 & pageAsked <= nbPages) {
+				page.setCurrentPage(pageAsked);
+			}
+		}
+		
+		page.setFirstLine(page.calculFirstLine());
+
+		List<Computer> computers = computerService.getListPage(page,dashboardDTO.getSearch(),dashboardDTO.getOrder());
+		return computers.stream().map(computer->ComputerMapper.mapComputerToDTO(computer)).collect(Collectors.toList());
+		
+	}
+	
+	@GetMapping("/number")
+	public int numberComputers(@RequestBody DashboardDTO dashboardDTO) {
+		return computerService.countComputer(dashboardDTO.getSearch());
 	}
 
 	@GetMapping("/{id}")
@@ -53,24 +89,36 @@ public class ComputerRestController {
 		}
 	}
 	
-	@PostMapping(value = { "/" })
-	public void createComputer(@RequestBody ComputerDTO computerDTO) {
-		computerService.createComputer(ComputerMapper.mapDtoToComputer(computerDTO));
+	@PostMapping({ "/" })
+	public HttpStatus createComputer(@RequestBody ComputerDTO computerDTO) {
+		try {
+			ValidatorComputer.validatorName(computerDTO.getComputerName());
+			ValidatorComputer.validatorDate(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
+			computerService.createComputer(ComputerMapper.mapDtoToComputer(computerDTO));
+		}catch ( ComputerNameException | ComputerDateException  e ) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		return HttpStatus.CREATED;
 	}
 	
-	@PutMapping(value = { "/" })
-	public void updateComputer(@RequestBody ComputerDTO computerDTO) {
-		computerService.updateComputer(ComputerMapper.mapDtoToComputer(computerDTO));
+	@PutMapping("/")
+	public HttpStatus updateComputer(@RequestBody ComputerDTO computerDTO) {
+		try {
+			ValidatorComputer.validatorName(computerDTO.getComputerName());
+			ValidatorComputer.validatorDate(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
+		}catch ( ComputerNameException | ComputerDateException  e ) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		
+		Computer computer = ComputerMapper.mapDtoToComputer(computerDTO);
+		if(computerService.existComputer(computer.getId())) {
+			computerService.updateComputer(computer);
+			return HttpStatus.CREATED;
+		}else {
+			return HttpStatus.NOT_FOUND;
+		}
+		
 	}
 	
-	@GetMapping("/search/{search}")
-	public List<ComputerDTO> searchComputer(@PathVariable String search, @RequestBody DashboardDTO dashboardDTO) {
-		return null;
-	}
-	
-	@GetMapping("/order/{order}")
-	public List<ComputerDTO> orderComputer(@PathVariable String order, @RequestBody DashboardDTO dashboardDTO) {
-		return null;
-	}
 
 }
