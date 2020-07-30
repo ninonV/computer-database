@@ -62,8 +62,12 @@ public class UserInterface {
 						
 					case 3: 
 						Long idC = getID();
-						Computer computerID = computerService.findbyID(idC);
-						System.out.println(computerID);
+						if (computerService.existComputer(idC)) {
+							Computer computerID = computerService.findbyID(idC);
+							System.out.println(computerID);
+						}else {
+							System.out.println("This computer does not exist");
+						}
 						break; 
 						
 					case 4:

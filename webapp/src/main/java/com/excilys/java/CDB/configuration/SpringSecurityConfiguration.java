@@ -22,6 +22,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/login").permitAll()
+		.antMatchers("/computers").permitAll()
 		.antMatchers("/RegisterUser").permitAll()
 		.antMatchers(HttpMethod.GET,"/","/ListComputer").hasAnyRole("USER","ADMIN")
 		.antMatchers(HttpMethod.POST,"/","/ListComputer").hasRole("ADMIN")

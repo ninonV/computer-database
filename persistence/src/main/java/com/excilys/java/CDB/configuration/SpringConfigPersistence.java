@@ -16,9 +16,9 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"com.excilys.java.CDB.service", "com.excilys.java.CDB.controller","com.excilys.java.CDB.persistence" })
-@EnableJpaRepositories("com.excilys.java.CDB.persistence")
-public class SpringConfiguration {
+@ComponentScan({"com.excilys.java.CDB.persistence.DAO"})
+@EnableJpaRepositories("com.excilys.java.CDB.persistence.DAO")
+public class SpringConfigPersistence {
 
 	@Bean
 	public HikariDataSource dataSource() {

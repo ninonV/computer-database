@@ -31,7 +31,7 @@ public class ListComputerController {
 	private ComputerService computerService; 
 	
 	@GetMapping
-	public ModelAndView listComputer(DashboardDTO dashboardDTO) { 
+	public ModelAndView listComputers(DashboardDTO dashboardDTO) { 
         ModelAndView modelView = new ModelAndView("dashboard"); 
         
         Pagination page = new Pagination();
@@ -55,7 +55,7 @@ public class ListComputerController {
 		page.setFirstLine(page.calculFirstLine());
 
 		List<Computer> computers = computerService.getListPage(page,dashboardDTO.getSearch(),dashboardDTO.getOrder());
-		List<ComputerDTO> computersDTO = computers.stream().map(computer->ComputerMapper.mapComputertoDTO(computer)).collect(Collectors.toList());
+		List<ComputerDTO> computersDTO = computers.stream().map(computer->ComputerMapper.mapComputerToDTO(computer)).collect(Collectors.toList());
         
         modelView.addObject("totalComputers", total); 
         modelView.addObject("currentPage", page.getCurrentPage());

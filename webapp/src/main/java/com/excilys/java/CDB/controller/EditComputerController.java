@@ -48,7 +48,7 @@ public class EditComputerController {
 		}
 
 		if (computer != null) {
-			computerDTO = ComputerMapper.mapComputertoDTO(computer);
+			computerDTO = ComputerMapper.mapComputerToDTO(computer);
 		} else {
 			logger.info("The computer does not exist");
 		}

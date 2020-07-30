@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
@@ -19,7 +20,8 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-public class SpringMVCConfiguration implements WebMvcConfigurer {
+@ComponentScan({"com.excilys.java.CDB.controller", "com.excilys.java.CDB.restcontroller"})
+public class SpringConfigWebapp implements WebMvcConfigurer {
 
 	@Bean
 	public ViewResolver viewResolver() {

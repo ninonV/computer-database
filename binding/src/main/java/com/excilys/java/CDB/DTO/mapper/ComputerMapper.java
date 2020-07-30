@@ -65,7 +65,7 @@ public class ComputerMapper {
 	 * @param computer
 	 * @return computerDTO
 	 */
-	public static ComputerDTO mapComputertoDTO(Computer computer){
+	public static ComputerDTO mapComputerToDTO(Computer computer){
 		ComputerDTO computerDTO = new ComputerDTO();
 		if(computer.getId()!=null) {
 			computerDTO.setComputerId(computer.getId().toString());

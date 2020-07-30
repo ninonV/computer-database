@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.excilys.java</groupId>
@@ -16,7 +14,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<project.version>5.0</project.version>
+		<project.version>6.0</project.version>
 
 		<junit.version>4.12</junit.version>
 		<mysql-connector-java.version>8.0.20</mysql-connector-java.version>
@@ -31,6 +29,7 @@
 		<hibernate.version> 5.4.18.Final </hibernate.version>
 		<springJPA.version>2.3.1.RELEASE</springJPA.version>
 		<spring-security.version>5.3.3.RELEASE</spring-security.version>
+		<jackson.version>2.11.1</jackson.version>
 
 	</properties>
 
@@ -63,11 +62,12 @@
 	</build>
 
 	<modules>
+		<module>api</module>
 		<module>persistence</module>
 		<module>core</module>
 		<module>service</module>
 		<module>binding</module>
 		<module>console</module>
 		<module>webapp</module>
-	</modules>
+  </modules>
 </project>
