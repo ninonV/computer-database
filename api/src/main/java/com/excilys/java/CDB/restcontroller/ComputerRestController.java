@@ -113,7 +113,7 @@ public class ComputerRestController {
 		Computer computer = ComputerMapper.mapDtoToComputer(computerDTO);
 		if(computerService.existComputer(computer.getId())) {
 			computerService.updateComputer(computer);
-			return HttpStatus.CREATED;
+			return HttpStatus.ACCEPTED;
 		}else {
 			return HttpStatus.NOT_FOUND;
 		}
